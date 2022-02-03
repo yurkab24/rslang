@@ -8,6 +8,11 @@
     "build": "webpack --config ./webpack.config.js --env mode=prod",
     "lint": "eslint . --ext .ts"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "eslint . --ext .ts"
+    }
+  },
   "repository": {
     "type": "git",
     "url": ""
@@ -31,6 +36,7 @@
     "eslint-webpack-plugin": "3.1.1",
     "html-loader": "3.0.1",
     "html-webpack-plugin": "5.5.0",
+    "husky": "7.0.4",
     "mini-css-extract-plugin": "2.4.4",
     "prettier": "2.4.1",
     "prettier-webpack-plugin": "1.2.0",
