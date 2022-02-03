@@ -7,7 +7,7 @@ import Header from '../../core/component/header';
 import Footer from '../../core/component/footer';
 
 export const enum PageIds {
-  MainPage = 'main-page',
+  Main = 'main-page',
   Dictionary = 'dictionary-page',
   Games = 'games-page',
   Statistics = 'statistics-page',
@@ -15,8 +15,11 @@ export const enum PageIds {
 
 class App {
   private static container: HTMLElement = document.body;
-  private static defaultPageId: string = 'current-page';
+
+  private static defaultPageId = 'current-page';
+
   private header: Header;
+
   private footer: Footer;
 
   static renderNewPage(idPage: string) {
@@ -26,14 +29,18 @@ class App {
     }
     let page: Page | null = null;
 
-    if (idPage === PageIds.MainPage) {
-      page = new MainPage(idPage);
-    } else if (idPage === PageIds.Dictionary) {
-      page = new DictionaryPage(idPage);
-    } else if (idPage === PageIds.Games) {
-      page = new GamesPage(idPage);
-    } else if (idPage === PageIds.Statistics) {
-      page = new StatisticsPage(idPage);
+    switch (idPage) {
+      case PageIds.Statistics:
+        page = new StatisticsPage(idPage);
+        break;
+      case PageIds.Dictionary:
+        page = new DictionaryPage(idPage);
+        break;
+      case PageIds.Games:
+        page = new GamesPage(idPage);
+        break;
+      default:
+        page = new MainPage(idPage);
     }
 
     if (page) {
@@ -62,6 +69,5 @@ class App {
     App.container.append(this.footer.render());
   }
 }
-
 
 export default App;

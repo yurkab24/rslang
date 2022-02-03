@@ -3,7 +3,7 @@ import { PageIds } from '../../pages/app/app';
 
 const Buttons = [
   {
-    id: PageIds.MainPage,
+    id: PageIds.Main,
     text: 'Main Page',
   },
   {
@@ -38,7 +38,6 @@ class Header extends Component {
     this.container.append(pageButtons);
   }
 
- 
   render() {
     this.renderPageButtons();
     return this.container;

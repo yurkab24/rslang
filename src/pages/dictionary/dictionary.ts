@@ -14,6 +14,6 @@ class DictionaryPage extends Page {
     this.container.append(title);
     return this.container;
   }
-};
+}
 
 export default DictionaryPage;

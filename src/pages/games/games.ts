@@ -14,6 +14,6 @@ class GamesPage extends Page {
     this.container.append(title);
     return this.container;
   }
-};
+}
 
 export default GamesPage;
