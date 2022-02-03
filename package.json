@@ -10,7 +10,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "eslint . --ext .ts"
+      "pre-push": "eslint . --ext .ts"
     }
   },
   "repository": {
