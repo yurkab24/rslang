@@ -1,44 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rampart+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Train+One&display=swap');
+
+
+
+:root {
+  $translucent-red: rgba(255, 0, 0, 0.5);
+  --bg-light: #ffffff;
+  --bg-dark: #080246;
+  --text-day: #080246;
+  --text-night: #ffffff;
+  --infoblocks: rgb(255, 255, 255, 0.5);
+  --bg-btn: rgba(227, 252, 88, 0.8);
+  --bg-btn-shadow: rgba(107, 119, 40, 0.8);
+  --font-pretty: 'Indie Flower', cursive;
+  --font-main-en: 'Kaushan Script', cursive;
+  --font-transparent: 'Rampart One', cursive;
+  --font-empty: 'Train One', cursive;
+}
+
+
+/*$translucent-red: rgba(255, 0, 0, 0.5);*/
+
 * {
   margin: 0;
   padding: 0;
   border: none;
   box-sizing: border-box;
+  font-size: 10px;
+  scroll-behavior: smooth;
 }
 
 body {
   position: relative;
   max-width: 100vw;
-  height: calc(100vh - 40px);
-  background-color: #fff;
-  font-size: 18px;
+  height: calc(max-content - 40px);
+  background-color: var(--bg-light);
+  font-size: 1.8rem;
   font-weight: 400;
   line-height: 1.5;
   letter-spacing: 1px;
-  color: #000;
+  color: var(--text-day);
+  font-family: var(--font-main-en);
 }
 
 .header {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  background-color: var(--infoblocks);
 }
 
 .nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+
 }
+
+
 
 .nav a,
 .nav__button {
   position: relative;
-  display: block;
-  margin-right: 40px;
-  font-size: 28px;
-  color: #000;
+  display: inline-block;
+  margin: 10px 40px;
+  font-size: 2.8rem;
+  color: var(--text-day);
+  background-color: var(--bg-btn);
   text-decoration: none;
-  padding: 10px;
-  transition: 0.3s;
+  padding: 1rem 1.5rem;
+  border: var(--bg-btn-shadow) 1px solid;
+  border-radius: 10px;
+}
+
+.nav__button:hover {
+  transform: scale(1.1, 1.1);
+  box-shadow: 5px 5px 10px var(--bg-btn-shadow);
+  transition: 0.34s ease-in-out;
+}
+
+.nav__button:first-child {
+  width: 10rem;
+  height: 10rem;
+  padding: 0;
+  background: url(../../assets/svg/rslang-logo.svg) 100% 100% no-repeat;
+  background-size: cover;
+  border: none;
+  outline: none;
+  box-shadow:none;
+}
+
+.nav__button:first-child:hover {
+  transform: scale(1.1, 1.1);
+  transition: 0.34s ease-in-out;
 }
 
 .footer {
@@ -49,16 +106,17 @@ body {
   align-items: center;
   width: 100%;
   height: 40px;
+  background-color: var(--infoblocks);
   margin: 0 auto;
-  color: #000;
+  color: var(--text-day);
   opacity: 1;
   z-index: 10;
 }
 
 .footer__text {
   text-decoration: none;
-  color: #000;
-  font-size: 20px;
+  color: var(--text-day);
+  font-size: 2rem;
   letter-spacing: 1px;
   padding: 0 40px;
 }
@@ -74,4 +132,178 @@ body {
 
 .year {
   margin-right: 30px;
+  font-size: 2rem;
+}
+
+
+
+
+
+#current-page {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+
+}
+
+.theme {
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  background-image: url(../../assets/svg/moon48x48.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin: auto 30px;
+}
+
+.sun {
+  background-image: url(../../assets/svg/sun48x48.svg);
+}
+
+.sign {
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  background-image: url(../../assets/png/login-icon.png);
+  filter: invert(100%) sepia(100%) saturate(9) brightness(0.6) contrast(260%);
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin: auto 30px;
+}
+
+.theme:hover,
+.sign:hover {
+  transform: scale(1.5, 1.5);
+  transition: 0.34s ease-in-out;
+}
+
+.theme-light {
+  background-image: url(../../assets/jpg/main-light-background.jpg);
+  background-size: cover;
+
+  background-attachment: scroll;
+}
+
+.theme-dark {
+  background-image: url(../../assets/jpg/main-dark-bg.jpg);
+  background-size: cover;
+
+  background-attachment: scroll;
+}
+
+.block {
+  padding: 3rem;
+  margin: 3rem;
+  background-color: var(--infoblocks);
+  border-radius: 30px;
+  text-align: center;
+  line-height: 2;
+  border: var(--bg-btn) 3px solid;
+}
+
+
+.main-block {
+  width: 60%;
+  height: max-content;
+  font-family: var(--font-main-en);
+  font-size: 10rem;
+  position: relative;
+  left: 0;
+  transform: translateX(-20%);
+  border: none;
+
+
+}
+
+
+
+.quote-block {
+  cursor: pointer;
+  width: 70%;
+  font-size: 3rem;
+  font-style: italic;
+}
+
+.advantages {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 90%;
+  height: max-content;
+  text-align: center;
+  line-height: 2;
+}
+
+.advantages-title {
+  width: 50%;
+  font-size: 4rem;
+  border: none;
+}
+
+.advantage {
+  width: 48%;
+  height: auto;
+  padding: 5%;
+  margin: 20px 0;
+  background-color: var(--infoblocks);
+  text-align: center;
+  font-size: 3.5rem;
+  line-height: 3.5rem;
+  outline: none;
+
+}
+
+
+
+.video-block {
+  display: block;
+  justify-content: center;
+  width: 90%;
+  height: 800px;
+  font-size: 4rem;
+
+}
+
+
+
+.team-block {
+  width: 50%;
+  height: 100px;
+  font-size: 4rem;
+  line-height: 3.75rem;
+}
+
+.video-block:hover,
+.team-block:hover,
+.quote-block:hover {
+  outline: var(--bg-btn) 3px solid;
+
+}
+
+
+.team {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  height: max-content;
+}
+
+.team-mate {
+  display: block;
+  width: 30%;
+  height: max-content;
+  
+
+}
+
+.team-mate div {
+  font-size: 2.5rem;
+}
+
+.photo {
+  width: 90%;
+  height: 400px;
+  margin: 10px auto;
+  border: 1px solid #000;
 }

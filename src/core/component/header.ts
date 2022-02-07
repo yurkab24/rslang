@@ -4,7 +4,7 @@ import { PageIds } from '../../pages/app/app';
 const Buttons = [
   {
     id: PageIds.Main,
-    text: 'Main Page',
+    text: '',
   },
   {
     id: PageIds.Dictionary,
