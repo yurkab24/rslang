@@ -2,8 +2,8 @@ import Page from '../../core/templates/page';
 import { IWord } from '../../models';
 import { host, blocks, limitOfWord, limitOfPage, dictionaryGroupOptions, PageIds } from '../../constants';
 import { getDictonaryRequest } from '../../request';
-import { Pagination } from '../../pagination';
-import { WordsContainer } from '../../words';
+import { Pagination } from './pagination';
+import { WordsContainer } from './words';
 
 const wordContainer = new WordsContainer();
 const paginationPage = new Pagination(limitOfWord, limitOfPage);

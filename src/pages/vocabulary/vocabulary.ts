@@ -1,4 +1,3 @@
-import { blocks } from '../../constants';
 import Page from '../../core/templates/page';
 
 export class VocabularyPage extends Page {
