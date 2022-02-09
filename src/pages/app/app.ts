@@ -7,6 +7,9 @@ import Header from '../../core/component/header';
 import Footer from '../../core/component/footer';
 import { VocabularyPage } from '../vocabulary/vocabulary';
 import { PageIds } from '../../constants';
+import TeamPage from '../main/team';
+
+
 
 class App {
   private static container: HTMLElement = document.body;
@@ -39,6 +42,9 @@ class App {
       case PageIds.Games:
         page = new GamesPage(idPage);
         break;
+      case PageIds.Team:
+        page = new TeamPage(idPage);
+        break;
       default:
         page = new MainPage(idPage);
     }
@@ -54,7 +60,9 @@ class App {
   private enableRouteChange() {
     window.addEventListener('hashchange', () => {
       const hash = window.location.hash.slice(1);
-      App.renderNewPage(hash);
+      //if (hash !== 'team') {
+        App.renderNewPage(hash);
+      //}
     });
   }
 
