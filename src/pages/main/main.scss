@@ -29,6 +29,7 @@
   border: none;
   box-sizing: border-box;
   font-size: 10px;
+  line-height: 1;
   scroll-behavior: smooth;
 }
 
@@ -43,6 +44,7 @@ body {
   letter-spacing: 1px;
   color: var(--text-day);
   font-family: var(--font-main-en);
+  scroll-behavior: smooth;
 }
 
 .header {
@@ -83,7 +85,7 @@ h3 {
   color: var(--text-day);
   background-color: var(--bg-btn);
   text-decoration: none;
-  padding: 1rem 1.5rem;
+  padding: 1.5rem 2.5rem;
   border: var(--bg-btn-shadow) 1px solid;
   border-radius: 10px;
 }
@@ -155,7 +157,7 @@ h3 {
 #current-page {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: baseline;
   position: relative;
 
 }
@@ -194,20 +196,21 @@ h3 {
 .theme-light {
   background-image: url(../../assets/jpg/main-light-background.jpg);
   background-size: cover;
-
   background-attachment: scroll;
+  transition-property: background-image;
+  transition-duration: 0.8s;
 }
 
 .theme-dark {
   background-image: url(../../assets/jpg/main-dark-bg.jpg);
   background-size: cover;
-
-  background-attachment: scroll;
+  transition-property: background-image;
+  transition-duration: 0.8s;
 }
 
 .block {
   padding: 3rem;
-  margin: 3rem;
+  margin: 3rem auto;
   background-color: var(--infoblocks);
   border-radius: 30px;
   text-align: center;
@@ -217,23 +220,23 @@ h3 {
 
 
 .main-block {
-  width: 60%;
+  position: relative;
+  width: max-content;
   height: max-content;
+  margin: 3rem;
   font-family: var(--font-main-en);
   font-size: 10rem;
-  position: relative;
-  left: 0;
-  transform: translateX(-20%);
+  line-height: 1.8;
   border: none;
-
-
 }
-
-
 
 .quote-block {
   cursor: pointer;
-  width: 70%;
+  width: 75%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 3rem;
   font-style: italic;
 }
@@ -244,6 +247,7 @@ h3 {
   flex-wrap: wrap;
   width: 90%;
   height: max-content;
+  margin: 3rem auto;
   text-align: center;
   line-height: 2;
 }
@@ -264,7 +268,6 @@ h3 {
   font-size: 3.5rem;
   line-height: 3.5rem;
   outline: none;
-
 }
 
 
@@ -282,7 +285,7 @@ h3 {
 
 .team-block {
   width: 50%;
-  height: 100px;
+  height: max-content;
   font-size: 4rem;
   line-height: 3.75rem;
 }
@@ -294,29 +297,186 @@ h3 {
 
 }
 
+.team-block a {
+  text-decoration: none;
+  color: var(--text-day);
+  font-size: 4rem;
+}
 
 .team {
-  display: flex;
+  display: none;
   justify-content: space-between;
   width: 90%;
   height: max-content;
+  margin: 3rem auto;
 }
 
 .team-mate {
   display: block;
   width: 30%;
   height: max-content;
-
-
 }
 
 .team-mate div {
   font-size: 2.5rem;
+  line-height: 2.5rem;
 }
 
 .photo {
   width: 90%;
-  height: 400px;
+  height: auto;
   margin: 10px auto;
-  border: 1px solid #000;
+  border: 1px solid var(--text-day);
+}
+
+.team-visible {
+  display: flex;
+}
+
+.hidden {
+  display: none;
+}
+
+@media screen and (min-width: 1101px) and (max-width: 1400px) {
+
+  * {
+    font-size: 9px;
+  }
+
+  .team-mate {
+    display: flex;
+    width: 100%;
+    height: max-content;
+  }
+
+  .team-mate div {
+    margin: auto 15px;
+  }
+
+  .team-visible {
+    display: block;
+  }
+
+}
+
+@media screen and (min-width: 901px) and (max-width: 1100px) {
+
+  * {
+    font-size: 7px;
+  }
+
+  .nav a,
+  .nav__button {
+    padding: 2rem 3rem;
+    margin: 10px 10px;
+  }
+
+  .quote-block {
+    height: 220px;
+  }
+
+  .team-mate {
+    display: flex;
+    width: 100%;
+    height: max-content;
+  }
+
+  .team-mate div {
+    margin: auto 10px;
+  }
+
+  .team-visible {
+    display: block;
+  }
+
+}
+
+@media screen and (min-width: 621px) and (max-width: 900px) {
+
+  * {
+    font-size: 5px;
+  }
+
+  .quote-block {
+    width: 90%;
+    height: 160px;
+  }
+
+  .team-mate {
+    display: flex;
+    width: 100%;
+    height: max-content;
+  }
+
+  .team-mate div {
+    margin: auto 5px;
+  }
+
+  .nav a,
+  .nav__button {
+    padding: 2rem 3rem;
+    margin: 10px 15px;
+  }
+
+  .theme,
+  .sign {
+    margin: auto 10px;
+  }
+
+  .team-visible {
+    display: block;
+  }
+
+}
+
+@media screen and (min-width: 301px) and (max-width: 620px) {
+
+  * {
+    font-size: 4px;
+  }
+
+  .main-block {
+    position: static;
+    width: 90%;
+    margin: 20px auto;
+  }
+
+  .quote-block {
+    width: 90%;
+    height: 160px;
+  }
+
+  .advantages {
+    display: block;
+    justify-content: center;
+  }
+  .advantage {
+    width: 100%;
+  }
+
+  .team-mate {
+    display: block;
+    width: 100%;
+    height: max-content;
+  }
+
+  .team-mate div {
+    margin: auto;
+  }
+
+  .nav a,
+  .nav__button {
+    padding: 2rem 3rem;
+    margin: 10px 5px;
+  }
+
+  .theme,
+  .sign {
+    margin: auto 5px;
+  }
+
+  .team-visible {
+    display: block;
+  }
+
 }

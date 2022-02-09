@@ -11,6 +11,8 @@ import { PageIds } from '../../constants';
 class App {
   private static container: HTMLElement = document.body;
 
+  private static mainWrapper: HTMLElement = document.createElement('main');
+
   private static defaultPageId = 'current-page';
 
   private header: Header;
@@ -44,7 +46,7 @@ class App {
     if (page) {
       const pageHTML = page.render();
       pageHTML.id = App.defaultPageId;
-      App.container.append(pageHTML);
+      App.mainWrapper.append(pageHTML);
       page.init();
     }
   }
@@ -63,6 +65,7 @@ class App {
 
   run() {
     App.container.append(this.header.render());
+    App.container.append(App.mainWrapper);
     App.renderNewPage('main-page');
     this.enableRouteChange();
     App.container.append(this.footer.render());
