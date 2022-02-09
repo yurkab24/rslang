@@ -5,12 +5,14 @@ import GamesPage from '../games/games';
 import StatisticsPage from '../statistics/statistics';
 import Header from '../../core/component/header';
 import Footer from '../../core/component/footer';
+import TeamPage from '../main/team';
 
 export const enum PageIds {
   Main = 'main-page',
   Dictionary = 'dictionary-page',
   Games = 'games-page',
   Statistics = 'statistics-page',
+  Team = 'team',
 }
 
 class App {
@@ -41,6 +43,9 @@ class App {
       case PageIds.Games:
         page = new GamesPage(idPage);
         break;
+      case PageIds.Team:
+        page = new TeamPage(idPage);
+        break;
       default:
         page = new MainPage(idPage);
     }
@@ -55,7 +60,9 @@ class App {
   private enableRouteChange() {
     window.addEventListener('hashchange', () => {
       const hash = window.location.hash.slice(1);
-      App.renderNewPage(hash);
+      //if (hash !== 'team') {
+        App.renderNewPage(hash);
+      //}
     });
   }
 

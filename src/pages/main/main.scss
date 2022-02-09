@@ -181,7 +181,7 @@ body {
 }
 
 .theme-light {
-  background-image: url(../../assets/jpg/main-light-background.jpg);
+  background-image: url(../../assets/jpg/main-light-bg.jpg);
   background-size: cover;
   background-attachment: scroll;
   transition-property: background-image;
@@ -279,7 +279,8 @@ body {
 
 .video-block:hover,
 .team-block:hover,
-.quote-block:hover {
+.quote-block:hover,
+.team-mate:hover {
   outline: var(--bg-btn) 3px solid;
 
 }
@@ -291,7 +292,7 @@ body {
 }
 
 .team {
-  display: none;
+  display: flex;
   justify-content: space-between;
   width: 90%;
   height: max-content;
@@ -305,6 +306,7 @@ body {
 }
 
 .team-mate div {
+  margin-top: 10px;
   font-size: 2.5rem;
   line-height: 2.5rem;
 }
@@ -316,13 +318,12 @@ body {
   border: 1px solid var(--text-day);
 }
 
-.team-visible {
-  display: flex;
+.photo-img {
+  width: 100%;
+  height: auto;
+  filter: invert(100%) sepia(100%) saturate(9) brightness(0.7) contrast(120%);
 }
 
-.hidden {
-  display: none;
-}
 
 @media screen and (min-width: 1101px) and (max-width: 1400px) {
 
@@ -340,7 +341,7 @@ body {
     margin: auto 15px;
   }
 
-  .team-visible {
+  .team {
     display: block;
   }
 
@@ -372,7 +373,7 @@ body {
     margin: auto 10px;
   }
 
-  .team-visible {
+  .team {
     display: block;
   }
 
@@ -410,7 +411,7 @@ body {
     margin: auto 10px;
   }
 
-  .team-visible {
+  .team {
     display: block;
   }
 
@@ -462,7 +463,7 @@ body {
     margin: auto 5px;
   }
 
-  .team-visible {
+  .team {
     display: block;
   }
 
