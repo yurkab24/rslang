@@ -5,13 +5,8 @@ import GamesPage from '../games/games';
 import StatisticsPage from '../statistics/statistics';
 import Header from '../../core/component/header';
 import Footer from '../../core/component/footer';
-
-export const enum PageIds {
-  Main = 'main-page',
-  Dictionary = 'dictionary-page',
-  Games = 'games-page',
-  Statistics = 'statistics-page',
-}
+import { VocabularyPage } from '../vocabulary/vocabulary';
+import { PageIds } from '../../constants';
 
 class App {
   private static container: HTMLElement = document.body;
@@ -36,6 +31,9 @@ class App {
       case PageIds.Dictionary:
         page = new DictionaryPage(idPage);
         break;
+      case PageIds.Vocabulary:
+        page = new VocabularyPage(idPage);
+        break;
       case PageIds.Games:
         page = new GamesPage(idPage);
         break;
@@ -47,6 +45,7 @@ class App {
       const pageHTML = page.render();
       pageHTML.id = App.defaultPageId;
       App.container.append(pageHTML);
+      page.init();
     }
   }
 

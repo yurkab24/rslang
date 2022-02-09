@@ -14,6 +14,8 @@ class StatisticsPage extends Page {
     this.container.append(title);
     return this.container;
   }
+
+  public init(): void {}
 }
 
 export default StatisticsPage;

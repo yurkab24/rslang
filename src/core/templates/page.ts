@@ -17,6 +17,8 @@ abstract class Page {
   render() {
     return this.container;
   }
+
+  public abstract init(): void;
 }
 
 export default Page;
