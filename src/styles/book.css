@@ -1,0 +1,214 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.wrapper {
+  background: url('/src/assets/jpg/books-light.jpg') no-repeat center center;
+  background-size: cover;
+  width: 100%;
+  height: 80vh;
+  position: relative;
+  overflow: auto;
+  color: #030303;
+}
+
+.wrapper_darck-theme {
+  background: url('/src/assets/jpg/books.jpg') no-repeat center center;
+  color: white;
+}
+
+.wrapper-block {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-gap: 10px;
+  grid-auto-flow: dense;
+  align-items: center;
+  height: 100%;
+  overflow: auto;
+  padding: 10px;
+}
+
+.word-block {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  height: 510px;
+  color: #030303;
+  background: #dce7e6b8;
+  padding: 2%;
+  cursor: pointer;
+}
+
+.word-block-darck-theme {
+background: #e2dffee0;
+}
+
+.word-image {
+  width: 100%;
+  height: 250px;
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.word-info {
+  width: 320px;
+  display: flex;
+  position: relative;
+}
+
+.word-info span:nth-child(1) {
+  text-decoration: underline;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.word-audio {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  border-radius: 50%;
+  background: url('/src/assets/png/audio-signal.png') no-repeat center center;
+  background-size: cover;
+  border: 1px solid #464072;
+  position: absolute;
+  right: 0;
+}
+
+.text-example {
+  text-align: justify;
+}
+
+.text-example > p {
+  margin: 10px 0;
+}
+.text-under-line {
+  position: relative;
+}
+
+.text-under-line::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 70%;
+  height: 3px;
+  background-color: #3e0771;
+  transition: 1s;
+  cursor: pointer;
+  margin: -10px 0;
+}
+
+.word-block:hover .text-under-line::after {
+  width: 100%;
+}
+
+.block-buttons-wrapper {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.block-buttons-pagination {
+  height: 100%;
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.block-buttons-pagination > button,
+.button-section-wrapper > button {
+  width: 45px;
+  height: 45px;
+  margin: 0 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.block-buttons-pagination > button:first-child,
+.block-buttons-pagination > button:last-child {
+  background: url('/src/assets/png/prev.png') no-repeat center center;
+  background-size: cover;
+  cursor: pointer;
+}
+
+.block-buttons-pagination > button:last-child {
+  transform: rotateY(180deg);
+}
+
+.button-section-wrapper {
+  width: 400px;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: absolute;
+  right: 0;
+}
+
+.wrapper-learn-words {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.wrapper-learn-words > button {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.wrapper-learn-words > button:first-child {
+  background: url(/src/assets/jpg/difficult.jpg) no-repeat center center;
+  background-size: cover;
+}
+
+.wrapper-learn-words > button:nth-child(2) {
+  background: url(/src/assets/png/delete.png) no-repeat center center;
+  background-size: cover;
+}
+
+.wrapper-learn-words > button:last-child {
+  background: url(/src/assets/jpg/statistic.jpg) no-repeat center center;
+  background-size: cover;
+}
+
+.dictionary-icon {
+  width: 50px;
+  height: 100%;
+  border-radius: 5px;
+  background: url(/src/assets/png/dictionary.png) no-repeat center center;
+  background-size: cover;
+  position: absolute;
+  left: 2%;
+  cursor: pointer;
+}
+
+.filter_difficult {
+  filter: drop-shadow(2px 4px 6px rgb(73, 13, 13));
+}
+
+.filter_learned {
+  filter: drop-shadow(2px 4px 6px rgb(6, 196, 196));
+}
+
+
+.filter_deleted {
+  filter: grayscale(1);
+}
