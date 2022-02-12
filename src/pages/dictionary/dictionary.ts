@@ -1,6 +1,6 @@
 import Page from '../../core/templates/page';
 import { IWord } from '../../models';
-import { host, blocks, limitOfWord, limitOfPage, dictionaryGroupOptions, PageIds } from '../../constants';
+import { host, blocks, limitOfWord, limitOfPage, dictionaryGroupOptions, PageIds, Tags } from '../../constants';
 import { getDictonaryRequest } from '../../request';
 import { Pagination } from './pagination';
 import { WordsContainer } from './words';
@@ -13,33 +13,33 @@ class DictionaryPage extends Page {
     MainTitle: 'Dictionary',
   };
 
-  private wordWrapper = document.createElement('div');
+  private wordWrapper = document.createElement(Tags.Div);
 
-  private numberStartPage = document.createElement('span');
+  private numberStartPage = document.createElement(Tags.Span);
 
-  private numberFinishPage = document.createElement('span');
+  private numberFinishPage = document.createElement(Tags.Span);
 
   public renderBlockWord(words: IWord[]) {
-    const wrapperBlock = document.createElement('div');
+    const wrapperBlock = document.createElement(Tags.Div);
     wrapperBlock.classList.add('wrapper-block');
     words.forEach((item) => {
-      const wordBlock = document.createElement('div');
-      const wordImage = document.createElement('div');
-      const wordTitle = document.createElement('h3');
-      const wordInfo = document.createElement('div');
-      const wordAudio = document.createElement('button');
-      const audio = document.createElement('audio');
-      audio.id = 'audio';
+      const wordBlock = document.createElement(Tags.Div);
+      const wordImage = document.createElement(Tags.Div);
+      const wordTitle = document.createElement(Tags.H3);
+      const wordInfo = document.createElement(Tags.Div);
+      const wordAudio = document.createElement(Tags.Button);
+      const audio = document.createElement(Tags.Audio);
+      audio.id = Tags.Audio;
 
-      const wordTranscription = document.createElement('span');
-      const wordTranslate = document.createElement('span');
-      const wordBlockContent = document.createElement('div');
-      const wordTextMeaning = document.createElement('p');
-      const wordTextExample = document.createElement('p');
-      const wordExampleTranslate = document.createElement('p');
-      const wordMeaningTranslate = document.createElement('p');
-      const blockLearnWords = document.createElement('div');
-      const buttonLearnsWord = document.createElement('button');
+      const wordTranscription = document.createElement(Tags.Span);
+      const wordTranslate = document.createElement(Tags.Span);
+      const wordBlockContent = document.createElement(Tags.Div);
+      const wordTextMeaning = document.createElement(Tags.P);
+      const wordTextExample = document.createElement(Tags.P);
+      const wordExampleTranslate = document.createElement(Tags.P);
+      const wordMeaningTranslate = document.createElement(Tags.P);
+      const blockLearnWords = document.createElement(Tags.Div);
+      const buttonLearnsWord = document.createElement(Tags.Button);
 
       wordBlock.classList.add('word-block');
       wordImage.classList.add('word-image');
@@ -70,26 +70,7 @@ class DictionaryPage extends Page {
         audioElement.src = arrHost[i];
       }
 
-      wordAudio.addEventListener('click', function (value): void {
-        const players = (value.target as HTMLElement).getElementsByTagName('audio');
-        let current = 0;
-        const playAudio = (): void => {
-          (players[current] as HTMLAudioElement).play();
-          (players[current] as HTMLAudioElement).addEventListener(
-            'ended',
-            function () {
-              current++;
-              if (current >= arrHost.length) {
-                current = 0;
-                return;
-              }
-              playAudio();
-            },
-            { once: true }
-          );
-        };
-        playAudio();
-      });
+      wordAudio.addEventListener('click', this.audioHandler);
 
       for (let i = 0; i < blocks; i++) {
         blockLearnWords.append(buttonLearnsWord.cloneNode(true));
@@ -102,13 +83,13 @@ class DictionaryPage extends Page {
 
   render() {
     const title = this.createHeaderTitle(DictionaryPage.TextObject.MainTitle);
-    const blockButtonsWrapper = document.createElement('div');
-    const blockButtonsPagination = document.createElement('div');
-    const buttonOfPaginationPrev = document.createElement('button');
-    const buttonOfPaginationNext = document.createElement('button');
-    const buttonSectionWrapper = document.createElement('div');
-    const buttonSection = document.createElement('button');
-    const buttonDictonary = document.createElement('a');
+    const blockButtonsWrapper = document.createElement(Tags.Div);
+    const blockButtonsPagination = document.createElement(Tags.Div);
+    const buttonOfPaginationPrev = document.createElement(Tags.Button);
+    const buttonOfPaginationNext = document.createElement(Tags.Button);
+    const buttonSectionWrapper = document.createElement(Tags.Div);
+    const buttonSection = document.createElement(Tags.Button);
+    const buttonDictonary = document.createElement(Tags.A);
 
     buttonDictonary.classList.add('dictionary-icon');
     blockButtonsWrapper.classList.add('block-buttons-wrapper');
@@ -154,16 +135,44 @@ class DictionaryPage extends Page {
     this.updatePageofDictionary();
   }
 
-  private buttonPaginationPrevHandler = (): void => {
-    paginationPage.prevPage();
+  private audioHandler = (value: Event): void => {
+    const players = (value.target as HTMLElement).getElementsByTagName(Tags.Audio);
+    let current = 0;
+    const playAudio = (): void => {
+      (players[current] as HTMLAudioElement).play();
+      (players[current] as HTMLAudioElement).addEventListener(
+        'ended',
+        function () {
+          current++;
+          if (current >= blocks) {
+            current = 0;
+            return;
+          }
+          playAudio();
+        },
+        { once: true }
+      );
+    };
+    playAudio();
+  };
+
+  private buttonPaginationHandler = (paginationDirection: string): void => {
+    if (paginationDirection === 'prev') {
+      paginationPage.prevPage();
+    } else {
+      paginationPage.nextPage();
+    }
+
     this.numberStartPage.innerHTML = String(paginationPage.pageOfNumber);
     this.updatePageofDictionary();
   };
 
+  private buttonPaginationPrevHandler = (): void => {
+    return this.buttonPaginationHandler('prev');
+  };
+
   private buttonPaginationNextHandler = (): void => {
-    paginationPage.nextPage();
-    this.numberStartPage.innerHTML = String(paginationPage.pageOfNumber);
-    this.updatePageofDictionary();
+    return this.buttonPaginationHandler('next');
   };
 
   private updatePageofDictionary(): void {
