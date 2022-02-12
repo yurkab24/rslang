@@ -1,3 +1,5 @@
+import { limitOfPage } from '../../constants';
+
 export class Pagination {
   private limitWord;
 
@@ -23,7 +25,7 @@ export class Pagination {
   }
 
   public nextPage(): void {
-    if (this.pageNumber < 30) {
+    if (this.pageNumber < limitOfPage) {
       this.pageNumber++;
     }
   }

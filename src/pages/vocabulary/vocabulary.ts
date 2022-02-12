@@ -24,12 +24,10 @@ export class VocabularyPage extends Page {
 
     this.container.classList.add('wrapper');
 
-    const titlle = ['Надо-бы изучить', 'Эх, а это сложно', 'Удаленные'];
-    for (let i = 0; i < titlle.length; i++) {
-      titleOfWordsLearned.innerHTML = titlle[0];
-      titleOfWordsDifficult.innerHTML = titlle[1];
-      titleOfWordsDeleted.innerHTML = titlle[2];
-    }
+    const titlle = ['Изучаемые', 'Сложные', 'Удаленные'];
+    titleOfWordsLearned.innerHTML = titlle[0];
+    titleOfWordsDifficult.innerHTML = titlle[1];
+    titleOfWordsDeleted.innerHTML = titlle[2];
 
     this.container.append(this.createHeaderTitle(VocabularyPage.TextObject.MainTitle));
     this.container.append(wrapperBlock);
