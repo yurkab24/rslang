@@ -88,7 +88,7 @@ class MainPage extends Page {
   public init(): void {}
 
   async getQuotes() {
-    const quotes = '../../assets/quotes.json';
+    const quotes = './assets/quotes.json';
     let quo: number;
     const res = await fetch(quotes);
     const data = await res.json();

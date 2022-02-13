@@ -305,6 +305,8 @@ h3 {
 }
 
 .team-block a {
+  display: inline-block;
+  width: 100%;
   text-decoration: none;
   color: var(--text-day);
   font-size: 4rem;
@@ -313,7 +315,7 @@ h3 {
 .team {
   display: flex;
   justify-content: space-between;
-  width: 90%;
+  width: 95%;
   height: max-content;
   margin: 3rem auto;
 }
