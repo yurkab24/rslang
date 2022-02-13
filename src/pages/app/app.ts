@@ -8,8 +8,8 @@ import Footer from '../../core/component/footer';
 import { VocabularyPage } from '../vocabulary/vocabulary';
 import { PageIds } from '../../constants';
 import TeamPage from '../main/team';
-
-
+import ChallengePage from '../games/challenge';
+import SprintPage from '../games/sprint';
 
 class App {
   private static container: HTMLElement = document.body;
@@ -22,7 +22,7 @@ class App {
 
   private footer: Footer;
 
-  static renderNewPage(idPage: string) {
+  private renderNewPage(idPage: string) {
     const currentPageHTML = document.querySelector(`#${App.defaultPageId}`);
     if (currentPageHTML) {
       currentPageHTML.remove();
@@ -45,6 +45,12 @@ class App {
       case PageIds.Team:
         page = new TeamPage(idPage);
         break;
+      case PageIds.GameSprint:
+        page = new SprintPage(idPage);
+        break;
+      case PageIds.GameChallenge:
+        page = new ChallengePage(idPage);
+        break;
       default:
         page = new MainPage(idPage);
     }
@@ -60,9 +66,7 @@ class App {
   private enableRouteChange() {
     window.addEventListener('hashchange', () => {
       const hash = window.location.hash.slice(1);
-      //if (hash !== 'team') {
-        App.renderNewPage(hash);
-      //}
+      this.renderNewPage(hash);
     });
   }
 
@@ -74,7 +78,7 @@ class App {
   run() {
     App.container.append(this.header.render());
     App.container.append(App.mainWrapper);
-    App.renderNewPage('main-page');
+    this.renderNewPage('main-page');
     this.enableRouteChange();
     App.container.append(this.footer.render());
   }

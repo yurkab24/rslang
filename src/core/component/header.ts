@@ -8,15 +8,15 @@ const Buttons = [
   },
   {
     id: PageIds.Dictionary,
-    text: 'Dictionary',
+    text: 'СЛОВАРЬ',
   },
   {
     id: PageIds.Games,
-    text: 'Games',
+    text: 'ИГРЫ',
   },
   {
     id: PageIds.Statistics,
-    text: 'Statistics',
+    text: 'СТАТИСТИКА',
   },
 ];
 

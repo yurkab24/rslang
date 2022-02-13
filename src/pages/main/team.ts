@@ -9,7 +9,7 @@ class TeamPage extends Page {
     MainTitle: '',
   };
 
-  private team: { github: string, photo: string, name: string, role: string, contribution: string }[];
+  private team: { github: string; photo: string; name: string; role: string; contribution: string }[];
 
   constructor(id: string) {
     super(id);
@@ -17,7 +17,7 @@ class TeamPage extends Page {
     this.team = [
       {
         github: 'https://github.com/Tyzikova',
-        photo: '../../assets/png/login-icon.png',
+        photo: './assets/jpg/photoTT.jpeg',
         name: 'Татьяна Тузова',
         role: 'Developer',
         contribution:
@@ -25,7 +25,7 @@ class TeamPage extends Page {
       },
       {
         github: 'https://github.com/Yurkab24',
-        photo: '../../assets/png/login-icon.png',
+        photo: './assets/png/login-icon.png',
         name: 'Юрий Боровиков',
         role: 'Team lead, developer',
         contribution:
@@ -33,14 +33,16 @@ class TeamPage extends Page {
       },
       {
         github: 'https://github.com/TatsiaA',
-        photo: '../../assets/png/login-icon.png',
+        photo: './assets/jpg/photoTA.jpg',
         name: 'Татьяна Арещенко',
         role: 'Developer',
         contribution:
-          'Создание, наполнение и дизайн главной страницы приложения, страницы "Наша команда", футера. Настроила роутинг. Отвечала за пользовательские настройки приложения. Создала игру "Аудиовызов".',
+          'Создание, наполнение и дизайн главной страницы приложения, страниц "Наша команда", "Мини-игры", футера. Настроила роутинг. Отвечала за пользовательские настройки приложения. Создала игру "Аудиовызов".',
       },
     ];
   }
+
+  public init(): void {}
 
   renderTeam() {
     const teamTitleDiv = this.createDiv('block team-block', '');
