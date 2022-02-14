@@ -1,3 +1,4 @@
+import { PageIds } from '../../constants';
 import Page from '../../core/templates/page';
 
 enum Advantages {
@@ -25,7 +26,7 @@ class MainPage extends Page {
     (document.querySelector('.header') as HTMLElement).append(themeBtn, signBtn);
 
     signBtn.onclick = () => {
-      window.location.href = '#authorization-page';
+      window.location.href = `#${PageIds.Authorization}`;
     };
 
     window.addEventListener('hashchange', () => {
