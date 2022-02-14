@@ -10,6 +10,7 @@ import { PageIds } from '../../constants';
 import TeamPage from '../main/team';
 import ChallengePage from '../games/challenge';
 import SprintPage from '../games/sprint';
+import Authorization from '../authorization/authorization';
 
 class App {
   private static container: HTMLElement = document.body;
@@ -50,6 +51,9 @@ class App {
         break;
       case PageIds.GameChallenge:
         page = new ChallengePage(idPage);
+        break;
+      case PageIds.Authorization:
+        page = new Authorization(idPage);
         break;
       default:
         page = new MainPage(idPage);
