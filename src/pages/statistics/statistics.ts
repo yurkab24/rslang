@@ -20,12 +20,20 @@ class StatisticsPage extends Page {
     const wrapperStatistic = document.createElement(Tags.Div);
     const statisticTableRow = document.createElement(Tags.Div);
     const statisticTableBlock = document.createElement(Tags.Div);
-    for (let i = 0; i < 4; i++) {
+
+    const rowTittle = ['Игра', 'Изучено слов', 'Правильно (%)', 'Самая длинная серия'];
+    const columnTittle = ['Спринт', 'Аудиовызов', 'Итого'];
+
+    for (let i = 0; i < rowTittle.length; i++) {
+      statisticTableBlock.classList.add('td-table-row-block');
       statisticTableRow.append(statisticTableBlock.cloneNode(true));
     }
-    for (let i = 0; i < 5; i++) {
+
+    for (let i = 0; i < 4; i++) {
+      statisticTableRow.classList.add('td-table-row');
       wrapperStatistic.append(statisticTableRow.cloneNode(true));
     }
+
     this.container.append(title);
     this.container.classList.add('wrapper-statistic-page');
     wrapper.classList.add('wrapper-container');
@@ -33,6 +41,12 @@ class StatisticsPage extends Page {
 
     this.container.append(wrapper);
     wrapper.append(wrapperStatistic);
+
+    const child = wrapperStatistic.childNodes;
+    child[0].childNodes.forEach((el, index) => (el.textContent = rowTittle[index]));
+    child[1].childNodes[0].textContent = columnTittle[0];
+    child[2].childNodes[0].textContent = columnTittle[1];
+    child[3].childNodes[0].textContent = columnTittle[2];
 
     return this.container;
   }

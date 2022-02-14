@@ -8,11 +8,6 @@ html {
   scroll-behavior: smooth;
 }
 
-i, b {
-  font-weight: bold;
-  font-size: 2rem;
-}
-
 .wrapper {
   background: url('/src/assets/jpg/books-light.jpg') no-repeat center center;
   background-size: cover;
@@ -49,6 +44,14 @@ i, b {
   cursor: pointer;
   overflow: auto;
   justify-self: center;
+}
+
+.word-block div,
+.word-block div p,
+.word-block div p i,
+.word-block div p b,
+.word-block div span {
+  font-size: 2rem;
 }
 
 .word-block-darck-theme {
