@@ -161,33 +161,33 @@ class Authorization extends Page {
     };
   }
 
-  clearForm() {
+  clearForm(): void {
     this.loginForm.inputName.value = '';
     this.loginForm.inputEmail.value = '';
     this.loginForm.inputPassword.value = '';
   }
 
-  onExit() {
+  onExit(): void {
     this.exit.onclick = () => {
       localStorage.clear();
       window.location.href = `#${PageIds.Main}`;
     };
   }
 
-  hideError() {
+  hideError(): void {
     setTimeout(() => {
       this.loginForm.errorBlock.innerHTML = '';
       this.isError = !this.isError;
     }, 3000);
   }
 
-  entryForm() {
+  entryForm(): void {
     this.entranceButton.classList.add('login__toggle-button--active');
     this.registrationButton.classList.remove('login__toggle-button--active');
     this.subTitle.innerHTML = FORM_TEXT.ENTER;
   }
 
-  registerForm() {
+  registerForm(): void {
     this.registrationButton.classList.add('login__toggle-button--active');
     this.entranceButton.classList.remove('login__toggle-button--active');
     this.subTitle.innerHTML = FORM_TEXT.REGISTRATION;

@@ -15,7 +15,7 @@ class LoginForm {
 
   buttonRegistration = document.createElement('button');
 
-  createForm(isLogin = true) {
+  createForm(isLogin = true): void {
     this.form.classList.add('login__form');
 
     this.errorBlock.classList.add('login__error');
