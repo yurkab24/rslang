@@ -1,4 +1,4 @@
-import { host } from '../constants';
+import { PATH_CREATE_USER, PATH_SIGNIN } from '../constants';
 import { IUser } from '../constants/authorization';
 
 const HTTP_METHODS = {
@@ -6,7 +6,7 @@ const HTTP_METHODS = {
 };
 
 export const createUser = async (user: IUser) => {
-  return fetch(`${host}users`, {
+  return fetch(`${PATH_CREATE_USER}`, {
     method: HTTP_METHODS.POST,
     headers: {
       Accept: 'application/json',
@@ -17,7 +17,7 @@ export const createUser = async (user: IUser) => {
 };
 
 export const loginUser = async (user: IUser) => {
-  return fetch(`${host}signin`, {
+  return fetch(`${PATH_SIGNIN}`, {
     method: HTTP_METHODS.POST,
     headers: {
       Accept: 'application/json',
