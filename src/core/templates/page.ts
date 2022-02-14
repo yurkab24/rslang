@@ -14,6 +14,13 @@ abstract class Page {
     return headerTitle;
   }
 
+  protected createDiv(className: string, text: string) {
+    const div = document.createElement('div');
+    div.className = className;
+    div.innerText = text;
+    return div;
+  }
+
   render() {
     return this.container;
   }
