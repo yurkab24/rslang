@@ -1,9 +1,19 @@
 import Page from '../../core/templates/page';
 import { IWord } from '../../models';
-import { host, blocks, limitOfWord, limitOfPage, dictionaryGroupOptions, PageIds, Tags } from '../../constants';
+import {
+  host,
+  blocks,
+  limitOfWord,
+  limitOfPage,
+  dictionaryGroupOptions,
+  PageIds,
+  Tags,
+  arrayOfBackground,
+} from '../../constants';
 import { getDictonaryRequest } from '../../request';
 import { Pagination } from './pagination';
 import { WordsContainer } from './words';
+import Spinner from '../../core/component/spiner';
 
 const wordContainer = new WordsContainer();
 const paginationPage = new Pagination(limitOfWord, limitOfPage);
@@ -19,9 +29,20 @@ class DictionaryPage extends Page {
 
   private numberFinishPage = document.createElement(Tags.Span);
 
+  private wrapperBlock = document.createElement(Tags.Div);
+
+  private numberOfSection = 0;
+
+  private spinner: Spinner;
+
+  constructor(id: string, spinner: Spinner) {
+    super(id);
+    this.spinner = spinner;
+  }
+
   public renderBlockWord(words: IWord[]) {
-    const wrapperBlock = document.createElement(Tags.Div);
-    wrapperBlock.classList.add('wrapper-block');
+    this.wrapperBlock.innerHTML = '';
+    this.wrapperBlock.classList.add('wrapper-block');
     words.forEach((item) => {
       const wordBlock = document.createElement(Tags.Div);
       const wordImage = document.createElement(Tags.Div);
@@ -49,6 +70,7 @@ class DictionaryPage extends Page {
       wordMeaningTranslate.classList.add('text-under-line');
       blockLearnWords.classList.add('wrapper-learn-words');
       wordImage.style.backgroundImage = `url(${host}${item.image})`;
+      wordBlock.style.background = arrayOfBackground[this.numberOfSection].card;
 
       wordTitle.textContent = item.word;
       wordTranslate.textContent = `${item.wordTranslate}:`;
@@ -58,7 +80,7 @@ class DictionaryPage extends Page {
       wordExampleTranslate.textContent = `${item.textExampleTranslate}.`;
       wordMeaningTranslate.textContent = `${item.textMeaningTranslate}.`;
 
-      wrapperBlock.append(wordBlock);
+      this.wrapperBlock.append(wordBlock);
       wordBlock.append(wordImage, wordTitle, wordInfo, wordBlockContent, blockLearnWords);
       wordBlockContent.append(wordTextMeaning, wordMeaningTranslate, wordTextExample, wordExampleTranslate);
       wordInfo.append(wordTranslate, wordTranscription, wordAudio);
@@ -77,12 +99,17 @@ class DictionaryPage extends Page {
       }
     });
 
+    this.container.style.backgroundImage = arrayOfBackground[this.numberOfSection].wall;
     this.wordWrapper.innerHTML = '';
-    this.wordWrapper.append(wrapperBlock);
+    this.wordWrapper.append(this.wrapperBlock);
+
+    wordContainer.wordGroupDictionary = this.numberOfSection;
   }
 
   render() {
     const title = this.createHeaderTitle(DictionaryPage.TextObject.MainTitle);
+    title.className = 'dictionary-title';
+
     const blockButtonsWrapper = document.createElement(Tags.Div);
     const blockButtonsPagination = document.createElement(Tags.Div);
     const buttonOfPaginationPrev = document.createElement(Tags.Button);
@@ -176,13 +203,15 @@ class DictionaryPage extends Page {
   };
 
   private updatePageofDictionary(): void {
-    getDictonaryRequest(paginationPage.pageOfNumber, wordContainer.wordGroupDictionary).then((result) =>
-      this.renderBlockWord(result)
-    );
+    this.spinner.show();
+    getDictonaryRequest(paginationPage.pageOfNumber, wordContainer.wordGroupDictionary).then((result) => {
+      this.renderBlockWord(result);
+      this.spinner.hide();
+    });
   }
 
   private buttonGroupHandler = (event: Event): void => {
-    wordContainer.wordGroupDictionary = Number((event.target as HTMLElement).dataset.id);
+    this.numberOfSection = Number((event.target as HTMLElement).dataset.id);
     this.updatePageofDictionary();
   };
 }

@@ -45,6 +45,8 @@ html {
   background: #dce7e6b8;
   padding: 2%;
   cursor: pointer;
+  overflow: auto;
+  justify-self: center;
 }
 
 .word-block-darck-theme {
@@ -136,6 +138,37 @@ html {
   margin: 0 10px;
   border-radius: 50%;
   cursor: pointer;
+}
+
+.button-section-wrapper > button {
+  font-size: 22px;
+  font-weight: bold;
+  border: 3px solid white;
+  color: white;
+}
+
+.button-section-wrapper > button:nth-child(1) {
+  background: #daed9fbf;
+}
+
+.button-section-wrapper > button:nth-child(2) {
+  background: teal;
+}
+
+.button-section-wrapper > button:nth-child(3) {
+  background: #a05f8fbf;
+}
+
+.button-section-wrapper > button:nth-child(4) {
+  background: #ad0b0bc4;
+}
+
+.button-section-wrapper > button:nth-child(5) {
+  background: #7fc311de;
+}
+
+.button-section-wrapper > button:nth-child(6) {
+  background: #a3a073d9;
 }
 
 .block-buttons-pagination > button:first-child,

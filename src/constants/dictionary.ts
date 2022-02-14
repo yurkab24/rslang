@@ -37,3 +37,30 @@ export const dictionaryGroupOptions = [
     id: DictionaryGroup.sixth,
   },
 ];
+//*//
+export const arrayOfBackground = [
+  {
+    wall: 'url(assets/jpg/books-light.jpg)',
+    card: '#dce7e6b8',
+  },
+  {
+    wall: 'url(assets/jpg/books2.jpg)',
+    card: '#04897d87',
+  },
+  {
+    wall: 'url(assets/jpg/books3.jpg)',
+    card: '#eecbe5e0',
+  },
+  {
+    wall: 'url(assets/jpg/books4.jpg)',
+    card: '#c6af9bb3',
+  },
+  {
+    wall: 'url(assets/jpg/books5.jpg)',
+    card: '#e9f2da85',
+  },
+  {
+    wall: 'url(assets/jpg/books6.jpg)',
+    card: '#dec9b085',
+  },
+];

@@ -1,0 +1,30 @@
+.wrapper-statistic-page {
+  background: url('/src/assets/jpg/statistics.jpg') no-repeat center center;
+  background-size: cover;
+  width: 100%;
+  height: 80vh;
+  position: relative;
+  overflow: auto;
+  color: #030303;
+}
+
+.wrapper-container {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper-block-statistic {
+  width: 80%;
+  height: 70%;
+  border: 5px solid black;
+}
+
+.td-table-row {
+  width: 100%;
+  height: calc(100% / 5);
+  border-bottom: solid #030303;
+}
+

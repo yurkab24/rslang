@@ -3,13 +3,20 @@ import MainPage from '../main/main';
 import DictionaryPage from '../dictionary/dictionary';
 import GamesPage from '../games/games';
 import StatisticsPage from '../statistics/statistics';
+import ButtonPage from '../../core/component/pageButton';
+import Spinner from '../../core/component/spiner';
 import Header from '../../core/component/header';
 import Footer from '../../core/component/footer';
 import { VocabularyPage } from '../vocabulary/vocabulary';
 import { PageIds } from '../../constants';
+import TeamPage from '../main/team';
+import ChallengePage from '../games/challenge';
+import SprintPage from '../games/sprint';
 
 class App {
   private static container: HTMLElement = document.body;
+
+  private static mainWrapper: HTMLElement = document.createElement('main');
 
   private static defaultPageId = 'current-page';
 
@@ -17,7 +24,11 @@ class App {
 
   private footer: Footer;
 
-  static renderNewPage(idPage: string) {
+  private button: ButtonPage;
+
+  private spinner: Spinner;
+
+  private renderNewPage(idPage: string) {
     const currentPageHTML = document.querySelector(`#${App.defaultPageId}`);
     if (currentPageHTML) {
       currentPageHTML.remove();
@@ -26,16 +37,25 @@ class App {
 
     switch (idPage) {
       case PageIds.Statistics:
-        page = new StatisticsPage(idPage);
+        page = new StatisticsPage(idPage, this.spinner);
         break;
       case PageIds.Dictionary:
-        page = new DictionaryPage(idPage);
+        page = new DictionaryPage(idPage, this.spinner);
         break;
       case PageIds.Vocabulary:
-        page = new VocabularyPage(idPage);
+        page = new VocabularyPage(idPage, this.spinner);
         break;
       case PageIds.Games:
         page = new GamesPage(idPage);
+        break;
+      case PageIds.Team:
+        page = new TeamPage(idPage);
+        break;
+      case PageIds.GameSprint:
+        page = new SprintPage(idPage);
+        break;
+      case PageIds.GameChallenge:
+        page = new ChallengePage(idPage);
         break;
       default:
         page = new MainPage(idPage);
@@ -44,27 +64,33 @@ class App {
     if (page) {
       const pageHTML = page.render();
       pageHTML.id = App.defaultPageId;
-      App.container.append(pageHTML);
+      App.mainWrapper.append(pageHTML);
       page.init();
+      this.button.scroll(pageHTML);
     }
   }
 
   private enableRouteChange() {
     window.addEventListener('hashchange', () => {
       const hash = window.location.hash.slice(1);
-      App.renderNewPage(hash);
+      this.renderNewPage(hash);
     });
   }
 
   constructor() {
     this.header = new Header('header', 'header');
     this.footer = new Footer('footer', 'footer');
+    this.button = new ButtonPage('button', 'button-up');
+    this.spinner = new Spinner('div', 'spinner');
   }
 
   run() {
     App.container.append(this.header.render());
-    App.renderNewPage('main-page');
+    App.container.append(App.mainWrapper);
+    this.renderNewPage('main-page');
     this.enableRouteChange();
+    App.container.append(this.button.render());
+    App.container.append(this.spinner.render());
     App.container.append(this.footer.render());
   }
 }

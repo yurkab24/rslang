@@ -1,20 +1,29 @@
 import Page from '../../core/templates/page';
+import { Tags } from '../../constants';
+import Spinner from '../../core/component/spiner';
 
 export class VocabularyPage extends Page {
   static TextObject = {
     MainTitle: 'Vocabulary',
   };
 
+  private spinner: Spinner;
+
+  constructor(id: string, spinner: Spinner) {
+    super(id);
+    this.spinner = spinner;
+  }
+
   render() {
     this.createHeaderTitle(VocabularyPage.TextObject.MainTitle);
-    const wrapperBlock = document.createElement('div');
-    const blockOfWordsLearned = document.createElement('div');
-    const blockOfWordsDifficult = document.createElement('div');
-    const blockOfWordsDeleted = document.createElement('div');
-    const titleOfWordsLearned = document.createElement('h2');
-    const titleOfWordsDifficult = document.createElement('h2');
-    const titleOfWordsDeleted = document.createElement('h2');
-    const sectionOfWords = document.createElement('section');
+    const wrapperBlock = document.createElement(Tags.Div);
+    const blockOfWordsLearned = document.createElement(Tags.Div);
+    const blockOfWordsDifficult = document.createElement(Tags.Div);
+    const blockOfWordsDeleted = document.createElement(Tags.Div);
+    const titleOfWordsLearned = document.createElement(Tags.H2);
+    const titleOfWordsDifficult = document.createElement(Tags.H2);
+    const titleOfWordsDeleted = document.createElement(Tags.H2);
+    const sectionOfWords = document.createElement(Tags.Section);
 
     wrapperBlock.classList.add('wrapper-block-words');
     blockOfWordsLearned.classList.add('block-of-words');
@@ -39,5 +48,12 @@ export class VocabularyPage extends Page {
     return this.container;
   }
 
-  public init(): void {}
+  public init(): void {
+    this.updatePageofVocabulary();
+  }
+
+  private updatePageofVocabulary(): void {
+    this.spinner.show();
+    this.spinner.hide();
+  }
 }
