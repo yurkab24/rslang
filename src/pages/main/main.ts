@@ -73,7 +73,6 @@ class MainPage extends Page {
   }
 
   render() {
-    console.log('render');
     const mainBlock = this.createDiv('block main-block', 'Учи английский легко\nс RS Lang!');
     this.container.append(mainBlock);
     this.getQuotes();

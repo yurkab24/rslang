@@ -1,8 +1,5 @@
 import Page from '../../core/templates/page';
 
-// const challengeText = `АУДИОВЫЗОВ \n \n Улучшает восприятие речи на слух`;
-// const sprintText = `СПРИНТ \n \n Учит быстро переводить на русский язык`;
-
 class GamesPage extends Page {
   static TextObject = {
     MainTitle: 'МИНИ-ИГРЫ',

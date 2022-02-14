@@ -82,11 +82,7 @@ h3 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-
 }
-
-
 
 .nav a,
 .nav__button {
@@ -125,7 +121,6 @@ h3 {
 }
 
 .footer {
-
   position: relative;
   bottom: 0;
   height: 5vh;
@@ -161,11 +156,6 @@ h3 {
   margin-right: 30px;
   font-size: 2rem;
 }
-
-
-
-
-
 
 .theme {
   width: 40px;
@@ -276,18 +266,13 @@ h3 {
   outline: none;
 }
 
-
-
 .video-block {
   display: block;
   justify-content: center;
   width: 90%;
   height: 800px;
   font-size: 4rem;
-
 }
-
-
 
 .team-block {
   width: 50%;
@@ -301,7 +286,6 @@ h3 {
 .quote-block:hover,
 .team-mate:hover {
   outline: var(--bg-btn) 3px solid;
-
 }
 
 .team-block a {
