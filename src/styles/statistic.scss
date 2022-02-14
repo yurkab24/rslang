@@ -1,5 +1,5 @@
 .wrapper-statistic-page {
-  background: url('/src/assets/jpg/statistics.jpg') no-repeat center center;
+  background: url('/src/assets/jpg/statistics.jpg') no-repeat center bottom;
   background-size: cover;
   width: 100%;
   height: 80vh;
@@ -12,14 +12,15 @@
   width: 100%;
   height: 80%;
   display: flex;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
+  padding: 15px;
 }
 
 .wrapper-block-statistic {
-  width: 80%;
-  height: 70%;
-  border: 5px solid black;
+  width: 70%;
+  height: 80%;
+  border: 2px solid black;
 }
 
 .td-table-row {
