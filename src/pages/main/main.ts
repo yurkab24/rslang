@@ -24,6 +24,10 @@ class MainPage extends Page {
     signBtn.className = 'sign';
     (document.querySelector('.header') as HTMLElement).append(themeBtn, signBtn);
 
+    signBtn.onclick = () => {
+      window.location.href = '#authorization-page';
+    };
+
     window.addEventListener('hashchange', () => {
       themeBtn.remove();
       signBtn.remove();
