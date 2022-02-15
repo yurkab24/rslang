@@ -1,0 +1,97 @@
+:root {
+  --bg-btn-full: rgba(227, 252, 88, 1);
+}
+
+main .page-title {
+  font-size: 3rem;
+}
+
+.challenge__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: 70vh;
+  margin-top: 0;
+}
+
+.challenge__question {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 300px;
+  height: 300px;
+}
+
+.challenge__picture {
+  flex: 6 0 auto;
+  height: 200px;
+  width: 100%;
+  background-color: var(--bg-btn);
+  border-radius: 10px;
+  border: 1px solid var(--bg-btn-shadow);
+  margin: 15px;
+}
+
+.challenge__word {
+  flex: 5 0 auto;
+  width: max-content;
+  height: 70px;
+  align-items: center;
+  font-size: 3rem;
+  line-height: 3rem;
+  color: var(--text-day);
+  margin: 10px;
+  padding: 10px;
+}
+
+.challenge__sound {
+  flex: 1 0 auto;
+  width: 50px;
+  height: 70px;
+  background-color: var(--bg-btn-full);
+  background-image: url(../../assets/png/loudspeaker1.png);
+  background-size: 80% 80%;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 30%;
+  border: 1px solid var(--bg-btn-shadow);
+  margin: 10px;
+}
+
+.challenge__variants {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-self: center;
+  align-items: center;
+  width: 90%;
+  height: 5rem;
+  margin: 20px auto;
+  padding: 15px;
+  font-size: 2.5rem;
+  color: var(--text-day);
+  background-color: var(--bg-btn-shadow);
+}
+
+.challenge__btn {
+  width: 20%;
+  height: 60px;
+  align-items: center;
+  background-color: var(--bg-play-btn);
+  font-size: 2.5rem;
+  color: var(--text-day);
+  font-family: var(--font-main-en);
+  border-radius: 10px;
+  border: 1px solid var(--bg-btn);
+  margin: 15px auto;
+  padding: 20px;
+}
+
+.challenge__sound:hover,
+.challenge__btn:hover {
+  transform: scale(1.1, 1.1);
+  box-shadow: 5px 5px 10px var(--bg-btn-shadow);
+  transition: 0.34s ease-in-out;
+}
