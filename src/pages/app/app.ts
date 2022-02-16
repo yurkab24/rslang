@@ -3,15 +3,16 @@ import MainPage from '../main/main';
 import DictionaryPage from '../dictionary/dictionary';
 import GamesPage from '../games/games';
 import StatisticsPage from '../statistics/statistics';
-import ButtonPage from '../../core/component/pageButton';
 import Spinner from '../../core/component/spiner';
 import Header from '../../core/component/header';
 import Footer from '../../core/component/footer';
+import ButtonUp from '../../core/component//buttonUpPageContetnt';
 import { VocabularyPage } from '../vocabulary/vocabulary';
 import { PageIds } from '../../constants';
 import TeamPage from '../main/team';
 import ChallengePage from '../games/challenge';
 import SprintPage from '../games/sprint';
+import Authorization from '../authorization/authorization';
 
 class App {
   private static container: HTMLElement = document.body;
@@ -24,9 +25,9 @@ class App {
 
   private footer: Footer;
 
-  private button: ButtonPage;
-
   private spinner: Spinner;
+
+  private buttonUp: ButtonUp;
 
   private renderNewPage(idPage: string) {
     const currentPageHTML = document.querySelector(`#${App.defaultPageId}`);
@@ -57,6 +58,9 @@ class App {
       case PageIds.GameChallenge:
         page = new ChallengePage(idPage);
         break;
+      case PageIds.Authorization:
+        page = new Authorization(idPage);
+        break;
       default:
         page = new MainPage(idPage);
     }
@@ -66,7 +70,6 @@ class App {
       pageHTML.id = App.defaultPageId;
       App.mainWrapper.append(pageHTML);
       page.init();
-      this.button.scroll(pageHTML);
     }
   }
 
@@ -80,8 +83,8 @@ class App {
   constructor() {
     this.header = new Header('header', 'header');
     this.footer = new Footer('footer', 'footer');
-    this.button = new ButtonPage('button', 'button-up');
     this.spinner = new Spinner('div', 'spinner');
+    this.buttonUp = new ButtonUp('button', 'button-up');
   }
 
   run() {
@@ -89,9 +92,9 @@ class App {
     App.container.append(App.mainWrapper);
     this.renderNewPage('main-page');
     this.enableRouteChange();
-    App.container.append(this.button.render());
     App.container.append(this.spinner.render());
     App.container.append(this.footer.render());
+    App.container.append(this.buttonUp.render());
   }
 }
 

@@ -1,3 +1,4 @@
+import { PageIds } from '../../constants';
 import Page from '../../core/templates/page';
 
 enum Advantages {
@@ -19,6 +20,10 @@ class MainPage extends Page {
     const signBtn = document.createElement('button');
     signBtn.className = 'sign';
     (document.querySelector('.header') as HTMLElement).append(themeBtn, signBtn);
+
+    signBtn.onclick = () => {
+      window.location.href = `#${PageIds.Authorization}`;
+    };
 
     window.addEventListener('hashchange', () => {
       themeBtn.remove();
@@ -71,7 +76,7 @@ class MainPage extends Page {
     this.container.append(teamTitleDiv);
   }
 
-  render() {
+  render(): HTMLElement {
     const mainBlock = this.createDiv('block main-block', 'Учи английский легко\nс RS Lang!');
     this.container.append(mainBlock);
     this.getQuotes();
@@ -85,7 +90,7 @@ class MainPage extends Page {
 
   public init(): void {}
 
-  async getQuotes() {
+  async getQuotes(): Promise<void> {
     const quotes = './assets/quotes.json';
     let quo: number;
     const res = await fetch(quotes);

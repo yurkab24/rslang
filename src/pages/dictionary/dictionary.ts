@@ -1,26 +1,33 @@
 import Page from '../../core/templates/page';
 import { IWord } from '../../models';
 import {
-  host,
-  blocks,
   limitOfWord,
   limitOfPage,
   dictionaryGroupOptions,
   PageIds,
   Tags,
   arrayOfBackground,
+  WordDifficulty,
 } from '../../constants';
-import { getDictonaryRequest } from '../../request';
-import { Pagination } from './pagination';
-import { WordsContainer } from './words';
+import {
+  getDictonaryRequest,
+  addUserWordRequest,
+  getAgregatedWordsRequest,
+  updateUserWordRequest,
+  deleteUserWordRequest,
+} from '../../request';
+import { Pagination } from '../../services/pagination';
+import { WordsContainer } from '../../services/words';
 import Spinner from '../../core/component/spiner';
+import WordCard from '../../core/component/word';
+import { getUserId, isAuth } from '../../core/utils';
 
 const wordContainer = new WordsContainer();
 const paginationPage = new Pagination(limitOfWord, limitOfPage);
 
 class DictionaryPage extends Page {
   static TextObject = {
-    MainTitle: 'Dictionary',
+    MainTitle: 'УЧЕБНИК',
   };
 
   private wordWrapper = document.createElement(Tags.Div);
@@ -44,66 +51,12 @@ class DictionaryPage extends Page {
     this.wrapperBlock.innerHTML = '';
     this.wrapperBlock.classList.add('wrapper-block');
     words.forEach((item) => {
-      const wordBlock = document.createElement(Tags.Div);
-      const wordImage = document.createElement(Tags.Div);
-      const wordTitle = document.createElement(Tags.H3);
-      const wordInfo = document.createElement(Tags.Div);
-      const wordAudio = document.createElement(Tags.Button);
-      const audio = document.createElement(Tags.Audio);
-      audio.id = Tags.Audio;
-
-      const wordTranscription = document.createElement(Tags.Span);
-      const wordTranslate = document.createElement(Tags.Span);
-      const wordBlockContent = document.createElement(Tags.Div);
-      const wordTextMeaning = document.createElement(Tags.P);
-      const wordTextExample = document.createElement(Tags.P);
-      const wordExampleTranslate = document.createElement(Tags.P);
-      const wordMeaningTranslate = document.createElement(Tags.P);
-      const blockLearnWords = document.createElement(Tags.Div);
-      const buttonLearnsWord = document.createElement(Tags.Button);
-
-      wordBlock.classList.add('word-block');
-      wordImage.classList.add('word-image');
-      wordInfo.classList.add('word-info');
-      wordAudio.classList.add('word-audio');
-      wordBlockContent.classList.add('text-example');
-      wordMeaningTranslate.classList.add('text-under-line');
-      blockLearnWords.classList.add('wrapper-learn-words');
-      wordImage.style.backgroundImage = `url(${host}${item.image})`;
-      wordBlock.style.background = arrayOfBackground[this.numberOfSection].card;
-
-      wordTitle.textContent = item.word;
-      wordTranslate.textContent = `${item.wordTranslate}:`;
-      wordTranscription.textContent = item.transcription;
-      wordTextMeaning.innerHTML = item.textMeaning;
-      wordTextExample.innerHTML = item.textExample;
-      wordExampleTranslate.textContent = `${item.textExampleTranslate}.`;
-      wordMeaningTranslate.textContent = `${item.textMeaningTranslate}.`;
-
-      this.wrapperBlock.append(wordBlock);
-      wordBlock.append(wordImage, wordTitle, wordInfo, wordBlockContent, blockLearnWords);
-      wordBlockContent.append(wordTextMeaning, wordMeaningTranslate, wordTextExample, wordExampleTranslate);
-      wordInfo.append(wordTranslate, wordTranscription, wordAudio);
-
-      const arrHost = [`${host}${item.audio}`, `${host}${item.audioMeaning}`, `${host}${item.audioExample}`];
-      for (let i = 0; i < blocks; i++) {
-        const audioElement = audio.cloneNode(true) as HTMLMediaElement;
-        wordAudio.append(audioElement);
-        audioElement.src = arrHost[i];
-      }
-
-      wordAudio.addEventListener('click', this.audioHandler);
-
-      for (let i = 0; i < blocks; i++) {
-        blockLearnWords.append(buttonLearnsWord.cloneNode(true));
-      }
+      const wordComponent = new WordCard(item, this.wordStatusHandler, this.deleteWordHandler);
+      this.wrapperBlock.append(wordComponent.render());
     });
 
-    this.container.style.backgroundImage = arrayOfBackground[this.numberOfSection].wall;
     this.wordWrapper.innerHTML = '';
     this.wordWrapper.append(this.wrapperBlock);
-
-    wordContainer.wordGroupDictionary = this.numberOfSection;
   }
 
   render() {
@@ -128,7 +81,7 @@ class DictionaryPage extends Page {
 
     buttonDictonary.href = `#${PageIds.Vocabulary}`;
 
-    this.numberStartPage.innerHTML = String(paginationPage.pageOfNumber);
+    this.numberStartPage.innerHTML = String(paginationPage.pageOfNumber + 1);
     this.numberFinishPage.innerHTML = ` /${String(paginationPage.limitOfPageNumber)}`;
 
     this.container.append(title);
@@ -162,27 +115,6 @@ class DictionaryPage extends Page {
     this.updatePageofDictionary();
   }
 
-  private audioHandler = (value: Event): void => {
-    const players = (value.target as HTMLElement).getElementsByTagName(Tags.Audio);
-    let current = 0;
-    const playAudio = (): void => {
-      (players[current] as HTMLAudioElement).play();
-      (players[current] as HTMLAudioElement).addEventListener(
-        'ended',
-        function () {
-          current++;
-          if (current >= blocks) {
-            current = 0;
-            return;
-          }
-          playAudio();
-        },
-        { once: true }
-      );
-    };
-    playAudio();
-  };
-
   private buttonPaginationHandler = (paginationDirection: string): void => {
     if (paginationDirection === 'prev') {
       paginationPage.prevPage();
@@ -190,7 +122,7 @@ class DictionaryPage extends Page {
       paginationPage.nextPage();
     }
 
-    this.numberStartPage.innerHTML = String(paginationPage.pageOfNumber);
+    this.numberStartPage.innerHTML = String(paginationPage.pageOfNumber + 1);
     this.updatePageofDictionary();
   };
 
@@ -204,7 +136,11 @@ class DictionaryPage extends Page {
 
   private updatePageofDictionary(): void {
     this.spinner.show();
-    getDictonaryRequest(paginationPage.pageOfNumber, wordContainer.wordGroupDictionary).then((result) => {
+    (isAuth()
+      // eslint-disable-next-line
+      ? getAgregatedWordsRequest(getUserId(), paginationPage.pageOfNumber, wordContainer.wordGroupDictionary, paginationPage.limitOfWords)
+      : getDictonaryRequest(paginationPage.pageOfNumber, wordContainer.wordGroupDictionary)
+    ).then((result) => {
       this.renderBlockWord(result);
       this.spinner.hide();
     });
@@ -212,7 +148,27 @@ class DictionaryPage extends Page {
 
   private buttonGroupHandler = (event: Event): void => {
     this.numberOfSection = Number((event.target as HTMLElement).dataset.id);
+    this.container.style.backgroundImage = arrayOfBackground[this.numberOfSection].wall;
+
+    wordContainer.wordGroupDictionary = this.numberOfSection;
     this.updatePageofDictionary();
+  };
+
+  private wordStatusHandler = (item: IWord, difficulty: WordDifficulty): void => {
+    this.spinner.show();
+    (item.userWord ? updateUserWordRequest : addUserWordRequest)(getUserId(), item.id, {
+      difficulty,
+      optional: {},
+    })
+      .then(() => this.updatePageofDictionary())
+      .finally(() => this.spinner.hide());
+  };
+
+  private deleteWordHandler = (item: IWord): void => {
+    this.spinner.show();
+    deleteUserWordRequest(getUserId(), item.id)
+      .then(() => this.updatePageofDictionary())
+      .finally(() => this.spinner.hide());
   };
 }
 

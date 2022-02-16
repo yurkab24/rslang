@@ -44,7 +44,7 @@ class TeamPage extends Page {
 
   public init(): void {}
 
-  renderTeam() {
+  renderTeam(): void {
     const teamTitleDiv = this.createDiv('block team-block', '');
     teamTitleDiv.insertAdjacentHTML('afterbegin', 'НАША КОМАНДА');
     const teamDiv = this.createDiv('team', '');
@@ -72,7 +72,7 @@ class TeamPage extends Page {
     }
   }
 
-  render() {
+  render(): HTMLElement {
     this.renderTeam();
     return this.container;
   }

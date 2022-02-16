@@ -1,8 +1,8 @@
 .button-up {
   background: #17181c61;
-  border: 3px solid #3f51b5;
+  border: 3px solid var(--bg-dark);
   text-transform: uppercase;
-  color: #fa9b0b;
+  color: var(--bg-btn);
   height: 5vh;
   width: 70px;
   bottom: 10%;
@@ -19,9 +19,9 @@
 }
 
 .button-up:hover{
-  border-color: #fa9b0b;
-  color: #3a37f7;
-  box-shadow: 0 0.5em 0.5em -0.4em #fa9b0b;
+  border-color: var(--bg-btn);
+  color: var(--bg-dark);
+  box-shadow: 0 0.5em 0.5em -0.4em var(--bg-btn);
 }
 
 .button-up > span {

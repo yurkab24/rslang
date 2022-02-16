@@ -7,4 +7,5 @@ export const enum PageIds {
   Team = 'team',
   GameSprint = 'game-sprint',
   GameChallenge = 'game-challenge',
+  Authorization = 'authorization-page',
 }

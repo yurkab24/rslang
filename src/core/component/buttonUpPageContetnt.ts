@@ -1,9 +1,7 @@
 import { Tags } from '../../constants';
 import Component from '../templates/components';
 
-class ButtonPage extends Component {
-  private currentPageElement: HTMLElement | null = null;
-
+class ButtonUp extends Component {
   renderButton() {
     this.container.classList.add('flex', 'hide');
     const buttonContent = document.createElement(Tags.Span);
@@ -15,7 +13,7 @@ class ButtonPage extends Component {
   }
 
   smoothJumpUp = (): void => {
-    this.currentPageElement?.scrollTo({
+    window.scrollTo({
       top: 0,
       left: 0,
       behavior: 'smooth',
@@ -23,22 +21,18 @@ class ButtonPage extends Component {
   };
 
   scrollHandler = (): void => {
-    if (this.currentPageElement && this.currentPageElement.scrollTop > document.documentElement.clientHeight) {
+    if (window.scrollY > document.documentElement.clientHeight) {
       this.container.classList.remove('hide');
     } else {
       this.container.classList.add('hide');
     }
   };
 
-  scroll(currentPageElement: HTMLElement) {
-    this.currentPageElement = currentPageElement;
-    currentPageElement?.addEventListener('scroll', this.scrollHandler);
-  }
-
   render(): HTMLElement {
     this.renderButton();
+    window.addEventListener('scroll', this.scrollHandler);
     return this.container;
   }
 }
 
-export default ButtonPage;
+export default ButtonUp;

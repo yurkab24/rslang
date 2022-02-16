@@ -9,7 +9,7 @@ html {
 }
 
 .wrapper {
-  background: url('/src/assets/jpg/books-light.jpg') no-repeat center center;
+  background: url('/src/assets/jpg/books1.jpg') no-repeat center center;
   background-size: cover;
   color: #030303;
 }
@@ -59,9 +59,9 @@ html {
 }
 
 .word-image {
-  width: 100%;
-  height: 250px;
-  background-size: contain;
+  width: 300px;
+  height: 100%;
+  background-size: 100% 100%;
   background-position: center center;
   background-repeat: no-repeat;
 }
@@ -234,12 +234,12 @@ html {
 }
 
 .wrapper-learn-words > button:nth-child(2) {
-  background: url(/src/assets/png/delete.png) no-repeat center center;
+  background: url(/src/assets/jpg/easy.jpg) no-repeat center center;
   background-size: cover;
 }
 
 .wrapper-learn-words > button:last-child {
-  background: url(/src/assets/jpg/statistic.jpg) no-repeat center center;
+  background: url(/src/assets/png/delete.png) no-repeat center center;
   background-size: cover;
 }
 
@@ -254,14 +254,27 @@ html {
   cursor: pointer;
 }
 
-.filter_difficult {
-  filter: drop-shadow(2px 4px 6px rgb(73, 13, 13));
+.filter_hard {
+  filter: drop-shadow(2px 4px 6px red);
 }
 
-.filter_learned {
-  filter: drop-shadow(2px 4px 6px rgb(6, 196, 196));
+.filter_easy {
+  filter: drop-shadow(2px 4px 6px blue);
 }
 
 .filter_deleted {
-  filter: grayscale(1);
+  filter: sepia(1);
+}
+
+@media screen and (min-width: 320px) and (max-width: 960px) {
+  .button-section-wrapper {
+    flex-direction: column;
+    width: 50px;
+    height: auto;
+    margin-right: 15px;
+  }
+
+  .button-section-wrapper > button {
+    margin: 5px 0;
+  }
 }
