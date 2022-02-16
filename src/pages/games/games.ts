@@ -5,7 +5,7 @@ class GamesPage extends Page {
     MainTitle: 'МИНИ-ИГРЫ',
   };
 
-  private game: { title: string; photo: string; target: string; btn: string; kind: string }[];
+  private game: { title: string; photo: string; target: string; btn: string; kind: string; hint: string }[];
 
   constructor(id: string) {
     super(id);
@@ -17,6 +17,7 @@ class GamesPage extends Page {
         target: 'Учит быстро переводить на русский язык',
         photo: './assets/png/sprint1.png',
         btn: 'Играть',
+        hint: 'Скоростная тренировка.\nВ течение минуты нужно угадывать, \nверный перевод предложен к английскому слову или нет.',
       },
       {
         kind: 'challenge',
@@ -24,11 +25,12 @@ class GamesPage extends Page {
         target: 'Улучшает восприятие речи на слух',
         photo: './assets/png/sound.png',
         btn: 'Играть',
+        hint: 'Прослушиваете английское слово и \nвыбираете один из пяти вариантов ответа.',
       },
     ];
   }
 
-  renderGameCard() {
+  renderGameCard(): void {
     const gamesDiv = this.createDiv('games-block', '');
 
     for (let i = 0; i < this.game.length; i++) {
@@ -38,6 +40,7 @@ class GamesPage extends Page {
       const gameImg = document.createElement('img');
       gameImg.src = this.game[i].photo;
       gameImg.alt = `${this.game[i].title}`;
+      gameImg.title = `${this.game[i].hint}`;
       gameImg.className = `game-img-${this.game[i].kind}`;
       gameImgDiv.insertAdjacentElement('afterbegin', gameImg);
 
@@ -52,7 +55,7 @@ class GamesPage extends Page {
     this.container.append(gamesDiv);
   }
 
-  render() {
+  render(): HTMLElement {
     const title = this.createHeaderTitle(GamesPage.TextObject.MainTitle);
     title.className = 'block games-title';
 

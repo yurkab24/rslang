@@ -17,7 +17,7 @@ class MainPage extends Page {
     super(id);
   }
 
-  renderHeaderElements() {
+  renderHeaderElements(): void {
     const themeBtn = document.createElement('button');
     themeBtn.className = 'theme';
 
@@ -35,7 +35,7 @@ class MainPage extends Page {
     });
   }
 
-  renderTheme() {
+  renderTheme(): void {
     const themeBtn = document.querySelector('.theme') as HTMLButtonElement;
     if (localStorage.getItem('NightTheme')) {
       document.body.className = 'theme-dark';
@@ -53,7 +53,7 @@ class MainPage extends Page {
     });
   }
 
-  renderAdvantages() {
+  renderAdvantages(): void {
     const advantagesTitle = this.createDiv('block advantages-title', 'О ПРИЛОЖЕНИИ');
     const advantagesDiv = this.createDiv('advantages', '');
 
@@ -66,18 +66,18 @@ class MainPage extends Page {
     advantagesDiv.insertAdjacentElement('beforebegin', advantagesTitle);
   }
 
-  renderVideo() {
+  renderVideo(): void {
     const videoDiv = this.createDiv('block video-block', 'КАК РАБОТАЕТ ПРИЛОЖЕНИЕ');
     this.container.append(videoDiv);
   }
 
-  renderTeam() {
+  renderTeam(): void {
     const teamTitleDiv = this.createDiv('block team-block', '');
     teamTitleDiv.insertAdjacentHTML('afterbegin', '<a href="#team">НАША КОМАНДА</a>');
     this.container.append(teamTitleDiv);
   }
 
-  render() {
+  render(): HTMLElement {
     const mainBlock = this.createDiv('block main-block', 'Учи английский легко\nс RS Lang!');
     this.container.append(mainBlock);
     this.getQuotes();
@@ -91,7 +91,7 @@ class MainPage extends Page {
 
   public init(): void {}
 
-  async getQuotes() {
+  async getQuotes(): Promise<void> {
     const quotes = './assets/quotes.json';
     let quo: number;
     const res = await fetch(quotes);
