@@ -36,6 +36,7 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-self: center;
   border-radius: 5px;
   height: 510px;
   color: #030303;
@@ -52,6 +53,14 @@ html {
 .word-block div p b,
 .word-block div span {
   font-size: 2rem;
+}
+
+.word-block div,
+.word-block div p,
+.word-block div p i,
+.word-block div p b,
+.word-block div span {
+  font-size: 1.5rem;
 }
 
 .word-block-darck-theme {
@@ -110,6 +119,7 @@ html {
 
 .text-under-line {
   position: relative;
+  padding: 10px 0;
 }
 
 .text-under-line::after {
@@ -122,8 +132,9 @@ html {
   background-color: #3e0771;
   transition: 1s;
   cursor: pointer;
-  margin: -10px 0;
+  margin: 0;
 }
+
 
 .word-block:hover .text-under-line::after {
   width: 100%;

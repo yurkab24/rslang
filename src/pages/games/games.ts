@@ -40,6 +40,7 @@ class GamesPage extends Page {
       const gameImg = document.createElement('img');
       gameImg.src = this.game[i].photo;
       gameImg.alt = `${this.game[i].title}`;
+      gameImg.title = `${this.game[i].hint}`;
       gameImg.className = `game-img-${this.game[i].kind}`;
       gameImgDiv.insertAdjacentElement('afterbegin', gameImg);
 

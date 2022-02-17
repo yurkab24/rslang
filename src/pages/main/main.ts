@@ -13,7 +13,11 @@ class MainPage extends Page {
     MainTitle: 'Main Page',
   };
 
-  renderHeaderElements() {
+  constructor(id: string) {
+    super(id);
+  }
+
+  renderHeaderElements(): void {
     const themeBtn = document.createElement('button');
     themeBtn.className = 'theme';
 
@@ -31,7 +35,7 @@ class MainPage extends Page {
     });
   }
 
-  renderTheme() {
+  renderTheme(): void {
     const themeBtn = document.querySelector('.theme') as HTMLButtonElement;
     if (localStorage.getItem('NightTheme')) {
       document.body.className = 'theme-dark';
@@ -43,16 +47,13 @@ class MainPage extends Page {
       document.body.classList.toggle('theme-dark');
       document.body.classList.toggle('theme-light');
       themeBtn.classList.toggle('sun');
-
-      if (document.body.className === 'theme-dark') {
-        localStorage.setItem('NightTheme', 'on');
-      } else {
-        localStorage.removeItem('NightTheme');
-      }
+      document.body.className === 'theme-dark'
+        ? localStorage.setItem('NightTheme', 'on')
+        : localStorage.removeItem('NightTheme');
     });
   }
 
-  renderAdvantages() {
+  renderAdvantages(): void {
     const advantagesTitle = this.createDiv('block advantages-title', 'О ПРИЛОЖЕНИИ');
     const advantagesDiv = this.createDiv('advantages', '');
 
@@ -65,12 +66,12 @@ class MainPage extends Page {
     advantagesDiv.insertAdjacentElement('beforebegin', advantagesTitle);
   }
 
-  renderVideo() {
+  renderVideo(): void {
     const videoDiv = this.createDiv('block video-block', 'КАК РАБОТАЕТ ПРИЛОЖЕНИЕ');
     this.container.append(videoDiv);
   }
 
-  renderTeam() {
+  renderTeam(): void {
     const teamTitleDiv = this.createDiv('block team-block', '');
     teamTitleDiv.insertAdjacentHTML('afterbegin', '<a href="#team">НАША КОМАНДА</a>');
     this.container.append(teamTitleDiv);
