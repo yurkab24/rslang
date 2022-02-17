@@ -29,7 +29,7 @@ main .page-title {
   display: block;
   justify-content: center;
   width: 250px;
-  height: 60%;
+  height: 55%;
 }
 
 .challenge__picture {
@@ -39,7 +39,7 @@ main .page-title {
   background-image: url(../../assets/png/loudspeaker1.png);
   border-radius: 10px;
   border: 1px solid var(--bg-btn-shadow);
-  background-size: 80% auto;
+  background-size: 60% auto;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 30%;
@@ -63,20 +63,31 @@ main .page-title {
 .challenge__variants {
   display: flex;
   flex-wrap: wrap;
-  justify-self: center;
+  justify-content: center;
   align-items: center;
-  width: 90%;
-  height: 20%;
+  width: 100%;
+  height: 30%;
   margin: 30px auto;
-  padding: 15px;
+  padding: 15px 5px;
   font-size: 2.5rem;
   color: var(--text-day);
-  background-color: var(--bg-btn-shadow);
+}
+
+.challenge__variant {
+  width: max-content;
+  height: 7rem;
+  margin: 5px 10px;
+  padding: 10px 20px;
+  font-size: 2.5rem;
+  line-height: 3.5rem;
+  background-color: var(--bg-btn);
+  border: 1px solid var(--bg-btn-shadow);
+  border-radius: 10px;
 }
 
 .challenge__btn {
   width: 20%;
-  height: 20%;
+  height: 15%;
   align-items: center;
   background-color: var(--bg-play-btn);
   font-size: 2.5rem;
@@ -171,6 +182,16 @@ main .page-title {
     height: 65px;
   }
 
+  .challenge__variant {
+    padding: 10px 15px;
+  }
+
+  .challenge__btn {
+    width: 30%;
+    height: 15%;
+    padding: 10px 20px;
+  }
+
 }
 
 @media screen and (min-width: 301px) and (max-width: 700px) {
@@ -188,6 +209,12 @@ main .page-title {
   .challenge__level {
     width: 18%;
     height: 60px;
+  }
+
+  .challenge__btn {
+    width: 35%;
+    height: 15%;
+    padding: 10px 20px;
   }
 
 }

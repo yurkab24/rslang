@@ -16,6 +16,8 @@ class ChallengePage extends Page {
 
   wrapper = this.createElem(Tags.Div, 'block challenge__wrapper', '');
 
+  
+
   constructor(id: string) {
     super(id);
   }
@@ -27,23 +29,56 @@ class ChallengePage extends Page {
     return div;
   }
 
-  createGamePage(): void {
+  getWordsRequest = async (page: number, group: DictionaryGroup): Promise<IWord[]> =>
+  fetch(`${PATH_OF_LEARNWORDS.words}?page=${page}&group=${group}`).then((result) => result.json()).then((data) => {
+    //console.log('data', data);
+    return data;
+  });
+
+
+
+  createGamePage(words: IWord[]): void {
     const question = this.createElem(Tags.Div, 'challenge__question', '');
     const picture = this.createElem(Tags.Div, 'challenge__picture', '');
-    const word = this.createElem(Tags.Div, 'challenge__word', 'word');
-    const variants = this.createElem(Tags.Div, 'challenge__variants', 'variants');
-    const btnNext = this.createElem(Tags.Button, 'challenge__btn', 'НЕ ЗНАЮ');
+    const word = this.createElem(Tags.Div, 'challenge__word', '');
+    const variants = this.createElem(Tags.Div, 'challenge__variants', '');
+    const btnNext = this.createElem(Tags.Button, 'challenge__btn', 'Не знаю');
     question.append(picture, word);
     this.wrapper.append(question, variants, btnNext);
 
-    const arrHost = `${host}files/02_0027.mp3`;
-
+    const randomNumber = Math.floor(Math.random() * words.length);
+    const audioLink = words[randomNumber].audio;
     const audio = document.createElement(Tags.Audio);
     audio.autoplay = true;
     audio.id = Tags.Audio;
     const audioElement = audio.cloneNode(true) as HTMLMediaElement;
     picture.append(audioElement);
-    audioElement.src = arrHost;
+    audioElement.src = `${host}${audioLink}`;
+    picture.addEventListener('click', () => {
+      audioElement.play();
+    });
+
+    const set = new Set();
+    set.add(words[randomNumber].wordTranslate);
+    //console.log('askWord', words[randomNumber].wordTranslate);
+    const variantsNumber = 5;
+    while (set.size < variantsNumber) {
+      const newWordNum = Math.floor(Math.random() * words.length);
+      set.add(words[newWordNum].wordTranslate);
+    }
+
+    const arrVariants = [...set].sort();
+    //console.log('variants', arrVariants);
+
+    for (let i = 1; i <= arrVariants.length; i++) {
+      const wordVariant = this.createElem(Tags.Div, `challenge__variant challenge__variant-${i}`, `${arrVariants[i - 1]}`);
+      variants.append(wordVariant);
+    }
+
+    btnNext.addEventListener('click', () => {
+      this.wrapper.innerHTML = '';
+      this.createGamePage(words);
+    })
   }
 
   createLevelChoice(): void {
@@ -59,21 +94,22 @@ class ChallengePage extends Page {
     (this.wrapper.querySelector('.challenge__back') as HTMLElement).insertAdjacentHTML('afterbegin', '<a href="#games-page">Назад к играм</a>');
 
     for (let i = 0; i < dictionaryGroupOptions.length; i++) {
-      this.wrapper.querySelector(`.level-${i + 1}`)?.addEventListener('click', () => {
+      this.wrapper.querySelector(`.level-${i + 1}`)?.addEventListener('click', async () => {
         this.wrapper.innerHTML = '';
-        this.createGamePage();
+        const pagesNumber = 30;
+        const pageN = Math.ceil(Math.random() * pagesNumber);
+        const words: IWord[] = await this.getWordsRequest(pageN, i);
+        this.createGamePage(words);
       })
     }
   }
 
 
 
-  render(): HTMLElement {
 
-    //const title = this.createHeaderTitle(ChallengePage.TextObject.MainTitle);
+  render(): HTMLElement {
     this.title.className = 'page-title';
     this.container.append(this.title);
-    //const wrapper = this.createElem(Tags.Div, 'block challenge__wrapper', '');
     this.container.append(this.wrapper);
     this.createLevelChoice();
 
