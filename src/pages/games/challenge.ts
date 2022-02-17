@@ -20,7 +20,7 @@ class ChallengePage extends Page {
     super(id);
   }
 
-  protected createElem(elem:Tags, className: string, text: string): HTMLElement {
+  protected createElem(elem: Tags, className: string, text: string): HTMLElement {
     const div = document.createElement(elem);
     div.className = className;
     div.innerText = text;
@@ -56,30 +56,26 @@ class ChallengePage extends Page {
     }
     const backToGames = this.createElem(Tags.Div, 'challenge__back', '');
     this.wrapper.append(titleLevel, levels, backToGames);
-    (this.wrapper.querySelector('.challenge__back') as HTMLElement).insertAdjacentHTML('afterbegin', '<a href="#games-page">Назад к играм</a>');
+    (this.wrapper.querySelector('.challenge__back') as HTMLElement).insertAdjacentHTML(
+      'afterbegin',
+      '<a href="#games-page">Назад к играм</a>'
+    );
 
     for (let i = 0; i < dictionaryGroupOptions.length; i++) {
       this.wrapper.querySelector(`.level-${i + 1}`)?.addEventListener('click', () => {
         this.wrapper.innerHTML = '';
         this.createGamePage();
-      })
+      });
     }
   }
 
-
-
   render(): HTMLElement {
-
     //const title = this.createHeaderTitle(ChallengePage.TextObject.MainTitle);
     this.title.className = 'page-title';
     this.container.append(this.title);
     //const wrapper = this.createElem(Tags.Div, 'block challenge__wrapper', '');
     this.container.append(this.wrapper);
     this.createLevelChoice();
-
-
-
-
 
     return this.container;
   }

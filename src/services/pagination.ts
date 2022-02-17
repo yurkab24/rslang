@@ -1,11 +1,11 @@
-import { limitOfPage } from '../../constants';
+import { limitOfPage } from '../constants';
 
 export class Pagination {
   private limitWord;
 
   private limitPages;
 
-  private pageNumber = 1;
+  private pageNumber = 0;
 
   constructor(limitWord: number, limitPage: number) {
     this.limitWord = limitWord;
@@ -31,7 +31,7 @@ export class Pagination {
   }
 
   public prevPage(): void {
-    if (this.pageNumber !== 1) {
+    if (this.pageNumber !== 0) {
       this.pageNumber--;
     }
   }

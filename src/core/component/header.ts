@@ -8,23 +8,19 @@ const Buttons = [
   },
   {
     id: PageIds.Dictionary,
-    text: 'СЛОВАРЬ',
+    text: 'Учебник',
   },
   {
     id: PageIds.Games,
-    text: 'ИГРЫ',
+    text: 'Игры',
   },
   {
     id: PageIds.Statistics,
-    text: 'СТАТИСТИКА',
+    text: 'Статистика',
   },
 ];
 
 class Header extends Component {
-  constructor(tagName: string, className: string) {
-    super(tagName, className);
-  }
-
   renderPageButtons() {
     const pageButtons: HTMLElement = document.createElement('nav');
     pageButtons.className = 'nav';

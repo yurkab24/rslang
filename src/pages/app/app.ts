@@ -3,8 +3,10 @@ import MainPage from '../main/main';
 import DictionaryPage from '../dictionary/dictionary';
 import GamesPage from '../games/games';
 import StatisticsPage from '../statistics/statistics';
+import Spinner from '../../core/component/spiner';
 import Header from '../../core/component/header';
 import Footer from '../../core/component/footer';
+import ButtonUp from '../../core/component//buttonUpPageContetnt';
 import { VocabularyPage } from '../vocabulary/vocabulary';
 import { PageIds } from '../../constants';
 import TeamPage from '../main/team';
@@ -23,6 +25,10 @@ class App {
 
   private footer: Footer;
 
+  private spinner: Spinner;
+
+  private buttonUp: ButtonUp;
+
   private renderNewPage(idPage: string) {
     const currentPageHTML = document.querySelector(`#${App.defaultPageId}`);
     if (currentPageHTML) {
@@ -32,13 +38,13 @@ class App {
 
     switch (idPage) {
       case PageIds.Statistics:
-        page = new StatisticsPage(idPage);
+        page = new StatisticsPage(idPage, this.spinner);
         break;
       case PageIds.Dictionary:
-        page = new DictionaryPage(idPage);
+        page = new DictionaryPage(idPage, this.spinner);
         break;
       case PageIds.Vocabulary:
-        page = new VocabularyPage(idPage);
+        page = new VocabularyPage(idPage, this.spinner);
         break;
       case PageIds.Games:
         page = new GamesPage(idPage);
@@ -77,6 +83,8 @@ class App {
   constructor() {
     this.header = new Header('header', 'header');
     this.footer = new Footer('footer', 'footer');
+    this.spinner = new Spinner('div', 'spinner');
+    this.buttonUp = new ButtonUp('button', 'button-up');
   }
 
   run() {
@@ -84,7 +92,9 @@ class App {
     App.container.append(App.mainWrapper);
     this.renderNewPage('main-page');
     this.enableRouteChange();
+    App.container.append(this.spinner.render());
     App.container.append(this.footer.render());
+    App.container.append(this.buttonUp.render());
   }
 }
 

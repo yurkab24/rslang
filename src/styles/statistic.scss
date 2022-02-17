@@ -1,0 +1,66 @@
+.wrapper-statistic-page {
+  background: url('/src/assets/jpg/statistics.jpg') no-repeat center bottom;
+  background-size: cover;
+  width: 100%;
+  height: 80vh;
+  position: relative;
+  overflow: auto;
+  color: #030303;
+}
+
+.wrapper-container {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding: 15px;
+}
+
+.wrapper-block-statistic {
+  width: 70%;
+  height: 80%;
+  border: 4px solid #1312518f;
+}
+
+.td-table-row {
+  width: 100%;
+  height: calc(100% / 4);
+  border-bottom: solid #1312518f;
+  display: flex;
+}
+
+.td-table-row:last-child {
+  border-bottom: none;
+}
+
+.td-table-row:first-of-type > div,
+.td-table-row:not(.td-table-row:first-child) > div:first-child,
+.td-table-row:not(.td-table-row:first-child) > div:not(div:first-child) {
+  font-size: 2.5rem;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  font-family: var(--font-pretty-ru);
+  letter-spacing: 2px;
+  background: #a0ffdc57;
+}
+
+.td-table-row:not(.td-table-row:first-child) > div:not(div:first-child) {
+  font-size: 2rem;
+  font-family: 'Roboto';
+  letter-spacing: 2px;
+  background: none;
+}
+
+.td-table-row-block {
+  height: 100%;
+  width: calc(100% / 4);
+  border-right: solid #1312518f;
+}
+
+.td-table-row-block:last-child {
+  border-right: none;
+}
