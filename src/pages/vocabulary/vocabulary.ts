@@ -3,7 +3,7 @@ import { Tags, limitOfWord, limitOfPage, AggregatedWordsFilter } from '../../con
 import Spinner from '../../core/component/spiner';
 import WordCard from '../../core/component/word';
 import { getAgregatedWordsRequest } from '../../request';
-import { getUserId } from '../../core/utils';
+import { getUserId, isAuth } from '../../core/utils';
 import { Pagination } from '../../services';
 import { IWord } from '../../models';
 
@@ -46,6 +46,9 @@ export class VocabularyPage extends Page {
 
     wrapperBlock.classList.remove('wrapper-block-words');
     this.blockOfWordsEasy.classList.add('block-of-words', 'wrapper-block');
+    // if (!isAuth()) {
+    //   this.blockOfWordsEasy.style.display = 'none';
+    // }
     this.blockOfWordsDifficult.classList.add('block-of-words', 'wrapper-block', 'hide');
     this.blockOfWordsDeleted.classList.add('block-of-words', 'wrapper-block', 'hide');
     sectionOfButtonHandler.classList.add('section-button-handler');
