@@ -3,6 +3,7 @@ import Page from '../../core/templates/page';
 import { PATH_OF_LEARNWORDS, DictionaryGroup } from '../../constants';
 import { IWord } from '../../models/dictionary';
 import App from '../app/app';
+import Spinner from '../../core/component/spiner';
 
 export const getWordsRequest = (page: number, group: DictionaryGroup): Promise<IWord[]> =>
   fetch(`${PATH_OF_LEARNWORDS.words}?page=${page}&group=${group}`).then((result) => result.json());
@@ -16,8 +17,11 @@ class ChallengePage extends Page {
 
   wrapper = this.createElem(Tags.Div, 'block challenge__wrapper', '');
 
-  constructor(id: string) {
+  private spinner: Spinner;
+
+  constructor(id: string, spinner: Spinner) {
     super(id);
+    this.spinner = spinner;
   }
 
   protected createElem(elem: Tags, className: string, text: string): HTMLElement {

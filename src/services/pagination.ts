@@ -16,6 +16,10 @@ export class Pagination {
     return this.pageNumber;
   }
 
+  public set pageOfNumber(pageNumber) {
+    this.pageNumber = pageNumber;
+  }
+
   public get limitOfPageNumber(): number {
     return this.limitPages;
   }

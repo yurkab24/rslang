@@ -1,12 +1,16 @@
 import Page from '../../core/templates/page';
+import Spinner from '../../core/component/spiner';
 
 class SprintPage extends Page {
   static TextObject = {
     MainTitle: 'СПРИНТ',
   };
 
-  constructor(id: string) {
+  private spinner: Spinner;
+
+  constructor(id: string, spinner: Spinner) {
     super(id);
+    this.spinner = spinner;
   }
 
   render() {

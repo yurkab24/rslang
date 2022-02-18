@@ -13,10 +13,6 @@ class MainPage extends Page {
     MainTitle: 'Main Page',
   };
 
-  constructor(id: string) {
-    super(id);
-  }
-
   renderHeaderElements(): void {
     const themeBtn = document.createElement('button');
     themeBtn.className = 'theme';
@@ -39,17 +35,19 @@ class MainPage extends Page {
     const themeBtn = document.querySelector('.theme') as HTMLButtonElement;
     if (localStorage.getItem('NightTheme')) {
       document.body.className = 'theme-dark';
-      themeBtn.classList.toggle('sun');
+      themeBtn?.classList.toggle('sun');
     } else {
       document.body.className = 'theme-light';
     }
-    themeBtn.addEventListener('click', () => {
+    themeBtn?.addEventListener('click', () => {
       document.body.classList.toggle('theme-dark');
       document.body.classList.toggle('theme-light');
       themeBtn.classList.toggle('sun');
-      document.body.className === 'theme-dark'
-        ? localStorage.setItem('NightTheme', 'on')
-        : localStorage.removeItem('NightTheme');
+      if (document.body.className === 'theme-dark') {
+        localStorage.setItem('NightTheme', 'on');
+      } else {
+        localStorage.removeItem('NightTheme');
+      }
     });
   }
 
@@ -87,6 +85,10 @@ class MainPage extends Page {
     this.renderVideo();
     this.renderTeam();
     return this.container;
+  }
+
+  renderBaseContent(): void {
+    this.renderTheme();
   }
 
   public init(): void {}

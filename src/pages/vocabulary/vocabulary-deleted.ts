@@ -95,7 +95,7 @@ export class VocabularyDeletedPage extends Page {
   private deleteWordHandler = (item: IWord): void => {
     this.spinner.show();
     deleteUserWordRequest(getUserId(), item.id)
-      .then(() => this.updatePageofVocabulary)
+      .then(() => this.updatePageofVocabulary())
       .finally(() => this.spinner.hide());
   };
 }

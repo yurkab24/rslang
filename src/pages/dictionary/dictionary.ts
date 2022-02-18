@@ -17,13 +17,27 @@ import {
   deleteUserWordRequest,
 } from '../../request';
 import { Pagination } from '../../services/pagination';
-import { WordsContainer } from '../../services/words';
+import { WordsContainer, Refresh } from '../../services';
 import Spinner from '../../core/component/spiner';
 import WordCard from '../../core/component/word';
 import { getUserId, isAuth } from '../../core/utils';
 
+const refreshPage = new Refresh();
 const wordContainer = new WordsContainer();
 const paginationPage = new Pagination(limitOfWord, limitOfPage);
+
+refreshPage.addSaveData({
+  func: () => paginationPage.pageOfNumber,
+  key: 'numberOfPage',
+});
+
+refreshPage.addSaveData({
+  func: () => wordContainer.wordGroupDictionary,
+  key: 'numberOfGroup',
+});
+
+refreshPage.restoreData('numberOfPage', (value) => (paginationPage.pageOfNumber = Number(value)));
+refreshPage.restoreData('numberOfGroup', (value) => (wordContainer.wordGroupDictionary = Number(value)));
 
 class DictionaryPage extends Page {
   static TextObject = {
@@ -37,8 +51,6 @@ class DictionaryPage extends Page {
   private numberFinishPage = document.createElement(Tags.Span);
 
   private wrapperBlock = document.createElement(Tags.Div);
-
-  private numberOfSection = 0;
 
   private spinner: Spinner;
 
@@ -55,11 +67,15 @@ class DictionaryPage extends Page {
         item,
         this.wordStatusHandler,
         this.deleteWordHandler,
-        wordContainer.wordGroupDictionary
+        wordContainer.wordGroupDictionary,
+        true,
+        true,
+        Boolean(item.userWord)
       );
       this.wrapperBlock.append(wordComponent.render());
     });
 
+    this.container.style.backgroundImage = arrayOfBackground[wordContainer.wordGroupDictionary].wall;
     this.wordWrapper.innerHTML = '';
     this.wordWrapper.append(this.wrapperBlock);
   }
@@ -151,10 +167,7 @@ class DictionaryPage extends Page {
   }
 
   private buttonGroupHandler = (event: Event): void => {
-    this.numberOfSection = Number((event.target as HTMLElement).dataset.id);
-    this.container.style.backgroundImage = arrayOfBackground[this.numberOfSection].wall;
-
-    wordContainer.wordGroupDictionary = this.numberOfSection;
+    wordContainer.wordGroupDictionary = Number((event.target as HTMLElement).dataset.id);
     this.updatePageofDictionary();
   };
 
