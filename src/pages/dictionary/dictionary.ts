@@ -51,7 +51,12 @@ class DictionaryPage extends Page {
     this.wrapperBlock.innerHTML = '';
     this.wrapperBlock.classList.add('wrapper-block');
     words.forEach((item) => {
-      const wordComponent = new WordCard(item, this.wordStatusHandler, this.deleteWordHandler);
+      const wordComponent = new WordCard(
+        item,
+        this.wordStatusHandler,
+        this.deleteWordHandler,
+        wordContainer.wordGroupDictionary
+      );
       this.wrapperBlock.append(wordComponent.render());
     });
 
@@ -137,7 +142,6 @@ class DictionaryPage extends Page {
   private updatePageofDictionary(): void {
     this.spinner.show();
     (isAuth()
-      // eslint-disable-next-line
       ? getAgregatedWordsRequest(getUserId(), paginationPage.pageOfNumber, wordContainer.wordGroupDictionary, paginationPage.limitOfWords)
       : getDictonaryRequest(paginationPage.pageOfNumber, wordContainer.wordGroupDictionary)
     ).then((result) => {

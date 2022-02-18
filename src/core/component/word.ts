@@ -1,4 +1,4 @@
-import { Tags, host, arrayOfBackground, WordDifficulty, blocks } from '../../constants';
+import { Tags, host, arrayOfBackground, WordDifficulty, blocks, DictionaryGroup } from '../../constants';
 import { IWord } from '../../models';
 import Component from '../templates/components';
 import { isAuth } from '../../core/utils';
@@ -13,7 +13,7 @@ class WordCard extends Component {
 
   private deleteWordHandler: StatusDeleteHandler;
 
-  private numberOfSection = 0;
+  private wordGroup: DictionaryGroup;
 
   private isShowDifficult: boolean;
 
@@ -25,8 +25,9 @@ class WordCard extends Component {
     item: IWord,
     wordStatusHandler: StatusHandler,
     deleteWordHandler: StatusDeleteHandler,
-    isShowDifficult = true,
+    wordGroup: DictionaryGroup,
     isShowEasy = true,
+    isShowDifficult = true,
     isShowDelete = true
   ) {
     super(Tags.Div, 'word-block');
@@ -34,6 +35,7 @@ class WordCard extends Component {
     this.item = item;
     this.wordStatusHandler = wordStatusHandler;
     this.deleteWordHandler = deleteWordHandler;
+    this.wordGroup = wordGroup;
     this.isShowDifficult = isShowDifficult;
     this.isShowEasy = isShowEasy;
     this.isShowDelete = isShowDelete;
@@ -55,9 +57,9 @@ class WordCard extends Component {
     const wordExampleTranslate = document.createElement(Tags.P);
     const wordMeaningTranslate = document.createElement(Tags.P);
     const blockLearnWords = document.createElement(Tags.Div);
+    const buttonLernWordsEasy = document.createElement(Tags.Button);
     const buttonLernWordsDifficult = document.createElement(Tags.Button);
     const buttonLernWordsDeleted = document.createElement(Tags.Button);
-    const buttonLernWordsLerned = document.createElement(Tags.Button);
 
     wordImage.classList.add('word-image');
     wordInfo.classList.add('word-info');
@@ -65,8 +67,13 @@ class WordCard extends Component {
     wordBlockContent.classList.add('text-example');
     wordMeaningTranslate.classList.add('text-under-line');
     blockLearnWords.classList.add('wrapper-learn-words');
+    buttonLernWordsEasy.classList.add('button-word-easy');
+    buttonLernWordsDifficult.classList.add('button-word-difficult');
+    buttonLernWordsDeleted.classList.add('button-word-deleted');
+
     wordImage.style.backgroundImage = `url(${host}${this.item.image})`;
-    this.container.style.background = arrayOfBackground[this.numberOfSection].card;
+
+    this.container.style.background = arrayOfBackground[this.wordGroup].card;
 
     wordTitle.textContent = this.item.word;
     wordTranslate.textContent = `${this.item.wordTranslate}:`;
@@ -83,20 +90,20 @@ class WordCard extends Component {
     }
 
     if (isAuth()) {
+      if (this.isShowEasy) {
+        blockLearnWords.append(buttonLernWordsEasy);
+      }
       if (this.isShowDifficult) {
         blockLearnWords.append(buttonLernWordsDifficult);
-      }
-      if (this.isShowEasy) {
-        blockLearnWords.append(buttonLernWordsLerned);
       }
       if (this.isShowDelete) {
         blockLearnWords.append(buttonLernWordsDeleted);
       }
       this.container.append(blockLearnWords);
 
-      buttonLernWordsDifficult.addEventListener('click', () => this.wordStatusHandler(this.item, WordDifficulty.easy));
+      buttonLernWordsEasy.addEventListener('click', () => this.wordStatusHandler(this.item, WordDifficulty.easy));
 
-      buttonLernWordsLerned.addEventListener('click', () => this.wordStatusHandler(this.item, WordDifficulty.hard));
+      buttonLernWordsDifficult.addEventListener('click', () => this.wordStatusHandler(this.item, WordDifficulty.hard));
 
       buttonLernWordsDeleted.addEventListener('click', () => this.deleteWordHandler(this.item));
     }

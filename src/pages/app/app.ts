@@ -7,7 +7,7 @@ import Spinner from '../../core/component/spiner';
 import Header from '../../core/component/header';
 import Footer from '../../core/component/footer';
 import ButtonUp from '../../core/component//buttonUpPageContetnt';
-import { VocabularyPage } from '../vocabulary/vocabulary';
+import { VocabularyPage, VocabularyHardPage, VocabularyDeletedPage } from '../vocabulary';
 import { PageIds } from '../../constants';
 import TeamPage from '../main/team';
 import ChallengePage from '../games/challenge';
@@ -45,6 +45,12 @@ class App {
         break;
       case PageIds.Vocabulary:
         page = new VocabularyPage(idPage, this.spinner);
+        break;
+      case PageIds.VocabularyHardPage:
+        page = new VocabularyHardPage(idPage, this.spinner);
+        break;
+      case PageIds.VocabularyDeletedPage:
+        page = new VocabularyDeletedPage(idPage, this.spinner);
         break;
       case PageIds.Games:
         page = new GamesPage(idPage);

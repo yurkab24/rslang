@@ -8,15 +8,15 @@ html {
   scroll-behavior: smooth;
 }
 
+i {
+  color: #0d2ee7;
+}
+
 .wrapper {
   background: url('/src/assets/jpg/books1.jpg') no-repeat center center;
   background-size: cover;
+  background-attachment: fixed;
   color: #030303;
-}
-
-.wrapper_darck-theme {
-  background: url('/src/assets/jpg/books.jpg') no-repeat center center;
-  color: white;
 }
 
 .wrapper-block {
@@ -44,15 +44,7 @@ html {
   padding: 2%;
   cursor: pointer;
   overflow: auto;
-  justify-self: center;
-}
-
-.word-block div,
-.word-block div p,
-.word-block div p i,
-.word-block div p b,
-.word-block div span {
-  font-size: 2rem;
+  position: relative;
 }
 
 .word-block div,
@@ -69,7 +61,7 @@ html {
 
 .word-image {
   width: 300px;
-  height: 100%;
+  padding-top: 45%;
   background-size: 100% 100%;
   background-position: center center;
   background-repeat: no-repeat;
@@ -113,7 +105,7 @@ html {
 .text-example > p {
   margin: 15px 0;
   font-size: 2rem;
-  line-height: 20px;
+  line-height: 15px;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -134,7 +126,6 @@ html {
   cursor: pointer;
   margin: 0;
 }
-
 
 .word-block:hover .text-under-line::after {
   width: 100%;
@@ -230,6 +221,8 @@ html {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  position: absolute;
+  bottom: 5px;
 }
 
 .wrapper-learn-words > button {
@@ -239,17 +232,17 @@ html {
   border-radius: 5px;
 }
 
-.wrapper-learn-words > button:first-child {
-  background: url(/src/assets/jpg/difficult.jpg) no-repeat center center;
-  background-size: cover;
-}
-
-.wrapper-learn-words > button:nth-child(2) {
+.button-word-easy {
   background: url(/src/assets/jpg/easy.jpg) no-repeat center center;
   background-size: cover;
 }
 
-.wrapper-learn-words > button:last-child {
+.button-word-difficult {
+  background: url(/src/assets/jpg/difficult.jpg) no-repeat center center;
+  background-size: cover;
+}
+
+.button-word-deleted {
   background: url(/src/assets/png/delete.png) no-repeat center center;
   background-size: cover;
 }
@@ -274,7 +267,7 @@ html {
 }
 
 .filter_deleted {
-  filter: sepia(1);
+  filter: drop-shadow(2px 4px 6px black);
 }
 
 @media screen and (min-width: 320px) and (max-width: 960px) {

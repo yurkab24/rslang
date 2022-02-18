@@ -4,6 +4,8 @@ export const enum PageIds {
   Games = 'games-page',
   Statistics = 'statistics-page',
   Vocabulary = 'vocabulary-page',
+  VocabularyHardPage = 'vocabulary-hard-page',
+  VocabularyDeletedPage = 'vocabulary-deleted-page',
   Team = 'team',
   GameSprint = 'game-sprint',
   GameChallenge = 'game-challenge',

@@ -55,13 +55,7 @@ class StatisticsPage extends Page {
     this.updatePageofStatistic();
   }
 
-  private updatePageofStatistic(): void {
-    // this.spinner.show();
-    // getStatisticRequest().then((result) => {
-    //   this.renderBlockStatistic(result);
-    //   this.spinner.hide();
-    // });
-  }
+  private updatePageofStatistic(): void {}
 }
 
 export default StatisticsPage;
