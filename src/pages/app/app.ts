@@ -107,6 +107,13 @@ class App {
     App.container.append(this.spinner.render());
     App.container.append(this.footer.render());
     App.container.append(this.buttonUp.render());
+    window.addEventListener('hashchange', () => {
+      if (window.location.hash.slice(1) === 'game-challenge' || window.location.hash.slice(1) === 'game-sprint') {
+      document.querySelector('.footer')?.classList.add('hidden');
+    } else {
+      document.querySelector('.footer')?.classList.remove('hidden');
+    }
+    });
   }
 }
 
