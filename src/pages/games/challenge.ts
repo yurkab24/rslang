@@ -3,6 +3,7 @@ import Page from '../../core/templates/page';
 import { PATH_OF_LEARNWORDS, DictionaryGroup } from '../../constants';
 import { IWord } from '../../models/dictionary';
 import App from '../app/app';
+import { circle } from './circle';
 
 // export const getWordsRequest = (page: number, group: DictionaryGroup): Promise<IWord[]> =>
 //   fetch(`${PATH_OF_LEARNWORDS.words}?page=${page}&group=${group}`).then((result) => result.json());
@@ -22,9 +23,9 @@ class ChallengePage extends Page {
 
   words: IWord[] = [];
 
-  rightAnswers: string[] = [];
+  rightAnswers: { word: string, wordTranslate: string, wordSound: string }[] = [];
 
-  wrongAnswers: string[] = [];
+  wrongAnswers: { word: string, wordTranslate: string, wordSound: string }[] = [];
 
 
   constructor(id: string) {
@@ -57,6 +58,7 @@ class ChallengePage extends Page {
     statisticWrapper.append(statisticTitle, statisticBody, statisticManage);
 
     const statisticCircle = this.createElem(Tags.Div, 'challenge__statistics__circle', '');
+    statisticCircle.insertAdjacentHTML('afterbegin', circle);
     const statisticInfo = this.createElem(Tags.Div, 'challenge__statistics__words', '');
     statisticBody.append(statisticCircle, statisticInfo);
 
@@ -70,7 +72,8 @@ class ChallengePage extends Page {
       this.createLevelChoice();
     })
 
-    
+    this.showStatistics();
+
   }
 
 
@@ -114,11 +117,11 @@ class ChallengePage extends Page {
     }
 
 
-
+    let arrWordsRight: string[] = [];
+    let arrWordsWrong: string[] = [];
     let flag = false;
     this.wrapper.querySelectorAll('.challenge__variant').forEach((ev) => ev.addEventListener('click', () => {
       if (((ev.textContent as string).split('. '))[1] === (words[this.count].wordTranslate) && flag === false) {
-        //console.log('1=', ((ev.textContent as string).split('. '))[1], '2=', words[this.count].wordTranslate);
         (ev as HTMLDivElement).style.outline = '5px solid var(--bg-btn-shadow)';
         picture.style.backgroundImage = `URL(${host}${words[this.count].image})`;
         picture.style.backgroundSize = 'cover';
@@ -126,37 +129,47 @@ class ChallengePage extends Page {
         flag = true;
 
         const rightAnswersFromStorage = localStorage.getItem('rightAnswers');
+
+
         if (rightAnswersFromStorage) {
           this.rightAnswers = JSON.parse(rightAnswersFromStorage);
-        }
-        this.rightAnswers.push(words[this.count].word);
-        localStorage.setItem('rightAnswers', JSON.stringify(this.rightAnswers));
 
+          this.rightAnswers.forEach((word) => {
+            arrWordsRight.push(word.word);
+          })
+
+
+        }
+        const newRightWord = {word: words[this.count].word, wordTranslate: words[this.count].wordTranslate, wordSound: `${host}${words[this.count].audio}`};
+        if (!(arrWordsRight.includes(words[this.count].word))) {
+          this.rightAnswers.push(newRightWord);
+        }
+
+        localStorage.setItem('rightAnswers', JSON.stringify(this.rightAnswers));
       } else {
         if (!flag) {
           (ev as HTMLDivElement).style.outline = '5px solid var(--bg-play-btn)';
           flag = true;
 
           const wrongAnswersFromStorage = localStorage.getItem('wrongAnswers');
+
           if (wrongAnswersFromStorage) {
             this.wrongAnswers = JSON.parse(wrongAnswersFromStorage);
+            this.wrongAnswers.forEach((word) => {
+              arrWordsWrong.push(word.word);
+            })
           }
-          this.wrongAnswers.push(words[this.count].word);
+          const newWrongWord = {word: words[this.count].word, wordTranslate: words[this.count].wordTranslate, wordSound: `${host}${words[this.count].audio}`};
+          if (!(arrWordsWrong.includes(words[this.count].word))) {
+            this.wrongAnswers.push(newWrongWord);
+          }
           localStorage.setItem('wrongAnswers', JSON.stringify(this.wrongAnswers));
         }
       }
-      // console.log('rightAnswers', rightAnswers);
-      // console.log('wrongAnswers', wrongAnswers);
-
       const arrow = '&#10230;';
       (btnNext as HTMLButtonElement).innerHTML = arrow;
       btnNext.style.fontSize = '5rem';
-
-
-
     }))
-
-
 
     btnNext.addEventListener('click', () => {
       this.wrapper.innerHTML = '';
@@ -167,9 +180,6 @@ class ChallengePage extends Page {
         this.createChallengeStatistics();
       }
     })
-
-
-
   }
 
   createLevelChoice(): void {
@@ -188,12 +198,79 @@ class ChallengePage extends Page {
       this.wrapper.querySelector(`.level-${i + 1}`)?.addEventListener('click', async () => {
         this.wrapper.innerHTML = '';
         const pageN = Math.ceil(Math.random() * this.pagesNumber);
-        let words: IWord[] = await this.getWordsRequest(pageN, i);
+        let words: IWord[] = await this.getWordsRequest(1, i); // pageN
         this.createGamePage(words);
       })
     }
   }
 
+  showStatistics() {
+    const wrongAnswersFromStorage = localStorage.getItem('wrongAnswers');
+    const rightAnswersFromStorage = localStorage.getItem('rightAnswers');
+    let arrWrongs: { word: string, wordTranslate: string, wordSound: string }[] = JSON.parse(wrongAnswersFromStorage as string);
+    let arrRights: { word: string, wordTranslate: string, wordSound: string }[] = JSON.parse(rightAnswersFromStorage as string);
+
+    const statisticsWrapper = this.wrapper.querySelector('.challenge__statistics__words');
+
+    let rightWords: HTMLElement;
+    let wrongWords: HTMLElement;
+    if (wrongAnswersFromStorage) {
+      wrongWords = this.createElem(Tags.Div, 'challenge__words-wrong', `Ошибок - ${arrWrongs.length}`);
+      this.showResultWords(arrWrongs, wrongWords);
+    } else {
+      wrongWords = this.createElem(Tags.Div, 'challenge__words-wrong', `Ошибок нет!`);
+    }
+
+    if (rightAnswersFromStorage) {
+      rightWords = this.createElem(Tags.Div, 'challenge__words-right', `Знаю - ${arrRights.length}!`);
+      this.showResultWords(arrRights, rightWords);
+
+      //let totalCountFromStorage = localStorage.getItem('totalCount');
+
+      const pointsForRighrAnswer = 10;
+      let totalCount: number;
+      //if (totalCountFromStorage) {
+        totalCount = (pointsForRighrAnswer * arrRights.length) || 0;
+      //} else {
+      //  totalCount = pointsForRighrAnswer * arrRights.length;
+      //}
+      //localStorage.setItem('totalCount', `${totalCount}`);
+
+      (this.wrapper.querySelector('.challenge__statistics__title') as HTMLDivElement).textContent = `Результат ${totalCount} \nДлина серии`;
+    } else {
+      rightWords = this.createElem(Tags.Div, 'challenge__words-right', 'Знаю - 0');
+    }
+
+    if (arrRights && arrWrongs) {
+      (this.wrapper.querySelector('.chart-number') as HTMLElement).textContent = `${Math.round(100 * arrRights.length / (arrRights.length + arrWrongs.length))}`;
+      (this.wrapper.querySelector('.donut-segment') as HTMLElement).setAttribute('stroke-dasharray', `${100 * arrRights.length / (arrRights.length + arrWrongs.length)} ${100 * arrWrongs.length / (arrRights.length + arrWrongs.length)}`);
+    } else if (arrRights) {
+      (this.wrapper.querySelector('.chart-number') as HTMLElement).textContent = '100';
+      (this.wrapper.querySelector('.donut-segment') as HTMLElement).setAttribute('stroke-dasharray', '100 0');
+    } else if (arrWrongs) {
+      (this.wrapper.querySelector('.chart-number') as HTMLElement).textContent = '0';
+      (this.wrapper.querySelector('.donut-segment') as HTMLElement).setAttribute('stroke-dasharray', '0 100');
+    }
+    statisticsWrapper?.append(wrongWords, rightWords);
+  }
+
+  showResultWords(arr: { word: string, wordTranslate: string, wordSound: string }[], parent: HTMLElement) {
+    arr.forEach((right: { word: string, wordTranslate: string, wordSound: string }) => {
+      const rightWord = this.createElem(Tags.Div, 'challenge__result-word', '');
+      const loudspeaker = this.createElem(Tags.Div, 'challenge__statistics-loudspesker', '');
+      const theWord = this.createElem(Tags.Div, 'challenge__the-word', `${right.word} - ${right.wordTranslate}`);
+
+      const audio = document.createElement(Tags.Audio);
+      const audioElement = audio.cloneNode(true) as HTMLMediaElement;
+      loudspeaker.append(audioElement);
+      audioElement.src = `${right.wordSound}`;
+      rightWord.append(loudspeaker, theWord);
+      parent.append(rightWord);
+      loudspeaker.addEventListener('click', () => {
+        audioElement.play();
+      });
+    })
+  }
 
 
 
@@ -202,7 +279,7 @@ class ChallengePage extends Page {
     this.container.append(this.title);
     this.container.append(this.wrapper);
     this.createLevelChoice();
-
+    document.querySelector('.footer')?.classList.add('hidden');
 
 
 
