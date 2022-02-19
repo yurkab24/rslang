@@ -1,3 +1,4 @@
+import { Tags } from '../../constants';
 import Page from '../../core/templates/page';
 
 const logoCat = `<svg height="32" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="32" data-view-component="true" class="octicon octicon-mark-github v-align-middle">
@@ -60,7 +61,7 @@ class TeamPage extends Page {
 
       teamImgDiv.insertAdjacentElement('afterbegin', photo);
       const gh = this.createDiv('', '');
-      const ghLink = document.createElement('a') as HTMLAnchorElement;
+      const ghLink = document.createElement(Tags.A) as HTMLAnchorElement;
       ghLink.href = `${this.team[i].github}`;
       ghLink.insertAdjacentHTML('afterbegin', logoCat);
       gh.insertAdjacentElement('afterbegin', ghLink);
