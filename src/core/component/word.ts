@@ -71,6 +71,10 @@ class WordCard extends Component {
     buttonLernWordsDifficult.classList.add('button-word-difficult');
     buttonLernWordsDeleted.classList.add('button-word-deleted');
 
+    buttonLernWordsEasy.title = 'Добавить слово в изучаемые';
+    buttonLernWordsDifficult.title = 'Добавить слово в сложные';
+    buttonLernWordsDeleted.title = 'Удалить слово из списка';
+
     wordImage.style.backgroundImage = `url(${host}${this.item.image})`;
 
     this.container.style.background = arrayOfBackground[this.wordGroup].card;

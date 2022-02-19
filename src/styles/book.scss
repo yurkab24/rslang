@@ -137,6 +137,7 @@ i {
   display: flex;
   justify-content: center;
   position: relative;
+  align-items: center;
 }
 
 .block-buttons-pagination {
@@ -205,7 +206,8 @@ i {
   transform: rotateY(180deg);
 }
 
-.button-section-wrapper {
+.button-section-wrapper,
+.link-section-wrapper {
   width: 400px;
   height: 100%;
   display: flex;
@@ -213,6 +215,7 @@ i {
   align-items: center;
   position: absolute;
   right: 0;
+  top: 0;
 }
 
 .wrapper-learn-words {
@@ -247,15 +250,34 @@ i {
   background-size: cover;
 }
 
-.dictionary-icon {
+.link-section-wrapper {
+  width: 200px;
+  left: 0;
+  height: 50px;
+}
+
+.link-section-wrapper > a {
   width: 50px;
   height: 100%;
   border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  border: 3px solid var(--bg-light);
+}
+
+.link-section-wrapper a:nth-child(1) {
   background: url(/src/assets/png/dictionary.png) no-repeat center center;
   background-size: cover;
-  position: absolute;
-  left: 2%;
-  cursor: pointer;
+}
+
+.link-section-wrapper a:nth-child(2) {
+  background: url(/src/assets/png/sprint1.png) no-repeat center center;
+  background-size: 100% 100%;
+}
+
+.link-section-wrapper a:nth-child(3) {
+  background: url(/src/assets/png/sound.png) no-repeat center center;
+  background-size: 100% 100%;
 }
 
 .filter_hard {
@@ -271,7 +293,8 @@ i {
 }
 
 @media screen and (min-width: 320px) and (max-width: 960px) {
-  .button-section-wrapper {
+  .button-section-wrapper,
+  .link-section-wrapper {
     flex-direction: column;
     width: 50px;
     height: auto;
@@ -279,7 +302,14 @@ i {
     z-index: 1;
   }
 
-  .button-section-wrapper > button {
+  .button-section-wrapper > button,
+  .link-section-wrapper > a {
     margin: 5px 0;
+  }
+
+  .link-section-wrapper {
+    width: 60px;
+    margin-left: 15px;
+    height: 200px;
   }
 }

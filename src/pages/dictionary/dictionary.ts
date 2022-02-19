@@ -90,17 +90,26 @@ class DictionaryPage extends Page {
     const buttonOfPaginationNext = document.createElement(Tags.Button);
     const buttonSectionWrapper = document.createElement(Tags.Div);
     const buttonSection = document.createElement(Tags.Button);
+    const linkSectionWrapper = document.createElement(Tags.Div);
     const buttonDictonary = document.createElement(Tags.A);
+    const buttonSprint = document.createElement(Tags.A);
+    const buttonAudioGame = document.createElement(Tags.A);
 
-    buttonDictonary.classList.add('dictionary-icon');
     blockButtonsWrapper.classList.add('block-buttons-wrapper');
     blockButtonsPagination.classList.add('block-buttons-pagination');
     this.container.classList.add('wrapper');
     this.numberStartPage.classList.add('start-page');
     this.numberFinishPage.classList.add('finish-page');
     buttonSectionWrapper.classList.add('button-section-wrapper');
+    linkSectionWrapper.classList.add('link-section-wrapper');
 
     buttonDictonary.href = `#${PageIds.Vocabulary}`;
+    buttonSprint.href = `#${PageIds.GameSprint}`;
+    buttonAudioGame.href = `#${PageIds.GameChallenge}`;
+
+    buttonDictonary.title = 'Словарь';
+    buttonSprint.title = 'Спринт';
+    buttonAudioGame.title = 'Аудиовызов';
 
     this.numberStartPage.innerHTML = String(paginationPage.pageOfNumber + 1);
     this.numberFinishPage.innerHTML = ` /${String(paginationPage.limitOfPageNumber)}`;
@@ -108,7 +117,8 @@ class DictionaryPage extends Page {
     this.container.append(title);
     this.container.append(blockButtonsWrapper);
     this.container.append(this.wordWrapper);
-    blockButtonsWrapper.append(buttonDictonary, blockButtonsPagination, buttonSectionWrapper);
+    linkSectionWrapper.append(buttonDictonary, buttonSprint, buttonAudioGame);
+    blockButtonsWrapper.append(linkSectionWrapper, blockButtonsPagination, buttonSectionWrapper);
 
     dictionaryGroupOptions.forEach((item) => {
       const button = buttonSection.cloneNode(true) as HTMLElement;
