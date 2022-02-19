@@ -1,4 +1,4 @@
-import { PageIds } from '../../constants';
+import { PageIds, Tags } from '../../constants';
 import Page from '../../core/templates/page';
 
 enum Advantages {
@@ -18,10 +18,10 @@ class MainPage extends Page {
   }
 
   renderHeaderElements(): void {
-    const themeBtn = document.createElement('button');
+    const themeBtn = document.createElement(Tags.Button);
     themeBtn.className = 'theme';
 
-    const signBtn = document.createElement('button');
+    const signBtn = document.createElement(Tags.Button);
     signBtn.className = 'sign';
     (document.querySelector('.header') as HTMLElement).append(themeBtn, signBtn);
 

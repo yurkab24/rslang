@@ -1,5 +1,5 @@
 import Component from '../templates/components';
-import { PageIds } from '../../constants';
+import { PageIds, Tags } from '../../constants';
 
 const Buttons = [
   {
@@ -29,7 +29,7 @@ class Header extends Component {
     const pageButtons: HTMLElement = document.createElement('nav');
     pageButtons.className = 'nav';
     Buttons.forEach((button) => {
-      const buttonHTML = document.createElement('a');
+      const buttonHTML = document.createElement(Tags.A);
       buttonHTML.href = `#${button.id}`;
       buttonHTML.innerText = button.text;
       buttonHTML.className = 'nav__button';
