@@ -6,8 +6,6 @@ import App from '../app/app';
 import Spinner from '../../core/component/spiner';
 import { circle } from './circle';
 
-// export const getWordsRequest = (page: number, group: DictionaryGroup): Promise<IWord[]> =>
-//   fetch(`${PATH_OF_LEARNWORDS.words}?page=${page}&group=${group}`).then((result) => result.json());
 
 class ChallengePage extends Page {
   static TextObject = {
@@ -77,9 +75,7 @@ class ChallengePage extends Page {
       this.count = 0;
       this.createLevelChoice();
     })
-
     this.showStatistics();
-
   }
 
 
@@ -92,7 +88,6 @@ class ChallengePage extends Page {
     question.append(picture, word);
     this.wrapper.append(question, variants, btnNext);
 
-    //const randomNumber = Math.floor(Math.random() * words.length);
     const audioLink = words[this.count].audio;
     const audio = document.createElement(Tags.Audio);
     audio.autoplay = true;
@@ -106,22 +101,17 @@ class ChallengePage extends Page {
 
     const set = new Set();
     set.add(words[this.count].wordTranslate);
-    //console.log('askWord', words[this.count].wordTranslate);
     const variantsNumber = 5;
     while (set.size < variantsNumber) {
       const newWordNum = Math.floor(Math.random() * words.length);
       set.add(words[newWordNum].wordTranslate);
-      //console.log('newWord', words[newWordNum].wordTranslate);
     }
 
     const arrVariants = [...set].sort();
-    //console.log('variants', arrVariants);
-
     for (let i = 1; i <= arrVariants.length; i++) {
       const wordVariant = this.createElem(Tags.Div, `challenge__variant challenge__variant-${i}`, `${i}. ${arrVariants[i - 1]}`);
       variants.append(wordVariant);
     }
-
 
     let arrWordsRight: string[] = [];
     let arrWordsWrong: string[] = [];
@@ -136,24 +126,19 @@ class ChallengePage extends Page {
         this.answersString = this.answersString + 'a';
         const rightAnswersFromStorage = localStorage.getItem('rightAnswers');
 
-
         if (rightAnswersFromStorage) {
           this.rightAnswers = JSON.parse(rightAnswersFromStorage);
-
           this.rightAnswers.forEach((word) => {
             arrWordsRight.push(word.word);
           })
-
-
         }
         const newRightWord = {word: words[this.count].word, wordTranslate: words[this.count].wordTranslate, wordSound: `${host}${words[this.count].audio}`};
         if (!(arrWordsRight.includes(words[this.count].word))) {
-          //console.log('arrWordsRight', arrWordsRight, 'rightAnswers', this.rightAnswers);
           this.rightAnswers.push(newRightWord);
-
         }
-
+        this.wrongAnswers = this.wrongAnswers.filter((item) => typeof(item) === 'object' && item.word !== words[this.count].word);
         localStorage.setItem('rightAnswers', JSON.stringify(this.rightAnswers));
+        localStorage.setItem('wrongAnswers', JSON.stringify(this.wrongAnswers));
       } else {
         if (!flag) {
           (ev as HTMLDivElement).style.outline = '5px solid var(--bg-play-btn)';
@@ -161,7 +146,6 @@ class ChallengePage extends Page {
           this.answersString = this.answersString + ' ';
 
           const wrongAnswersFromStorage = localStorage.getItem('wrongAnswers');
-
           if (wrongAnswersFromStorage) {
             this.wrongAnswers = JSON.parse(wrongAnswersFromStorage);
             this.wrongAnswers.forEach((word) => {
@@ -170,22 +154,20 @@ class ChallengePage extends Page {
           }
           const newWrongWord = {word: words[this.count].word, wordTranslate: words[this.count].wordTranslate, wordSound: `${host}${words[this.count].audio}`};
           if (!(arrWordsWrong.includes(words[this.count].word))) {
-
             this.wrongAnswers.push(newWrongWord);
-            //console.log('arrWordsWrong', arrWordsWrong, 'wrongAnswers', this.wrongAnswers);
           }
+          this.rightAnswers = this.rightAnswers.filter((item) => typeof(item) === 'object' && item.word !== words[this.count].word);
           localStorage.setItem('wrongAnswers', JSON.stringify(this.wrongAnswers));
+          localStorage.setItem('rightAnswers', JSON.stringify(this.rightAnswers));
         }
       }
 
       /* The longest series */
-      //console.log('answersString', this.answersString);
       const theLongestSeriesArr = this.answersString.split(' ');
-      //console.log('theLongestSeriesArr', theLongestSeriesArr);
       const arrElLength = theLongestSeriesArr.map((el) => el.length);
       arrElLength.sort();
       this.theLongestSeries = arrElLength[arrElLength.length - 1];
-      //console.log('theLongestSeries', this.theLongestSeries);
+      localStorage.setItem('challenge-theLongestSeries', `${this.theLongestSeries}`);
 
       const arrow = '&#10230;';
       (btnNext as HTMLButtonElement).innerHTML = arrow;
@@ -195,7 +177,8 @@ class ChallengePage extends Page {
     btnNext.addEventListener('click', () => {
       this.wrapper.innerHTML = '';
       this.count++;
-      if (this.count < 5) {
+      const wordsOnPage = 20;
+      if (this.count < wordsOnPage) {
         this.createGamePage(words);
       } else {
         this.createChallengeStatistics();
@@ -222,7 +205,7 @@ class ChallengePage extends Page {
       this.wrapper.querySelector(`.level-${i + 1}`)?.addEventListener('click', async () => {
         this.wrapper.innerHTML = '';
         const pageN = Math.ceil(Math.random() * this.pagesNumber);
-        let words: IWord[] = await this.getWordsRequest(1, i); // pageN
+        let words: IWord[] = await this.getWordsRequest(pageN, i);
         this.createGamePage(words);
       })
     }
@@ -249,11 +232,10 @@ class ChallengePage extends Page {
       rightWords = this.createElem(Tags.Div, 'challenge__words-right', `Знаю - ${arrRights.length}!`);
       this.showResultWords(arrRights, rightWords);
 
-      
       const pointsForRighrAnswer = 10;
       let totalCount: number;
       totalCount = (pointsForRighrAnswer * arrRights.length) || 0;
-
+      localStorage.setItem('challenge-totalcount', `${totalCount}`);
       (this.wrapper.querySelector('.challenge__statistics__title') as HTMLDivElement).textContent = `Результат - ${totalCount}   Длина серии - ${this.theLongestSeries}`;
     } else {
       rightWords = this.createElem(Tags.Div, 'challenge__words-right', 'Знаю - 0');
@@ -269,6 +251,7 @@ class ChallengePage extends Page {
       (this.wrapper.querySelector('.chart-number') as HTMLElement).textContent = '0';
       (this.wrapper.querySelector('.donut-segment') as HTMLElement).setAttribute('stroke-dasharray', '0 100');
     }
+    localStorage.setItem('challenge-rightAnswersPercent', `${(this.wrapper.querySelector('.chart-number') as HTMLElement).textContent}`);
     statisticsWrapper?.append(wrongWords, rightWords);
   }
 
@@ -290,8 +273,6 @@ class ChallengePage extends Page {
     })
   }
 
-
-
   render(): HTMLElement {
     //const title = this.createHeaderTitle(ChallengePage.TextObject.MainTitle);
     this.title.className = 'page-title';
@@ -300,10 +281,6 @@ class ChallengePage extends Page {
     this.container.append(this.wrapper);
     this.createLevelChoice();
     document.querySelector('.footer')?.classList.add('hidden');
-
-
-
-
     return this.container;
   }
 
