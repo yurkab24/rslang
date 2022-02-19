@@ -21,6 +21,10 @@ class ChallengePage extends Page {
 
   count = 0;
 
+  answersString = '';
+
+  theLongestSeries = 0;
+
   words: IWord[] = [];
 
   rightAnswers: { word: string, wordTranslate: string, wordSound: string }[] = [];
@@ -43,7 +47,6 @@ class ChallengePage extends Page {
   fetch(`${PATH_OF_LEARNWORDS.words}?page=${page}&group=${group}`)
   .then((result) => result.json())
   .then((data) => {
-    //console.log('data', data);
     return data;
   });
 
@@ -127,7 +130,7 @@ class ChallengePage extends Page {
         picture.style.backgroundSize = 'cover';
         word.textContent = words[this.count].word;
         flag = true;
-
+        this.answersString = this.answersString + 'a';
         const rightAnswersFromStorage = localStorage.getItem('rightAnswers');
 
 
@@ -142,7 +145,9 @@ class ChallengePage extends Page {
         }
         const newRightWord = {word: words[this.count].word, wordTranslate: words[this.count].wordTranslate, wordSound: `${host}${words[this.count].audio}`};
         if (!(arrWordsRight.includes(words[this.count].word))) {
+          //console.log('arrWordsRight', arrWordsRight, 'rightAnswers', this.rightAnswers);
           this.rightAnswers.push(newRightWord);
+
         }
 
         localStorage.setItem('rightAnswers', JSON.stringify(this.rightAnswers));
@@ -150,6 +155,7 @@ class ChallengePage extends Page {
         if (!flag) {
           (ev as HTMLDivElement).style.outline = '5px solid var(--bg-play-btn)';
           flag = true;
+          this.answersString = this.answersString + ' ';
 
           const wrongAnswersFromStorage = localStorage.getItem('wrongAnswers');
 
@@ -161,11 +167,23 @@ class ChallengePage extends Page {
           }
           const newWrongWord = {word: words[this.count].word, wordTranslate: words[this.count].wordTranslate, wordSound: `${host}${words[this.count].audio}`};
           if (!(arrWordsWrong.includes(words[this.count].word))) {
+
             this.wrongAnswers.push(newWrongWord);
+            //console.log('arrWordsWrong', arrWordsWrong, 'wrongAnswers', this.wrongAnswers);
           }
           localStorage.setItem('wrongAnswers', JSON.stringify(this.wrongAnswers));
         }
       }
+
+      /* The longest series */
+      //console.log('answersString', this.answersString);
+      const theLongestSeriesArr = this.answersString.split(' ');
+      //console.log('theLongestSeriesArr', theLongestSeriesArr);
+      const arrElLength = theLongestSeriesArr.map((el) => el.length);
+      arrElLength.sort();
+      this.theLongestSeries = arrElLength[arrElLength.length - 1];
+      //console.log('theLongestSeries', this.theLongestSeries);
+
       const arrow = '&#10230;';
       (btnNext as HTMLButtonElement).innerHTML = arrow;
       btnNext.style.fontSize = '5rem';
@@ -225,18 +243,12 @@ class ChallengePage extends Page {
       rightWords = this.createElem(Tags.Div, 'challenge__words-right', `Знаю - ${arrRights.length}!`);
       this.showResultWords(arrRights, rightWords);
 
-      //let totalCountFromStorage = localStorage.getItem('totalCount');
-
+      
       const pointsForRighrAnswer = 10;
       let totalCount: number;
-      //if (totalCountFromStorage) {
-        totalCount = (pointsForRighrAnswer * arrRights.length) || 0;
-      //} else {
-      //  totalCount = pointsForRighrAnswer * arrRights.length;
-      //}
-      //localStorage.setItem('totalCount', `${totalCount}`);
+      totalCount = (pointsForRighrAnswer * arrRights.length) || 0;
 
-      (this.wrapper.querySelector('.challenge__statistics__title') as HTMLDivElement).textContent = `Результат ${totalCount} \nДлина серии`;
+      (this.wrapper.querySelector('.challenge__statistics__title') as HTMLDivElement).textContent = `Результат - ${totalCount}   Длина серии - ${this.theLongestSeries}`;
     } else {
       rightWords = this.createElem(Tags.Div, 'challenge__words-right', 'Знаю - 0');
     }

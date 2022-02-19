@@ -193,7 +193,7 @@ main .page-title {
 }
 
 .challenge__statistics__circle {
-  width: 30%;
+  width: 28%;
   height: 100%;
   background-color: var(--bg-light);
 }
@@ -202,9 +202,9 @@ main .page-title {
   display: flex;
   justify-content: space-around;
   align-items: baseline;
-  width: 70%;
+  width: 72%;
   height: 100%;
-  overflow: scroll;
+  overflow: auto;
   margin: auto auto;
 }
 
