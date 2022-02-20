@@ -86,12 +86,13 @@ class App {
     this.enableRouteChange();
     App.container.append(this.footer.render());
 
+    if (location.hash) history.replaceState({}, document.title, location.href.split('#')[0]);
     window.addEventListener('hashchange', () => {
       if (window.location.hash.slice(1) === 'game-challenge' || window.location.hash.slice(1) === 'game-sprint') {
-      document.querySelector('.footer')?.classList.add('hidden');
-    } else {
-      document.querySelector('.footer')?.classList.remove('hidden');
-    }
+        document.querySelector('.footer')?.classList.add('hidden');
+      } else {
+        document.querySelector('.footer')?.classList.remove('hidden');
+      }
     });
   }
 }
