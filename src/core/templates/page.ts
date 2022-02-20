@@ -1,4 +1,4 @@
-import { Tags } from "../../constants";
+import { Tags } from '../../constants';
 
 abstract class Page {
   protected container: HTMLElement;
