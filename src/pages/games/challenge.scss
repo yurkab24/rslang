@@ -204,7 +204,6 @@ main .page-title {
   align-items: baseline;
   width: 72%;
   height: 100%;
-  overflow: auto;
   margin: auto auto;
 }
 
@@ -254,7 +253,10 @@ main .page-title {
 
 .challenge__words-right,
 .challenge__words-wrong {
+  height: 100%;
+  width: 95%;
   font-size: 3rem;
+  overflow: auto;
 }
 
 .challenge__result-word {

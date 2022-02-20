@@ -2,9 +2,7 @@ import { dictionaryGroupOptions, host, Tags } from '../../constants';
 import Page from '../../core/templates/page';
 import { PATH_OF_LEARNWORDS, DictionaryGroup } from '../../constants';
 import { IWord } from '../../models/dictionary';
-import App from '../app/app';
 import { circle } from './circle';
-
 
 class ChallengePage extends Page {
   static TextObject = {
@@ -19,22 +17,31 @@ class ChallengePage extends Page {
 
   count = 0;
 
+  variantsNumber = 5;
+
   answersString = '';
 
   theLongestSeries = 0;
 
   words: IWord[] = [];
 
-  rightAnswers: { word: string, wordTranslate: string, wordSound: string }[] = [];
+  rightAnswers: { word: string; wordTranslate: string; wordSound: string }[] = [];
 
-  wrongAnswers: { word: string, wordTranslate: string, wordSound: string }[] = [];
+  wrongAnswers: { word: string; wordTranslate: string; wordSound: string }[] = [];
 
+  arrWordsRight: string[] = [];
+
+  arrWordsWrong: string[] = [];
+
+  keyboard = true;
+
+  flag = false;
 
   constructor(id: string) {
     super(id);
   }
 
-  protected createElem(elem:Tags, className: string, text: string): HTMLElement {
+  protected createElem(elem: Tags, className: string, text: string): HTMLElement {
     const div = document.createElement(elem);
     div.className = className;
     div.innerText = text;
@@ -42,11 +49,11 @@ class ChallengePage extends Page {
   }
 
   getWordsRequest = async (page: number, group: DictionaryGroup): Promise<IWord[]> =>
-  fetch(`${PATH_OF_LEARNWORDS.words}?page=${page}&group=${group}`)
-  .then((result) => result.json())
-  .then((data) => {
-    return data;
-  });
+    fetch(`${PATH_OF_LEARNWORDS.words}?page=${page}&group=${group}`)
+      .then((result) => result.json())
+      .then((data) => {
+        return data;
+      });
 
   createChallengeStatistics() {
     this.wrapper.innerHTML = '';
@@ -66,15 +73,20 @@ class ChallengePage extends Page {
     const continueBtn = this.createElem(Tags.Div, 'challenge__statistics__continue', 'Продолжить');
     const backBtn = this.createElem(Tags.Div, 'challenge__statistics__back', '');
     statisticManage.append(continueBtn, backBtn);
-    (this.wrapper.querySelector('.challenge__statistics__back') as HTMLElement).insertAdjacentHTML('afterbegin', '<a href="#games-page">Назад к играм</a>');
-    (this.wrapper.querySelector('.challenge__statistics__continue') as HTMLElement).addEventListener('click', async () => {
-      this.wrapper.innerHTML = '';
-      this.count = 0;
-      this.createLevelChoice();
-    })
+    (this.wrapper.querySelector('.challenge__statistics__back') as HTMLElement).insertAdjacentHTML(
+      'afterbegin',
+      '<a href="#games-page">Назад к играм</a>'
+    );
+    (this.wrapper.querySelector('.challenge__statistics__continue') as HTMLElement).addEventListener(
+      'click',
+      async () => {
+        this.wrapper.innerHTML = '';
+        this.count = 0;
+        this.createLevelChoice();
+      }
+    );
     this.showStatistics();
   }
-
 
   createGamePage(words: IWord[]): void {
     const question = this.createElem(Tags.Div, 'challenge__question', '');
@@ -98,89 +110,187 @@ class ChallengePage extends Page {
 
     const set = new Set();
     set.add(words[this.count].wordTranslate);
-    const variantsNumber = 5;
-    while (set.size < variantsNumber) {
+    while (set.size < this.variantsNumber) {
       const newWordNum = Math.floor(Math.random() * words.length);
       set.add(words[newWordNum].wordTranslate);
     }
 
     const arrVariants = [...set].sort();
     for (let i = 1; i <= arrVariants.length; i++) {
-      const wordVariant = this.createElem(Tags.Div, `challenge__variant challenge__variant-${i}`, `${i}. ${arrVariants[i - 1]}`);
+      const wordVariant = this.createElem(
+        Tags.Div,
+        `challenge__variant challenge__variant-${i}`,
+        `${i}. ${arrVariants[i - 1]}`
+      );
       variants.append(wordVariant);
     }
+    this.keyboard = true;
+    this.flag = false;
+    this.play(words);
+    this.setKeyboardEvents(words);
 
-    let arrWordsRight: string[] = [];
-    let arrWordsWrong: string[] = [];
-    let flag = false;
-    this.wrapper.querySelectorAll('.challenge__variant').forEach((ev) => ev.addEventListener('click', () => {
-      if (((ev.textContent as string).split('. '))[1] === (words[this.count].wordTranslate) && flag === false) {
-        (ev as HTMLDivElement).style.outline = '5px solid var(--bg-btn-shadow)';
-        picture.style.backgroundImage = `URL(${host}${words[this.count].image})`;
-        picture.style.backgroundSize = 'cover';
-        word.textContent = words[this.count].word;
-        flag = true;
-        this.answersString = this.answersString + 'a';
-        const rightAnswersFromStorage = localStorage.getItem('rightAnswers');
+    this.listenBtnNext(words);
+  }
 
-        if (rightAnswersFromStorage) {
-          this.rightAnswers = JSON.parse(rightAnswersFromStorage);
-          this.rightAnswers.forEach((word) => {
-            arrWordsRight.push(word.word);
-          })
-        }
-        const newRightWord = {word: words[this.count].word, wordTranslate: words[this.count].wordTranslate, wordSound: `${host}${words[this.count].audio}`};
-        if (!(arrWordsRight.includes(words[this.count].word))) {
-          this.rightAnswers.push(newRightWord);
-        }
-        this.wrongAnswers = this.wrongAnswers.filter((item) => typeof(item) === 'object' && item.word !== words[this.count].word);
-        localStorage.setItem('rightAnswers', JSON.stringify(this.rightAnswers));
-        localStorage.setItem('wrongAnswers', JSON.stringify(this.wrongAnswers));
-      } else {
-        if (!flag) {
-          (ev as HTMLDivElement).style.outline = '5px solid var(--bg-play-btn)';
-          flag = true;
-          this.answersString = this.answersString + ' ';
-
-          const wrongAnswersFromStorage = localStorage.getItem('wrongAnswers');
-          if (wrongAnswersFromStorage) {
-            this.wrongAnswers = JSON.parse(wrongAnswersFromStorage);
-            this.wrongAnswers.forEach((word) => {
-              arrWordsWrong.push(word.word);
-            })
-          }
-          const newWrongWord = {word: words[this.count].word, wordTranslate: words[this.count].wordTranslate, wordSound: `${host}${words[this.count].audio}`};
-          if (!(arrWordsWrong.includes(words[this.count].word))) {
-            this.wrongAnswers.push(newWrongWord);
-          }
-          this.rightAnswers = this.rightAnswers.filter((item) => typeof(item) === 'object' && item.word !== words[this.count].word);
-          localStorage.setItem('wrongAnswers', JSON.stringify(this.wrongAnswers));
-          localStorage.setItem('rightAnswers', JSON.stringify(this.rightAnswers));
-        }
-      }
-
-      /* The longest series */
-      const theLongestSeriesArr = this.answersString.split(' ');
-      const arrElLength = theLongestSeriesArr.map((el) => el.length);
-      arrElLength.sort();
-      this.theLongestSeries = arrElLength[arrElLength.length - 1];
-      localStorage.setItem('challenge-theLongestSeries', `${this.theLongestSeries}`);
-
-      const arrow = '&#10230;';
-      (btnNext as HTMLButtonElement).innerHTML = arrow;
-      btnNext.style.fontSize = '5rem';
-    }))
-
+  listenBtnNext(words: IWord[]) {
+    const btnNext = this.wrapper.querySelector('.challenge__btn') as HTMLButtonElement;
     btnNext.addEventListener('click', () => {
-      this.wrapper.innerHTML = '';
-      this.count++;
-      const wordsOnPage = 20;
-      if (this.count < wordsOnPage) {
-        this.createGamePage(words);
-      } else {
-        this.createChallengeStatistics();
+      if (btnNext.textContent === 'Не знаю') {
+        this.answersString = this.answersString + ' ';
+        this.composeTheListOfWrongAnswers(words, this.arrWordsWrong);
       }
-    })
+      this.continueTheGame(words);
+    });
+  }
+
+  play(words: IWord[]): void {
+    this.flag = false;
+    this.keyboard = true;
+    this.wrapper.querySelectorAll('.challenge__variant').forEach((el: Element) =>
+      el.addEventListener('click', () => {
+        if (
+          (el.textContent as string).split('. ')[1] === words[this.count].wordTranslate &&
+          this.flag === false &&
+          this.keyboard === true
+        ) {
+          (el as HTMLDivElement).style.outline = '5px solid var(--bg-btn-shadow)';
+          (this.wrapper.querySelector('.challenge__picture') as HTMLDivElement).style.backgroundImage = `URL(${host}${
+            words[this.count].image
+          })`;
+          (this.wrapper.querySelector('.challenge__picture') as HTMLDivElement).style.backgroundSize = 'cover';
+          (this.wrapper.querySelector('.challenge__word') as HTMLDivElement).textContent = words[this.count].word;
+          this.flag = true;
+          this.keyboard = false;
+          this.answersString = this.answersString + 'a';
+          this.composeTheListOfRightAnswers(words, this.arrWordsRight);
+        } else {
+          if (!this.flag && this.keyboard === true) {
+            (el as HTMLDivElement).style.outline = '5px solid var(--bg-play-btn)';
+            this.flag = true;
+            this.keyboard = false;
+            this.answersString = this.answersString + ' ';
+            this.composeTheListOfWrongAnswers(words, this.arrWordsWrong);
+          }
+        }
+        this.getTheLongestSeries();
+        this.changeToArrow();
+      })
+    );
+  }
+
+  setKeyboardEvents(words: IWord[]) {
+    this.flag = false;
+    this.keyboard = true;
+    if (this.wrapper.querySelector('.challenge__question')) {
+      document.addEventListener('keyup', (event) => {
+        console.log(event);
+        const i = +event.key;
+        const elem = document.querySelector(`.challenge__variant-${i}`) as HTMLDivElement;
+        const btnNext = this.wrapper.querySelector('.challenge__btn') as HTMLButtonElement;
+        if (i >= 1 && i <= this.variantsNumber) {
+          //console.log('elem.textcontent', elem.textContent);
+          if ((elem.textContent as string).split('. ')[1] === words[this.count].wordTranslate && this.flag === false) {
+            (elem as HTMLDivElement).style.outline = '5px solid var(--bg-btn-shadow)';
+            (document.querySelector('.challenge__picture') as HTMLDivElement).style.backgroundImage = `URL(${host}${
+              words[this.count].image
+            })`;
+            (document.querySelector('.challenge__picture') as HTMLDivElement).style.backgroundSize = 'cover';
+            (document.querySelector('.challenge__word') as HTMLDivElement).textContent = words[this.count].word;
+            this.flag = true;
+            this.keyboard = false;
+            this.answersString = this.answersString + 'a';
+            this.composeTheListOfRightAnswers(words, this.arrWordsRight);
+          } else {
+            if (!this.flag) {
+              (elem as HTMLDivElement).style.outline = '5px solid var(--bg-play-btn)';
+              this.flag = true;
+              this.keyboard = false;
+              this.answersString = this.answersString + ' ';
+              this.composeTheListOfWrongAnswers(words, this.arrWordsWrong);
+            }
+          }
+          this.getTheLongestSeries();
+          this.changeToArrow();
+        } else if (event.key === 'Enter' && btnNext.textContent === 'Не знаю') {
+          this.answersString = this.answersString + ' ';
+          console.log('answersString', this.answersString);
+          console.log('arrWordsWrong', this.arrWordsWrong);
+          this.composeTheListOfWrongAnswers(words, this.arrWordsWrong);
+          this.continueTheGame(words);
+        } else if (event.code === 'Space') {
+          (document.getElementById('audio') as HTMLAudioElement).play();
+        }
+        if (event.key === 'Enter' && btnNext.textContent !== 'Не знаю') {
+          this.continueTheGame(words);
+        }
+      });
+    }
+  }
+
+  composeTheListOfRightAnswers(words: IWord[], arrWordsRight: string[]): void {
+    const rightAnswersFromStorage = localStorage.getItem('rightAnswers');
+    if (rightAnswersFromStorage) {
+      this.rightAnswers = JSON.parse(rightAnswersFromStorage);
+      this.rightAnswers.forEach((el) => {
+        arrWordsRight.push(el.word);
+      });
+    }
+    const newRightWord = {
+      word: words[this.count].word,
+      wordTranslate: words[this.count].wordTranslate,
+      wordSound: `${host}${words[this.count].audio}`,
+    };
+    if (!arrWordsRight.includes(words[this.count].word)) {
+      this.rightAnswers.push(newRightWord);
+    }
+    this.wrongAnswers = this.wrongAnswers.filter(
+      (item) => typeof item === 'object' && item.word !== words[this.count].word
+    );
+    localStorage.setItem('rightAnswers', JSON.stringify(this.rightAnswers));
+    localStorage.setItem('wrongAnswers', JSON.stringify(this.wrongAnswers));
+  }
+
+  composeTheListOfWrongAnswers(words: IWord[], arrWordsWrong: string[]): void {
+    const wrongAnswersFromStorage = localStorage.getItem('wrongAnswers');
+    if (wrongAnswersFromStorage) {
+      this.wrongAnswers = JSON.parse(wrongAnswersFromStorage);
+      this.wrongAnswers.forEach((word) => {
+        arrWordsWrong.push(word.word);
+      });
+    }
+    const newWrongWord = {
+      word: words[this.count].word,
+      wordTranslate: words[this.count].wordTranslate,
+      wordSound: `${host}${words[this.count].audio}`,
+    };
+    if (!arrWordsWrong.includes(words[this.count].word)) {
+      this.wrongAnswers.push(newWrongWord);
+    }
+    this.rightAnswers = this.rightAnswers.filter(
+      (item) => typeof item === 'object' && item.word !== words[this.count].word
+    );
+    localStorage.setItem('wrongAnswers', JSON.stringify(this.wrongAnswers));
+    localStorage.setItem('rightAnswers', JSON.stringify(this.rightAnswers));
+  }
+
+  getTheLongestSeries(): number {
+    const theLongestSeriesArr = this.answersString.split(' ');
+    const arrElLength = theLongestSeriesArr.map((el) => el.length);
+    arrElLength.sort((a, b) => a - b).reverse();
+    this.theLongestSeries = arrElLength[0];
+    localStorage.setItem('challenge-theLongestSeries', `${this.theLongestSeries}`);
+    return this.theLongestSeries;
+  }
+
+  continueTheGame(words: IWord[]): void {
+    this.wrapper.innerHTML = '';
+    this.count++;
+    const wordsOnPage = 20;
+    if (this.count < wordsOnPage) {
+      this.createGamePage(words);
+    } else {
+      this.createChallengeStatistics();
+    }
   }
 
   createLevelChoice(): void {
@@ -193,23 +303,30 @@ class ChallengePage extends Page {
     }
     const backToGames = this.createElem(Tags.Div, 'challenge__back', '');
     this.wrapper.append(titleLevel, levels, backToGames);
-    (this.wrapper.querySelector('.challenge__back') as HTMLElement).insertAdjacentHTML('afterbegin', '<a href="#games-page">Назад к играм</a>');
+    (this.wrapper.querySelector('.challenge__back') as HTMLElement).insertAdjacentHTML(
+      'afterbegin',
+      '<a href="#games-page">Назад к играм</a>'
+    );
 
     for (let i = 0; i < dictionaryGroupOptions.length; i++) {
       this.wrapper.querySelector(`.level-${i + 1}`)?.addEventListener('click', async () => {
         this.wrapper.innerHTML = '';
         const pageN = Math.ceil(Math.random() * this.pagesNumber);
-        let words: IWord[] = await this.getWordsRequest(pageN, i);
+        const words: IWord[] = await this.getWordsRequest(pageN, i);
         this.createGamePage(words);
-      })
+      });
     }
   }
 
   showStatistics() {
     const wrongAnswersFromStorage = localStorage.getItem('wrongAnswers');
     const rightAnswersFromStorage = localStorage.getItem('rightAnswers');
-    let arrWrongs: { word: string, wordTranslate: string, wordSound: string }[] = JSON.parse(wrongAnswersFromStorage as string);
-    let arrRights: { word: string, wordTranslate: string, wordSound: string }[] = JSON.parse(rightAnswersFromStorage as string);
+    const arrWrongs: { word: string; wordTranslate: string; wordSound: string }[] = JSON.parse(
+      wrongAnswersFromStorage as string
+    );
+    const arrRights: { word: string; wordTranslate: string; wordSound: string }[] = JSON.parse(
+      rightAnswersFromStorage as string
+    );
 
     const statisticsWrapper = this.wrapper.querySelector('.challenge__statistics__words');
 
@@ -219,25 +336,32 @@ class ChallengePage extends Page {
       wrongWords = this.createElem(Tags.Div, 'challenge__words-wrong', `Ошибок - ${arrWrongs.length}`);
       this.showResultWords(arrWrongs, wrongWords);
     } else {
-      wrongWords = this.createElem(Tags.Div, 'challenge__words-wrong', `Ошибок нет!`);
+      wrongWords = this.createElem(Tags.Div, 'challenge__words-wrong', 'Ошибок нет!');
     }
-
     if (rightAnswersFromStorage) {
       rightWords = this.createElem(Tags.Div, 'challenge__words-right', `Знаю - ${arrRights.length}!`);
       this.showResultWords(arrRights, rightWords);
 
       const pointsForRighrAnswer = 10;
-      let totalCount: number;
-      totalCount = (pointsForRighrAnswer * arrRights.length) || 0;
+      const totalCount = pointsForRighrAnswer * arrRights.length || 0;
       localStorage.setItem('challenge-totalcount', `${totalCount}`);
-      (this.wrapper.querySelector('.challenge__statistics__title') as HTMLDivElement).textContent = `Результат - ${totalCount}   Длина серии - ${this.theLongestSeries}`;
+      (
+        this.wrapper.querySelector('.challenge__statistics__title') as HTMLDivElement
+      ).textContent = `Результат - ${totalCount}   Длина серии - ${this.theLongestSeries}`;
     } else {
       rightWords = this.createElem(Tags.Div, 'challenge__words-right', 'Знаю - 0');
     }
 
     if (arrRights && arrWrongs) {
-      (this.wrapper.querySelector('.chart-number') as HTMLElement).textContent = `${Math.round(100 * arrRights.length / (arrRights.length + arrWrongs.length))}`;
-      (this.wrapper.querySelector('.donut-segment') as HTMLElement).setAttribute('stroke-dasharray', `${100 * arrRights.length / (arrRights.length + arrWrongs.length)} ${100 * arrWrongs.length / (arrRights.length + arrWrongs.length)}`);
+      (this.wrapper.querySelector('.chart-number') as HTMLElement).textContent = `${Math.round(
+        (100 * arrRights.length) / (arrRights.length + arrWrongs.length)
+      )}`;
+      (this.wrapper.querySelector('.donut-segment') as HTMLElement).setAttribute(
+        'stroke-dasharray',
+        `${(100 * arrRights.length) / (arrRights.length + arrWrongs.length)} ${
+          (100 * arrWrongs.length) / (arrRights.length + arrWrongs.length)
+        }`
+      );
     } else if (arrRights) {
       (this.wrapper.querySelector('.chart-number') as HTMLElement).textContent = '100';
       (this.wrapper.querySelector('.donut-segment') as HTMLElement).setAttribute('stroke-dasharray', '100 0');
@@ -245,12 +369,15 @@ class ChallengePage extends Page {
       (this.wrapper.querySelector('.chart-number') as HTMLElement).textContent = '0';
       (this.wrapper.querySelector('.donut-segment') as HTMLElement).setAttribute('stroke-dasharray', '0 100');
     }
-    localStorage.setItem('challenge-rightAnswersPercent', `${(this.wrapper.querySelector('.chart-number') as HTMLElement).textContent}`);
+    localStorage.setItem(
+      'challenge-rightAnswersPercent',
+      `${(this.wrapper.querySelector('.chart-number') as HTMLElement).textContent}`
+    );
     statisticsWrapper?.append(wrongWords, rightWords);
   }
 
-  showResultWords(arr: { word: string, wordTranslate: string, wordSound: string }[], parent: HTMLElement) {
-    arr.forEach((right: { word: string, wordTranslate: string, wordSound: string }) => {
+  showResultWords(arr: { word: string; wordTranslate: string; wordSound: string }[], parent: HTMLElement) {
+    arr.forEach((right: { word: string; wordTranslate: string; wordSound: string }) => {
       const rightWord = this.createElem(Tags.Div, 'challenge__result-word', '');
       const loudspeaker = this.createElem(Tags.Div, 'challenge__statistics-loudspesker', '');
       const theWord = this.createElem(Tags.Div, 'challenge__the-word', `${right.word} - ${right.wordTranslate}`);
@@ -264,7 +391,13 @@ class ChallengePage extends Page {
       loudspeaker.addEventListener('click', () => {
         audioElement.play();
       });
-    })
+    });
+  }
+
+  changeToArrow() {
+    const arrow = '&#10230;';
+    (document.querySelector('.challenge__btn') as HTMLButtonElement).innerHTML = arrow;
+    (document.querySelector('.challenge__btn') as HTMLButtonElement).style.fontSize = '5rem';
   }
 
   render(): HTMLElement {
