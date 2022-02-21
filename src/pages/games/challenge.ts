@@ -95,9 +95,9 @@ class ChallengePage extends Page {
   createGamePage(words: IWord[]): void {
     const question = this.createElem(Tags.Div, 'challenge__question', '');
     const picture = this.createElem(Tags.Div, 'challenge__picture', '');
-    const word = this.createElem(Tags.Div, 'challenge__word', 'word');
-    const variants = this.createElem(Tags.Div, 'challenge__variants', 'variants');
-    const btnNext = this.createElem(Tags.Button, 'challenge__btn', 'НЕ ЗНАЮ');
+    const word = this.createElem(Tags.Div, 'challenge__word', '');
+    const variants = this.createElem(Tags.Div, 'challenge__variants', '');
+    const btnNext = this.createElem(Tags.Button, 'challenge__btn', 'Не знаю');
     question.append(picture, word);
     this.wrapper.append(question, variants, btnNext);
 
@@ -405,10 +405,8 @@ class ChallengePage extends Page {
   }
 
   render(): HTMLElement {
-    //const title = this.createHeaderTitle(ChallengePage.TextObject.MainTitle);
     this.title.className = 'page-title';
     this.container.append(this.title);
-    //const wrapper = this.createElem(Tags.Div, 'block challenge__wrapper', '');
     this.container.append(this.wrapper);
     this.createLevelChoice();
     document.querySelector('.footer')?.classList.add('hidden');
