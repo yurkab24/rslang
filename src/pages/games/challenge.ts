@@ -112,6 +112,8 @@ class ChallengePage extends Page {
       audioElement.play();
     });
 
+    console.log('createGamePage', this.count);
+
     const set = new Set();
     set.add(words[this.count].wordTranslate);
     while (set.size < this.variantsNumber) {
@@ -150,6 +152,7 @@ class ChallengePage extends Page {
   play(words: IWord[]): void {
     this.flag = false;
     this.keyboard = true;
+    console.log('play', this.count);
     this.wrapper.querySelectorAll('.challenge__variant').forEach((el: Element) =>
       el.addEventListener('click', () => {
         if (
@@ -183,11 +186,12 @@ class ChallengePage extends Page {
   }
 
   setKeyboardEvents(words: IWord[]) {
+    console.log('setKeyboardEvents1', this.count);
     this.flag = false;
     this.keyboard = true;
     if (this.wrapper.querySelector('.challenge__question')) {
-      document.addEventListener('keyup', (event) => {
-        //console.log(event);
+      document.onkeyup = (event) => {
+        console.log('setKeyboardEvents', this.count);
         const i = +event.key;
         const elem = document.querySelector(`.challenge__variant-${i}`) as HTMLDivElement;
         const btnNext = this.wrapper.querySelector('.challenge__btn') as HTMLButtonElement;
@@ -227,7 +231,7 @@ class ChallengePage extends Page {
         if (event.key === 'Enter' && btnNext.textContent !== 'Не знаю') {
           this.continueTheGame(words);
         }
-      });
+      };
     }
   }
 
@@ -244,6 +248,7 @@ class ChallengePage extends Page {
       wordTranslate: words[this.count].wordTranslate,
       wordSound: `${host}${words[this.count].audio}`,
     };
+    console.log('composeTheListOfRightAnswers', this.count);
     if (!arrWordsRight.includes(words[this.count].word)) {
       this.rightAnswers.push(newRightWord);
     }
@@ -267,6 +272,7 @@ class ChallengePage extends Page {
       wordTranslate: words[this.count].wordTranslate,
       wordSound: `${host}${words[this.count].audio}`,
     };
+    console.log('composeTheListOfWrongAnswers', this.count);
     if (!arrWordsWrong.includes(words[this.count].word)) {
       this.wrongAnswers.push(newWrongWord);
     }
@@ -287,6 +293,7 @@ class ChallengePage extends Page {
   }
 
   continueTheGame(words: IWord[]): void {
+    console.log('continueTheGame', this.count);
     this.wrapper.innerHTML = '';
     this.count++;
     const wordsOnPage = 20;
