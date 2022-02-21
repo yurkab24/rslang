@@ -18,27 +18,27 @@ class TeamPage extends Page {
     this.team = [
       {
         github: 'https://github.com/Tyzikova',
-        photo: './assets/jpg/photoTT.jpeg',
+        photo: './assets/jpg/TanyaT.jpeg',
         name: 'Татьяна Тузова',
         role: 'Developer',
         contribution:
-          'Отвечала за создание и дизайн электронного учебника, навигацию по разделам и страницам учебника. Разработала страницу статистики. Настроила BackEnd и работу с ним.',
+          '- Создание, дизайн, навигация по страницам электронного учебника; \n- Пользовательский словарь; \n- Страница статистики; \n- Настройка BackEnd и работы с ним.',
       },
       {
         github: 'https://github.com/Yurkab24',
-        photo: './assets/png/login-icon.png',
+        photo: './assets/jpg/YuraB.jpg',
         name: 'Юрий Боровиков',
-        role: 'Team lead, developer',
+        role: 'Team lead, \ndeveloper',
         contribution:
-          'Координировал работу команды. Отвечал за архитектуру приложения. Выполнил базовые настройки проекта. Настроил регистрацию и авторизацию пользователя. Создал игру "Спринт".',
+          '- Базовые настройки проекта; \n- Регистрация и авторизация пользователя; \n- Поддержка корректной работы приложения;\n- Игра "Спринт".',
       },
       {
         github: 'https://github.com/TatsiaA',
-        photo: './assets/jpg/photoTA.jpg',
+        photo: './assets/jpg/TanyaA.jpg',
         name: 'Татьяна Арещенко',
         role: 'Developer',
         contribution:
-          'Создание, наполнение и дизайн главной страницы приложения, страниц "Наша команда", "Мини-игры", футера. Настроила роутинг. Отвечала за пользовательские настройки приложения. Создала игру "Аудиовызов".',
+          '- Главная страница приложения; \n- Страницы "Наша команда", "Мини-игры", футер; \n- Роутинг; \n- Пользовательские настройки приложения; \n- Игра "Аудиовызов".',
       },
     ];
   }
@@ -67,7 +67,7 @@ class TeamPage extends Page {
       gh.insertAdjacentElement('afterbegin', ghLink);
       const mateName = this.createDiv('', `${this.team[i].name.toUpperCase()}`);
       const role = this.createDiv('', `${this.team[i].role}`);
-      const did = this.createDiv('', `${this.team[i].contribution}`);
+      const did = this.createDiv('done', `${this.team[i].contribution}`);
       teamMate.append(gh, mateName, role, did);
       teamDiv.append(teamMate);
     }
