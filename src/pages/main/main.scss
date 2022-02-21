@@ -60,6 +60,7 @@ main {
   justify-content: space-between;
   background-color: var(--infoblocks);
   flex: 0 0 auto;
+
 }
 
 h1, h2 {
@@ -88,7 +89,7 @@ h3 {
 .nav__button {
   position: relative;
   display: inline-block;
-  margin: 10px 40px;
+  margin: 10px 30px;
   font-size: 2.8rem;
   color: var(--text-day);
   background-color: var(--bg-btn);

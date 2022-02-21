@@ -1,31 +1,30 @@
 .button-up {
-  background: #17181c61;
+  background: var(--bg-btn);
   border: 3px solid var(--bg-dark);
-  text-transform: uppercase;
-  color: var(--bg-btn);
-  height: 5vh;
-  width: 70px;
+  height: 50px;
+  width: 50px;
   bottom: 10%;
   right: 4%;
   cursor: pointer;
-  align-items: center;
-  justify-content: center;
   position: fixed;
   z-index: 2;
   transition: 1s;
   opacity: .8;
-  text-decoration: none;
-  border-radius: 5px;
+  border-radius: 50%;
 }
 
 .button-up:hover{
   border-color: var(--bg-btn);
-  color: var(--bg-dark);
-  box-shadow: 0 0.5em 0.5em -0.4em var(--bg-btn);
+  background: var(--bg-dark);
+  box-shadow: 0 0.5em 0.5em -0.4em var(--bg-dark);
 }
 
 .button-up > span {
-  font-size: 2rem;
+  background: url(/src/assets/png/prev.png) no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  transform: rotate(90deg);
 }
 
 .flex{

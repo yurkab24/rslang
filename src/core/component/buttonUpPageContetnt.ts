@@ -5,7 +5,7 @@ class ButtonUp extends Component {
   renderButton() {
     this.container.classList.add('flex', 'hide');
     const buttonContent = document.createElement(Tags.Span);
-    buttonContent.textContent = 'up';
+    buttonContent.textContent = '';
     this.container.append(buttonContent);
 
     this.container.addEventListener('click', this.smoothJumpUp);
