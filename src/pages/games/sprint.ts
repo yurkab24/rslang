@@ -3,10 +3,21 @@ import Page from '../../core/templates/page';
 import Spinner from '../../core/component/spiner';
 import { dictionaryGroupOptions, host, Tags } from '../../constants';
 import { getDictonaryRequest } from '../../request';
+import { IWord } from '../../models';
 
 const MAX_PAGE = 30;
 const START_POINTS = 10;
 const START_TIMER = 60;
+
+interface ISprint {
+  right: IWord[],
+  wrong: IWord[],
+}
+
+interface ISprintWord {
+  en: string,
+  ru: string,
+}
 
 const shuffle = (arr: string[]) => {
   return arr.sort(() => Math.round(Math.random() * 100) - 10);
@@ -40,7 +51,7 @@ class SprintPage extends Page {
 
   points = 0;
 
-  answers: any = {
+  answers: ISprint = {
     right: [],
     wrong: [],
   };
@@ -83,7 +94,7 @@ class SprintPage extends Page {
     shuffle(arrayWordsEN);
     shuffle(arrayWordsRU);
 
-    const dataWrods: any[] = [];
+    const dataWrods: ISprintWord[] = [];
     arrayWordsEN.forEach((word, index) => {
       dataWrods.push({
         en: word,
@@ -91,7 +102,7 @@ class SprintPage extends Page {
       });
     });
 
-    const createLvlGame = (data: any) => {
+    const createLvlGame = (data: ISprintWord[]) => {
       this.sprintWrapper.innerHTML = '';
       const buttonWrapper = this.createElem(Tags.Div, 'button__wrapper');
       const wordsWrapper = this.createElem(Tags.Div, 'words__wrapper');
@@ -136,8 +147,6 @@ class SprintPage extends Page {
           this.endGame = true;
           this.sprintWrapper.innerHTML = '';
         }
-
-        console.log(this.answers);
       });
 
       btnRight.addEventListener('click', () => {
@@ -244,7 +253,7 @@ class SprintPage extends Page {
     return this.container;
   }
 
-  public init(): void {}
+  public init(): void { }
 }
 
 export default SprintPage;
