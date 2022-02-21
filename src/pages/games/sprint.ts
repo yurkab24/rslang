@@ -8,7 +8,7 @@ const MAX_PAGE = 30;
 const START_POINTS = 10;
 const START_TIMER = 60;
 
-const shuffle = (arr: any[]) => {
+const shuffle = (arr: string[]) => {
   return arr.sort(() => Math.round(Math.random() * 100) - 10);
 };
 
@@ -136,6 +136,8 @@ class SprintPage extends Page {
           this.endGame = true;
           this.sprintWrapper.innerHTML = '';
         }
+
+        console.log(this.answers);
       });
 
       btnRight.addEventListener('click', () => {

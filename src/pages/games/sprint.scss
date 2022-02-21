@@ -12,8 +12,9 @@
     transform: translateX(-50%);
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
-    max-width: 300px;
+    width: 300px;
 
     & svg {
       height: 20px;
@@ -31,7 +32,7 @@
 
   &__timer {
     position: absolute;
-    top: -20px;
+    top: 10px;
     left: -50px;
     width: 65px;
     height: 65px;
