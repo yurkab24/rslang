@@ -187,11 +187,11 @@ class ChallengePage extends Page {
     this.keyboard = true;
     if (this.wrapper.querySelector('.challenge__question')) {
       document.addEventListener('keyup', (event) => {
-        console.log(event);
+        //console.log(event);
         const i = +event.key;
         const elem = document.querySelector(`.challenge__variant-${i}`) as HTMLDivElement;
         const btnNext = this.wrapper.querySelector('.challenge__btn') as HTMLButtonElement;
-        if (i >= 1 && i <= this.variantsNumber) {
+        if (+event.key >= 1 && +event.key <= this.variantsNumber) {
           //console.log('elem.textcontent', elem.textContent);
           if ((elem.textContent as string).split('. ')[1] === words[this.count].wordTranslate && this.flag === false) {
             (elem as HTMLDivElement).style.outline = '5px solid var(--bg-btn-shadow)';
@@ -217,8 +217,8 @@ class ChallengePage extends Page {
           this.changeToArrow();
         } else if (event.key === 'Enter' && btnNext.textContent === 'Не знаю') {
           this.answersString = this.answersString + ' ';
-          console.log('answersString', this.answersString);
-          console.log('arrWordsWrong', this.arrWordsWrong);
+          //console.log('answersString1', this.answersString);
+          //console.log('arrWordsWrong', this.arrWordsWrong);
           this.composeTheListOfWrongAnswers(words, this.arrWordsWrong);
           this.continueTheGame(words);
         } else if (event.code === 'Space') {
