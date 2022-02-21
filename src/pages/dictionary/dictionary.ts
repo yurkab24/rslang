@@ -17,13 +17,27 @@ import {
   deleteUserWordRequest,
 } from '../../request';
 import { Pagination } from '../../services/pagination';
-import { WordsContainer } from '../../services/words';
+import { WordsContainer, Refresh } from '../../services';
 import Spinner from '../../core/component/spiner';
 import WordCard from '../../core/component/word';
 import { getUserId, isAuth } from '../../core/utils';
 
+const refreshPage = new Refresh();
 const wordContainer = new WordsContainer();
 const paginationPage = new Pagination(limitOfWord, limitOfPage);
+
+refreshPage.addSaveData({
+  func: () => paginationPage.pageOfNumber,
+  key: 'numberOfPage',
+});
+
+refreshPage.addSaveData({
+  func: () => wordContainer.wordGroupDictionary,
+  key: 'numberOfGroup',
+});
+
+refreshPage.restoreData('numberOfPage', (value) => (paginationPage.pageOfNumber = Number(value)));
+refreshPage.restoreData('numberOfGroup', (value) => (wordContainer.wordGroupDictionary = Number(value)));
 
 class DictionaryPage extends Page {
   static TextObject = {
@@ -38,8 +52,6 @@ class DictionaryPage extends Page {
 
   private wrapperBlock = document.createElement(Tags.Div);
 
-  private numberOfSection = 0;
-
   private spinner: Spinner;
 
   constructor(id: string, spinner: Spinner) {
@@ -51,10 +63,19 @@ class DictionaryPage extends Page {
     this.wrapperBlock.innerHTML = '';
     this.wrapperBlock.classList.add('wrapper-block');
     words.forEach((item) => {
-      const wordComponent = new WordCard(item, this.wordStatusHandler, this.deleteWordHandler);
+      const wordComponent = new WordCard(
+        item,
+        this.wordStatusHandler,
+        this.deleteWordHandler,
+        wordContainer.wordGroupDictionary,
+        true,
+        true,
+        Boolean(item.userWord)
+      );
       this.wrapperBlock.append(wordComponent.render());
     });
 
+    this.container.style.backgroundImage = arrayOfBackground[wordContainer.wordGroupDictionary].wall;
     this.wordWrapper.innerHTML = '';
     this.wordWrapper.append(this.wrapperBlock);
   }
@@ -69,17 +90,26 @@ class DictionaryPage extends Page {
     const buttonOfPaginationNext = document.createElement(Tags.Button);
     const buttonSectionWrapper = document.createElement(Tags.Div);
     const buttonSection = document.createElement(Tags.Button);
+    const linkSectionWrapper = document.createElement(Tags.Div);
     const buttonDictonary = document.createElement(Tags.A);
+    const buttonSprint = document.createElement(Tags.A);
+    const buttonAudioGame = document.createElement(Tags.A);
 
-    buttonDictonary.classList.add('dictionary-icon');
     blockButtonsWrapper.classList.add('block-buttons-wrapper');
     blockButtonsPagination.classList.add('block-buttons-pagination');
     this.container.classList.add('wrapper');
     this.numberStartPage.classList.add('start-page');
     this.numberFinishPage.classList.add('finish-page');
     buttonSectionWrapper.classList.add('button-section-wrapper');
+    linkSectionWrapper.classList.add('link-section-wrapper');
 
     buttonDictonary.href = `#${PageIds.Vocabulary}`;
+    buttonSprint.href = `#${PageIds.GameSprint}`;
+    buttonAudioGame.href = `#${PageIds.GameChallenge}`;
+
+    buttonDictonary.title = 'Словарь';
+    buttonSprint.title = 'Спринт';
+    buttonAudioGame.title = 'Аудиовызов';
 
     this.numberStartPage.innerHTML = String(paginationPage.pageOfNumber + 1);
     this.numberFinishPage.innerHTML = ` /${String(paginationPage.limitOfPageNumber)}`;
@@ -87,7 +117,8 @@ class DictionaryPage extends Page {
     this.container.append(title);
     this.container.append(blockButtonsWrapper);
     this.container.append(this.wordWrapper);
-    blockButtonsWrapper.append(buttonDictonary, blockButtonsPagination, buttonSectionWrapper);
+    linkSectionWrapper.append(buttonDictonary, buttonSprint, buttonAudioGame);
+    blockButtonsWrapper.append(linkSectionWrapper, blockButtonsPagination, buttonSectionWrapper);
 
     dictionaryGroupOptions.forEach((item) => {
       const button = buttonSection.cloneNode(true) as HTMLElement;
@@ -137,7 +168,6 @@ class DictionaryPage extends Page {
   private updatePageofDictionary(): void {
     this.spinner.show();
     (isAuth()
-      // eslint-disable-next-line
       ? getAgregatedWordsRequest(getUserId(), paginationPage.pageOfNumber, wordContainer.wordGroupDictionary, paginationPage.limitOfWords)
       : getDictonaryRequest(paginationPage.pageOfNumber, wordContainer.wordGroupDictionary)
     ).then((result) => {
@@ -147,10 +177,7 @@ class DictionaryPage extends Page {
   }
 
   private buttonGroupHandler = (event: Event): void => {
-    this.numberOfSection = Number((event.target as HTMLElement).dataset.id);
-    this.container.style.backgroundImage = arrayOfBackground[this.numberOfSection].wall;
-
-    wordContainer.wordGroupDictionary = this.numberOfSection;
+    wordContainer.wordGroupDictionary = Number((event.target as HTMLElement).dataset.id);
     this.updatePageofDictionary();
   };
 

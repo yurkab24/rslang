@@ -4,7 +4,7 @@ import { Tags } from '../../constants/pages';
 
 class StatisticsPage extends Page {
   static TextObject = {
-    MainTitle: 'Statistics',
+    MainTitle: 'Статистика',
   };
 
   private spinner: Spinner;
@@ -22,7 +22,7 @@ class StatisticsPage extends Page {
     const statisticTableBlock = document.createElement(Tags.Div);
 
     const rowTittle = ['Игра', 'Изучено слов', 'Правильно (%)', 'Самая длинная серия'];
-    const columnTittle = ['Спринт', 'Аудиовызов', 'Итого'];
+    const columnTittle = ['"Спринт"', '"Аудиовызов"', 'Итого'];
 
     for (let i = 0; i < rowTittle.length; i++) {
       statisticTableBlock.classList.add('td-table-row-block');
@@ -55,13 +55,7 @@ class StatisticsPage extends Page {
     this.updatePageofStatistic();
   }
 
-  private updatePageofStatistic(): void {
-    // this.spinner.show();
-    // getStatisticRequest().then((result) => {
-    //   this.renderBlockStatistic(result);
-    //   this.spinner.hide();
-    // });
-  }
+  private updatePageofStatistic(): void {}
 }
 
 export default StatisticsPage;

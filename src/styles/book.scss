@@ -8,15 +8,15 @@ html {
   scroll-behavior: smooth;
 }
 
+i {
+  color: #0d2ee7;
+}
+
 .wrapper {
   background: url('/src/assets/jpg/books1.jpg') no-repeat center center;
   background-size: cover;
+  background-attachment: fixed;
   color: #030303;
-}
-
-.wrapper_darck-theme {
-  background: url('/src/assets/jpg/books.jpg') no-repeat center center;
-  color: white;
 }
 
 .wrapper-block {
@@ -44,15 +44,7 @@ html {
   padding: 2%;
   cursor: pointer;
   overflow: auto;
-  justify-self: center;
-}
-
-.word-block div,
-.word-block div p,
-.word-block div p i,
-.word-block div p b,
-.word-block div span {
-  font-size: 2rem;
+  position: relative;
 }
 
 .word-block div,
@@ -69,7 +61,7 @@ html {
 
 .word-image {
   width: 300px;
-  height: 100%;
+  padding-top: 45%;
   background-size: 100% 100%;
   background-position: center center;
   background-repeat: no-repeat;
@@ -113,7 +105,7 @@ html {
 .text-example > p {
   margin: 15px 0;
   font-size: 2rem;
-  line-height: 20px;
+  line-height: 15px;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -135,7 +127,6 @@ html {
   margin: 0;
 }
 
-
 .word-block:hover .text-under-line::after {
   width: 100%;
 }
@@ -146,6 +137,7 @@ html {
   display: flex;
   justify-content: center;
   position: relative;
+  align-items: center;
 }
 
 .block-buttons-pagination {
@@ -214,7 +206,8 @@ html {
   transform: rotateY(180deg);
 }
 
-.button-section-wrapper {
+.button-section-wrapper,
+.link-section-wrapper {
   width: 400px;
   height: 100%;
   display: flex;
@@ -222,6 +215,7 @@ html {
   align-items: center;
   position: absolute;
   right: 0;
+  top: 0;
 }
 
 .wrapper-learn-words {
@@ -230,6 +224,8 @@ html {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  position: absolute;
+  bottom: 5px;
 }
 
 .wrapper-learn-words > button {
@@ -239,30 +235,49 @@ html {
   border-radius: 5px;
 }
 
-.wrapper-learn-words > button:first-child {
-  background: url(/src/assets/jpg/difficult.jpg) no-repeat center center;
-  background-size: cover;
-}
-
-.wrapper-learn-words > button:nth-child(2) {
+.button-word-easy {
   background: url(/src/assets/jpg/easy.jpg) no-repeat center center;
   background-size: cover;
 }
 
-.wrapper-learn-words > button:last-child {
+.button-word-difficult {
+  background: url(/src/assets/jpg/difficult.jpg) no-repeat center center;
+  background-size: cover;
+}
+
+.button-word-deleted {
   background: url(/src/assets/png/delete.png) no-repeat center center;
   background-size: cover;
 }
 
-.dictionary-icon {
+.link-section-wrapper {
+  width: 200px;
+  left: 0;
+  height: 50px;
+}
+
+.link-section-wrapper > a {
   width: 50px;
   height: 100%;
   border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  border: 3px solid var(--bg-light);
+}
+
+.link-section-wrapper a:nth-child(1) {
   background: url(/src/assets/png/dictionary.png) no-repeat center center;
   background-size: cover;
-  position: absolute;
-  left: 2%;
-  cursor: pointer;
+}
+
+.link-section-wrapper a:nth-child(2) {
+  background: url(/src/assets/png/sprint1.png) no-repeat center center;
+  background-size: 100% 100%;
+}
+
+.link-section-wrapper a:nth-child(3) {
+  background: url(/src/assets/png/sound.png) no-repeat center center;
+  background-size: 100% 100%;
 }
 
 .filter_hard {
@@ -274,18 +289,27 @@ html {
 }
 
 .filter_deleted {
-  filter: sepia(1);
+  filter: drop-shadow(2px 4px 6px black);
 }
 
 @media screen and (min-width: 320px) and (max-width: 960px) {
-  .button-section-wrapper {
+  .button-section-wrapper,
+  .link-section-wrapper {
     flex-direction: column;
     width: 50px;
     height: auto;
     margin-right: 15px;
+    z-index: 1;
   }
 
-  .button-section-wrapper > button {
+  .button-section-wrapper > button,
+  .link-section-wrapper > a {
     margin: 5px 0;
+  }
+
+  .link-section-wrapper {
+    width: 60px;
+    margin-left: 15px;
+    height: 200px;
   }
 }

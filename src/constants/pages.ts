@@ -3,7 +3,7 @@ export enum Tags {
   H2 = 'h2',
   H3 = 'h3',
   P = 'p',
-  Section = 'section', //*//
+  Section = 'section',
   Audio = 'audio',
   Span = 'span',
   Button = 'button',

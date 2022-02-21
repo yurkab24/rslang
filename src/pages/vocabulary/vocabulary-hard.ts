@@ -9,23 +9,23 @@ import {
 } from '../../constants';
 import Spinner from '../../core/component/spiner';
 import WordCard from '../../core/component/word';
-import Tabs from '../../core/component/tabs';
 import { getAgregatedWordsRequest, updateUserWordRequest } from '../../request';
 import { getUserId } from '../../core/utils';
 import { Pagination } from '../../services';
 import { IWord } from '../../models';
 import { TAB_OPTIONS } from './constants';
+import Tabs from '../../core/component/tabs';
 
 const pagination = new Pagination(limitOfWord, limitOfPage);
 
-export class VocabularyPage extends Page {
+export class VocabularyHardPage extends Page {
   static TextObject = {
-    MainTitle: 'Изучаемые',
+    MainTitle: 'Сложные',
   };
 
   private spinner: Spinner;
 
-  private blockOfWordsEasy = document.createElement(Tags.Div);
+  private blockOfWordsHard = document.createElement(Tags.Div);
 
   constructor(id: string, spinner: Spinner) {
     super(id);
@@ -33,35 +33,35 @@ export class VocabularyPage extends Page {
   }
 
   public renderBlockWord(words: IWord[]) {
-    this.blockOfWordsEasy.innerHTML = '';
+    this.blockOfWordsHard.innerHTML = '';
     words.forEach((item) => {
       const wordComponent = new WordCard(
         item,
         this.wordStatusHandler,
         this.deleteWordHandler,
         DictionaryGroup.first,
-        false,
         true,
+        false,
         true
       );
-      this.blockOfWordsEasy.classList.add('wrapper-block');
-      this.blockOfWordsEasy.append(wordComponent.render());
+      this.blockOfWordsHard.classList.add('wrapper-block');
+      this.blockOfWordsHard.append(wordComponent.render());
     });
   }
 
   render() {
-    this.createHeaderTitle(VocabularyPage.TextObject.MainTitle);
+    this.createHeaderTitle(VocabularyHardPage.TextObject.MainTitle);
     const wrapperBlock = document.createElement(Tags.Div);
     const tabs = new Tabs(TAB_OPTIONS);
 
     wrapperBlock.classList.remove('wrapper-block-words');
     this.container.classList.add('wrapper', 'vocabulary');
 
-    this.container.append(this.createHeaderTitle(VocabularyPage.TextObject.MainTitle));
-
+    this.container.append(this.createHeaderTitle(VocabularyHardPage.TextObject.MainTitle));
     this.container.append(tabs.render());
     this.container.append(wrapperBlock);
-    wrapperBlock.append(this.blockOfWordsEasy);
+    wrapperBlock.append(this.blockOfWordsHard);
+
     return this.container;
   }
 
@@ -76,7 +76,7 @@ export class VocabularyPage extends Page {
       pagination.pageOfNumber,
       '' as any,
       pagination.limitOfWords,
-      AggregatedWordsFilter.easy
+      AggregatedWordsFilter.hard
     )
       .then((result) => this.renderBlockWord(result))
       .finally(() => this.spinner.hide());
