@@ -183,10 +183,25 @@ h3 {
   margin: auto 30px;
 }
 
+.lang {
+  width: 40px;
+  height: 40px;
+  background-color: var(--bg-play-btn);
+  border-radius: 10px;
+  border: 2px solid var(--bg-btn-shadow);
+  font-size: 2rem;
+  margin: auto 30px;
+}
+
 .theme:hover,
-.sign:hover {
+.sign:hover,
+.lang:hover {
   transform: scale(1.5, 1.5);
   transition: 0.34s ease-in-out;
+}
+
+.lang:hover {
+  box-shadow: 5px 5px 10px var(--bg-btn-shadow);
 }
 
 .theme-light {
@@ -218,6 +233,7 @@ h3 {
 .main-block {
   position: relative;
   width: max-content;
+  max-width: 100%;
   height: max-content;
   margin: 3rem;
   font-family: var(--font-main-en);

@@ -83,7 +83,12 @@ class DictionaryPage extends Page {
   render() {
     const title = this.createHeaderTitle(DictionaryPage.TextObject.MainTitle);
     title.className = 'dictionary-title';
-
+    const langFromStorage = localStorage.getItem('language');
+    if (langFromStorage) {
+      title.textContent = 'TEXTBOOK';
+    } else {
+      title.textContent = 'УЧЕБНИК';
+    }
     const blockButtonsWrapper = document.createElement(Tags.Div);
     const blockButtonsPagination = document.createElement(Tags.Div);
     const buttonOfPaginationPrev = document.createElement(Tags.Button);

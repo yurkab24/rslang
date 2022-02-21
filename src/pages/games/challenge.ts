@@ -341,6 +341,25 @@ class ChallengePage extends Page {
         this.createGamePage(words);
       });
     }
+
+    const langFromStorage = localStorage.getItem('language');
+    if (langFromStorage) {
+      this.title.textContent = 'AUDIOCHALLENGE';
+      titleLevel.textContent = 'Choose the level';
+      (this.wrapper.querySelector('.challenge__back') as HTMLElement).innerHTML = '';
+      (this.wrapper.querySelector('.challenge__back') as HTMLElement).insertAdjacentHTML(
+        'afterbegin',
+        '<a href="#games-page">Back</a>'
+      );
+    } else {
+      this.title.textContent = 'АУДИОВЫЗОВ';
+      titleLevel.textContent = 'Выберите уровень сложности';
+      (this.wrapper.querySelector('.challenge__back') as HTMLElement).innerHTML = '';
+      (this.wrapper.querySelector('.challenge__back') as HTMLElement).insertAdjacentHTML(
+        'afterbegin',
+        '<a href="#games-page">Назад к играм</a>'
+      );
+    }
   }
 
   showStatistics(): void {
