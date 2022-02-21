@@ -139,6 +139,10 @@ class DictionaryPage extends Page {
     buttonOfPaginationPrev.addEventListener('click', this.buttonPaginationPrevHandler);
     buttonOfPaginationNext.addEventListener('click', this.buttonPaginationNextHandler);
 
+    if (localStorage.getItem('NightTheme')) {
+      this.container.style.filter = 'brightness(0.6) contrast(150%) saturate(2) sepia(10%)';
+    }
+
     return this.container;
   }
 
