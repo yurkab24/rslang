@@ -3,9 +3,11 @@ import MainPage from '../main/main';
 import DictionaryPage from '../dictionary/dictionary';
 import GamesPage from '../games/games';
 import StatisticsPage from '../statistics/statistics';
+import Spinner from '../../core/component/spiner';
 import Header from '../../core/component/header';
 import Footer from '../../core/component/footer';
-import { VocabularyPage } from '../vocabulary/vocabulary';
+import ButtonUp from '../../core/component//buttonUpPageContetnt';
+import { VocabularyPage, VocabularyHardPage, VocabularyDeletedPage } from '../vocabulary';
 import { PageIds } from '../../constants';
 import TeamPage from '../main/team';
 import ChallengePage from '../games/challenge';
@@ -23,6 +25,10 @@ class App {
 
   private footer: Footer;
 
+  private spinner: Spinner;
+
+  private buttonUp: ButtonUp;
+
   private renderNewPage(idPage: string) {
     const currentPageHTML = document.querySelector(`#${App.defaultPageId}`);
     if (currentPageHTML) {
@@ -32,13 +38,19 @@ class App {
 
     switch (idPage) {
       case PageIds.Statistics:
-        page = new StatisticsPage(idPage);
+        page = new StatisticsPage(idPage, this.spinner);
         break;
       case PageIds.Dictionary:
-        page = new DictionaryPage(idPage);
+        page = new DictionaryPage(idPage, this.spinner);
         break;
       case PageIds.Vocabulary:
-        page = new VocabularyPage(idPage);
+        page = new VocabularyPage(idPage, this.spinner);
+        break;
+      case PageIds.VocabularyHardPage:
+        page = new VocabularyHardPage(idPage, this.spinner);
+        break;
+      case PageIds.VocabularyDeletedPage:
+        page = new VocabularyDeletedPage(idPage, this.spinner);
         break;
       case PageIds.Games:
         page = new GamesPage(idPage);
@@ -47,10 +59,10 @@ class App {
         page = new TeamPage(idPage);
         break;
       case PageIds.GameSprint:
-        page = new SprintPage(idPage);
+        page = new SprintPage(idPage, this.spinner);
         break;
       case PageIds.GameChallenge:
-        page = new ChallengePage(idPage);
+        page = new ChallengePage(idPage, this.spinner);
         break;
       case PageIds.Authorization:
         page = new Authorization(idPage);
@@ -77,14 +89,31 @@ class App {
   constructor() {
     this.header = new Header('header', 'header');
     this.footer = new Footer('footer', 'footer');
+    this.spinner = new Spinner('div', 'spinner');
+    this.buttonUp = new ButtonUp('button', 'button-up');
   }
 
   run() {
+    const hash = window.location.hash.slice(1);
     App.container.append(this.header.render());
     App.container.append(App.mainWrapper);
-    this.renderNewPage('main-page');
+    if (hash) {
+      new MainPage(PageIds.Main).renderBaseContent();
+      this.renderNewPage(hash);
+    } else {
+      this.renderNewPage(PageIds.Main);
+    }
     this.enableRouteChange();
+    App.container.append(this.spinner.render());
     App.container.append(this.footer.render());
+    App.container.append(this.buttonUp.render());
+    window.addEventListener('hashchange', () => {
+      if (window.location.hash.slice(1) === 'game-challenge' || window.location.hash.slice(1) === 'game-sprint') {
+      document.querySelector('.footer')?.classList.add('hidden');
+    } else {
+      document.querySelector('.footer')?.classList.remove('hidden');
+    }
+    });
   }
 }
 

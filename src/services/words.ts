@@ -1,9 +1,7 @@
-import { IWord } from '../../models';
-import { DictionaryGroup } from '../../constants';
+import { IWord } from '../models';
+import { DictionaryGroup } from '../constants';
 
 export class WordsContainer {
-  private wordlist: IWord[] = [];
-
   private wordGroup: DictionaryGroup = DictionaryGroup.first;
 
   public get wordGroupDictionary(): DictionaryGroup {

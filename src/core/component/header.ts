@@ -1,5 +1,5 @@
 import Component from '../templates/components';
-import { PageIds } from '../../constants';
+import { PageIds, Tags } from '../../constants';
 
 const Buttons = [
   {
@@ -8,28 +8,24 @@ const Buttons = [
   },
   {
     id: PageIds.Dictionary,
-    text: 'СЛОВАРЬ',
+    text: 'Учебник',
   },
   {
     id: PageIds.Games,
-    text: 'ИГРЫ',
+    text: 'Игры',
   },
   {
     id: PageIds.Statistics,
-    text: 'СТАТИСТИКА',
+    text: 'Статистика',
   },
 ];
 
 class Header extends Component {
-  constructor(tagName: string, className: string) {
-    super(tagName, className);
-  }
-
   renderPageButtons() {
     const pageButtons: HTMLElement = document.createElement('nav');
     pageButtons.className = 'nav';
     Buttons.forEach((button) => {
-      const buttonHTML = document.createElement('a');
+      const buttonHTML = document.createElement(Tags.A);
       buttonHTML.href = `#${button.id}`;
       buttonHTML.innerText = button.text;
       buttonHTML.className = 'nav__button';

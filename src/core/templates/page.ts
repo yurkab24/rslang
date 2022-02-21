@@ -1,10 +1,12 @@
+import { Tags } from '../../constants';
+
 abstract class Page {
   protected container: HTMLElement;
 
   static TextObject = {};
 
   constructor(id: string) {
-    this.container = document.createElement('div');
+    this.container = document.createElement(Tags.Div);
     this.container.id = id;
   }
 
@@ -15,7 +17,7 @@ abstract class Page {
   }
 
   protected createDiv(className: string, text: string) {
-    const div = document.createElement('div');
+    const div = document.createElement(Tags.Div);
     div.className = className;
     div.innerText = text;
     return div;

@@ -3,8 +3,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Rampart+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
-
-
 :root {
   --bg-light: #ffffff;
   --bg-dark: #080246;
@@ -28,7 +26,13 @@
   box-sizing: border-box;
   font-size: 10px;
   line-height: 1;
-  scroll-behavior: smooth;
+}
+
+#current-page {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: auto;
 }
 
 body {
@@ -44,14 +48,6 @@ body {
   letter-spacing: 1px;
   color: var(--text-day);
   font-family: var(--font-main-en);
-  scroll-behavior: smooth;
-}
-
-#current-page {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: auto;
 }
 
 main {
@@ -62,9 +58,9 @@ main {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  height: auto;
   background-color: var(--infoblocks);
   flex: 0 0 auto;
+
 }
 
 h1, h2 {
@@ -80,6 +76,7 @@ h1 {
 h3 {
   font-family: 'Roboto', sans-serif;
   font-size: 40px;
+  margin-bottom: 10px;
 }
 
 .nav {
@@ -92,7 +89,7 @@ h3 {
 .nav__button {
   position: relative;
   display: inline-block;
-  margin: 10px 40px;
+  margin: 10px 30px;
   font-size: 2.8rem;
   color: var(--text-day);
   background-color: var(--bg-btn);
