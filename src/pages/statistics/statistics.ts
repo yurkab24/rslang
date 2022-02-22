@@ -91,13 +91,18 @@ class StatisticsPage extends Page {
       const rightPercent = ((rightWords + wrongWords) / 100) * rightWords;
 
       const statisticRows = document.createElement(Tags.Div);
+      //const statisticRowsSprint = document.createElement(Tags.Div);
       for (let i = 0; i < statisticColumn; i++) {
         const columnBlock = document.createElement(Tags.Div);
+        //const columnBlockSprint = document.createElement(Tags.Div);
         columnBlock.classList.add('td-table-row-block');
+        //columnBlockSprint.classList.add('td-table-row-block');
         statisticRows.append(columnBlock.cloneNode(true));
+        //statisticRowsSprint.append(columnBlock.cloneNode(true));
       }
 
       statisticRows.classList.add('td-table-row');
+      //statisticRowsSprint.classList.add('td-table-row');
 
       statisticRows.childNodes[0].textContent = new Date(date).toLocaleDateString();
       statisticRows.childNodes[1].textContent = String(newWordsOfDay);
