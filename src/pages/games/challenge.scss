@@ -331,6 +331,14 @@ main .page-title {
   .challenge__statistics__words {
     display: block;
     padding-left: 30px;
+    overflow: auto;
+  }
+
+  .challenge__words-wrong,
+  .challenge__words-right
+   {
+    height: auto;
+    overflow: initial;
   }
 
 }
@@ -363,6 +371,14 @@ main .page-title {
   .challenge__statistics__words {
     display: block;
     padding-left: 30px;
+    overflow: auto;
+  }
+
+  .challenge__words-wrong,
+  .challenge__words-right
+   {
+    height: auto;
+    overflow: initial;
   }
 
 }
@@ -397,6 +413,14 @@ main .page-title {
   .challenge__statistics__words {
     display: block;
     padding-left: 30px;
+    overflow: auto;
+  }
+
+  .challenge__words-wrong,
+  .challenge__words-right
+   {
+    height: auto;
+    overflow: initial;
   }
 
 }

@@ -43,7 +43,7 @@ class StatisticsPage extends Page {
     this.statisticTableRow.classList.add('td-table-row');
 
     this.container.append(title, nameGame);
-    this.wrapperStatistic.append(this.statisticTableRow.cloneNode(true));
+    this.wrapperStatistic.append(this.statisticTableRow);
     this.container.append(wrapper);
     wrapper.append(this.wrapperStatistic);
 
@@ -59,9 +59,11 @@ class StatisticsPage extends Page {
 
   private updatePageofStatistic(statistic: IGameStatisticResponse): void {
     const staticArr = Object.entries(statistic.optional);
+    console.log(staticArr);
 
     staticArr.forEach(([data, { rightWords, wrongWords, longestSeries }]) => {
       const rightPercent = ((rightWords + wrongWords) / 100) * rightWords;
+
       const statisticRows = document.createElement(Tags.Div);
       const div1 = document.createElement(Tags.Div);
       const div2 = document.createElement(Tags.Div);

@@ -292,6 +292,16 @@ i {
   filter: drop-shadow(2px 4px 6px black);
 }
 
+@media screen and (min-width: 961px) and (max-width: 1920px) {
+  .word-block div, 
+  .word-block div p, 
+  .word-block div p i, 
+  .word-block div p b, 
+  .word-block div span {
+    font-size: 18px;
+  }
+}
+
 @media screen and (min-width: 320px) and (max-width: 960px) {
   .button-section-wrapper,
   .link-section-wrapper {

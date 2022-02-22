@@ -84,6 +84,13 @@ class DictionaryPage extends Page {
     const title = this.createHeaderTitle(DictionaryPage.TextObject.MainTitle);
     title.className = 'dictionary-title';
 
+    const langFromStorage = localStorage.getItem('language');
+    if (langFromStorage) {
+      title.textContent = 'TEXTBOOK';
+    } else {
+      title.textContent = 'УЧЕБНИК';
+    }
+
     const blockButtonsWrapper = document.createElement(Tags.Div);
     const blockButtonsPagination = document.createElement(Tags.Div);
     const buttonOfPaginationPrev = document.createElement(Tags.Button);
@@ -139,6 +146,9 @@ class DictionaryPage extends Page {
     buttonOfPaginationPrev.addEventListener('click', this.buttonPaginationPrevHandler);
     buttonOfPaginationNext.addEventListener('click', this.buttonPaginationNextHandler);
 
+    if (localStorage.getItem('NightTheme')) {
+      this.container.style.filter = 'brightness(0.6) contrast(150%) saturate(2) sepia(10%)';
+    }
     return this.container;
   }
 
