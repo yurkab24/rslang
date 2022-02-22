@@ -312,4 +312,13 @@ i {
     margin-left: 15px;
     height: 200px;
   }
+
+  .word-block div, 
+  .word-block div p, 
+  .word-block div p i, 
+  .word-block div p b, 
+  .word-block div span {
+    font-size: 16px;
+  }
+
 }

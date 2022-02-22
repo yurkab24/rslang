@@ -1,10 +1,11 @@
 import { dictionaryGroupOptions, host, Tags } from '../../constants';
 import Page from '../../core/templates/page';
 import { PATH_OF_LEARNWORDS, DictionaryGroup } from '../../constants';
-import { IWord } from '../../models/dictionary';
-import App from '../app/app';
+import { IWord, IGameStatistic } from '../../models';
 import Spinner from '../../core/component/spiner';
 import { circle } from './circle';
+import { updateGameStatisticRequest, getStatisticRequest } from '../../request/statistic';
+import { getUserId } from '../../core/utils';
 
 class ChallengePage extends Page {
   static TextObject = {
@@ -16,6 +17,7 @@ class ChallengePage extends Page {
   wrapper = this.createElem(Tags.Div, 'block challenge__wrapper', '');
 
   private spinner: Spinner;
+
   pagesNumber = 30;
 
   count = 0;
@@ -336,6 +338,10 @@ class ChallengePage extends Page {
 
     let rightWords: HTMLElement;
     let wrongWords: HTMLElement;
+
+    const pointsForRighrAnswer = 10;
+    const totalCount = pointsForRighrAnswer * arrRights.length || 0;
+
     if (wrongAnswersFromStorage) {
       wrongWords = this.createElem(Tags.Div, 'challenge__words-wrong', `Ошибок - ${arrWrongs.length}`);
       this.showResultWords(arrWrongs, wrongWords);
@@ -346,8 +352,6 @@ class ChallengePage extends Page {
       rightWords = this.createElem(Tags.Div, 'challenge__words-right', `Знаю - ${arrRights.length}!`);
       this.showResultWords(arrRights, rightWords);
 
-      const pointsForRighrAnswer = 10;
-      const totalCount = pointsForRighrAnswer * arrRights.length || 0;
       localStorage.setItem('challenge-totalcount', `${totalCount}`);
       (
         this.wrapper.querySelector('.challenge__statistics__title') as HTMLDivElement
@@ -378,6 +382,23 @@ class ChallengePage extends Page {
       `${(this.wrapper.querySelector('.chart-number') as HTMLElement).textContent}`
     );
     statisticsWrapper?.append(wrongWords, rightWords);
+
+    getStatisticRequest(getUserId()).then((statistic) => {
+      const newGameResult: IGameStatistic = {
+        rightWords: arrRights.length,
+        wrongWords: arrWrongs.length,
+        totalCount: totalCount,
+        longestSeries: this.getTheLongestSeries(),
+      };
+
+      updateGameStatisticRequest(
+        {
+          ...statistic,
+          optional: { ...statistic.optional, [new Date().toISOString()]: newGameResult },
+        },
+        getUserId()
+      );
+    });
   }
 
   showResultWords(arr: { word: string; wordTranslate: string; wordSound: string }[], parent: HTMLElement) {
