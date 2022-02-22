@@ -28,9 +28,9 @@ class ChallengePage extends Page {
 
   words: IWord[] = [];
 
-  rightAnswers: { word: string; wordTranslate: string; wordSound: string }[] = [];
+  rightAnswers: { word: string; wordTranslate: string; wordSound: string; date: number }[] = [];
 
-  wrongAnswers: { word: string; wordTranslate: string; wordSound: string }[] = [];
+  wrongAnswers: { word: string; wordTranslate: string; wordSound: string; date: number }[] = [];
 
   arrWordsRight: string[] = [];
 
@@ -39,6 +39,8 @@ class ChallengePage extends Page {
   keyboard = true;
 
   flag = false;
+
+  currentDate = 1;
 
   constructor(id: string, spinner: Spinner) {
     super(id);
@@ -59,7 +61,13 @@ class ChallengePage extends Page {
         return data;
       });
 
-  createChallengeStatistics() {
+  getTheDate(): number {
+    const currentDateAll = new Date();
+    this.currentDate = currentDateAll.getDate();
+    return this.currentDate;
+  }
+
+  createChallengeStatistics(): void {
     this.wrapper.innerHTML = '';
     const statisticWrapper = this.createElem(Tags.Div, 'challenge__statistics', '');
     this.wrapper.append(statisticWrapper);
@@ -93,6 +101,7 @@ class ChallengePage extends Page {
   }
 
   createGamePage(words: IWord[]): void {
+    this.getTheDate();
     const question = this.createElem(Tags.Div, 'challenge__question', '');
     const picture = this.createElem(Tags.Div, 'challenge__picture', '');
     const word = this.createElem(Tags.Div, 'challenge__word', '');
@@ -132,11 +141,10 @@ class ChallengePage extends Page {
     this.flag = false;
     this.play(words);
     this.setKeyboardEvents(words);
-
     this.listenBtnNext(words);
   }
 
-  listenBtnNext(words: IWord[]) {
+  listenBtnNext(words: IWord[]):void {
     const btnNext = this.wrapper.querySelector('.challenge__btn') as HTMLButtonElement;
     btnNext.addEventListener('click', () => {
       if (btnNext.textContent === 'Не знаю') {
@@ -182,17 +190,15 @@ class ChallengePage extends Page {
     );
   }
 
-  setKeyboardEvents(words: IWord[]) {
+  setKeyboardEvents(words: IWord[]): void {
     this.flag = false;
     this.keyboard = true;
     if (this.wrapper.querySelector('.challenge__question')) {
-      document.addEventListener('keyup', (event) => {
-        //console.log(event);
+      document.onkeyup = (event) => {
         const i = +event.key;
         const elem = document.querySelector(`.challenge__variant-${i}`) as HTMLDivElement;
         const btnNext = this.wrapper.querySelector('.challenge__btn') as HTMLButtonElement;
         if (+event.key >= 1 && +event.key <= this.variantsNumber) {
-          //console.log('elem.textcontent', elem.textContent);
           if ((elem.textContent as string).split('. ')[1] === words[this.count].wordTranslate && this.flag === false) {
             (elem as HTMLDivElement).style.outline = '5px solid var(--bg-btn-shadow)';
             (document.querySelector('.challenge__picture') as HTMLDivElement).style.backgroundImage = `URL(${host}${
@@ -217,8 +223,6 @@ class ChallengePage extends Page {
           this.changeToArrow();
         } else if (event.key === 'Enter' && btnNext.textContent === 'Не знаю') {
           this.answersString = this.answersString + ' ';
-          //console.log('answersString1', this.answersString);
-          //console.log('arrWordsWrong', this.arrWordsWrong);
           this.composeTheListOfWrongAnswers(words, this.arrWordsWrong);
           this.continueTheGame(words);
         } else if (event.code === 'Space') {
@@ -227,7 +231,7 @@ class ChallengePage extends Page {
         if (event.key === 'Enter' && btnNext.textContent !== 'Не знаю') {
           this.continueTheGame(words);
         }
-      });
+      };
     }
   }
 
@@ -243,6 +247,7 @@ class ChallengePage extends Page {
       word: words[this.count].word,
       wordTranslate: words[this.count].wordTranslate,
       wordSound: `${host}${words[this.count].audio}`,
+      date: this.getTheDate(),
     };
     if (!arrWordsRight.includes(words[this.count].word)) {
       this.rightAnswers.push(newRightWord);
@@ -266,6 +271,7 @@ class ChallengePage extends Page {
       word: words[this.count].word,
       wordTranslate: words[this.count].wordTranslate,
       wordSound: `${host}${words[this.count].audio}`,
+      date: this.getTheDate(),
     };
     if (!arrWordsWrong.includes(words[this.count].word)) {
       this.wrongAnswers.push(newWrongWord);
@@ -284,6 +290,21 @@ class ChallengePage extends Page {
     this.theLongestSeries = arrElLength[0];
     localStorage.setItem('challenge-theLongestSeries', `${this.theLongestSeries}`);
     return this.theLongestSeries;
+  }
+
+  getTheDayNewWords(): number {
+    let wordsADay = 0;
+    const rightAnswersFromStorage = localStorage.getItem('rightAnswers');
+    if (rightAnswersFromStorage) {
+      this.rightAnswers = JSON.parse(rightAnswersFromStorage);
+      this.rightAnswers.forEach((el) => {
+        if (el.date === this.currentDate) {
+          wordsADay++;
+        }
+      });
+      localStorage.setItem('challenge-newWordsADay', `${wordsADay}`);
+    }
+    return wordsADay;
   }
 
   continueTheGame(words: IWord[]): void {
@@ -320,9 +341,28 @@ class ChallengePage extends Page {
         this.createGamePage(words);
       });
     }
+
+    const langFromStorage = localStorage.getItem('language');
+    if (langFromStorage) {
+      this.title.textContent = 'AUDIOCHALLENGE';
+      titleLevel.textContent = 'Choose the level';
+      (this.wrapper.querySelector('.challenge__back') as HTMLElement).innerHTML = '';
+      (this.wrapper.querySelector('.challenge__back') as HTMLElement).insertAdjacentHTML(
+        'afterbegin',
+        '<a href="#games-page">Back</a>'
+      );
+    } else {
+      this.title.textContent = 'АУДИОВЫЗОВ';
+      titleLevel.textContent = 'Выберите уровень сложности';
+      (this.wrapper.querySelector('.challenge__back') as HTMLElement).innerHTML = '';
+      (this.wrapper.querySelector('.challenge__back') as HTMLElement).insertAdjacentHTML(
+        'afterbegin',
+        '<a href="#games-page">Назад к играм</a>'
+      );
+    }
   }
 
-  showStatistics() {
+  showStatistics(): void {
     const wrongAnswersFromStorage = localStorage.getItem('wrongAnswers');
     const rightAnswersFromStorage = localStorage.getItem('rightAnswers');
     const arrWrongs: { word: string; wordTranslate: string; wordSound: string }[] = JSON.parse(
@@ -331,6 +371,7 @@ class ChallengePage extends Page {
     const arrRights: { word: string; wordTranslate: string; wordSound: string }[] = JSON.parse(
       rightAnswersFromStorage as string
     );
+    const wordsADay: number = this.getTheDayNewWords();
 
     const statisticsWrapper = this.wrapper.querySelector('.challenge__statistics__words');
 
@@ -351,7 +392,7 @@ class ChallengePage extends Page {
       localStorage.setItem('challenge-totalcount', `${totalCount}`);
       (
         this.wrapper.querySelector('.challenge__statistics__title') as HTMLDivElement
-      ).textContent = `Результат - ${totalCount}   Длина серии - ${this.theLongestSeries}`;
+      ).textContent = `Результат - ${totalCount}  \nДлина серии - ${this.theLongestSeries} \nНовых за день - ${wordsADay}`;
     } else {
       rightWords = this.createElem(Tags.Div, 'challenge__words-right', 'Знаю - 0');
     }
@@ -380,7 +421,7 @@ class ChallengePage extends Page {
     statisticsWrapper?.append(wrongWords, rightWords);
   }
 
-  showResultWords(arr: { word: string; wordTranslate: string; wordSound: string }[], parent: HTMLElement) {
+  showResultWords(arr: { word: string; wordTranslate: string; wordSound: string }[], parent: HTMLElement): void {
     arr.forEach((right: { word: string; wordTranslate: string; wordSound: string }) => {
       const rightWord = this.createElem(Tags.Div, 'challenge__result-word', '');
       const loudspeaker = this.createElem(Tags.Div, 'challenge__statistics-loudspesker', '');
@@ -398,7 +439,7 @@ class ChallengePage extends Page {
     });
   }
 
-  changeToArrow() {
+  changeToArrow(): void {
     const arrow = '&#10230;';
     (document.querySelector('.challenge__btn') as HTMLButtonElement).innerHTML = arrow;
     (document.querySelector('.challenge__btn') as HTMLButtonElement).style.fontSize = '5rem';
