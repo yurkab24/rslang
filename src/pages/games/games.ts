@@ -14,7 +14,6 @@ class GamesPage extends Page {
   constructor(id: string) {
     super(id);
 
-
     this.game = [
       {
         kind: 'sprint',

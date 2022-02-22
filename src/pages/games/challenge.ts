@@ -146,7 +146,7 @@ class ChallengePage extends Page {
     this.listenBtnNext(words);
   }
 
-  listenBtnNext(words: IWord[]):void {
+  listenBtnNext(words: IWord[]): void {
     const btnNext = this.wrapper.querySelector('.challenge__btn') as HTMLButtonElement;
     btnNext.addEventListener('click', () => {
       if (btnNext.textContent === 'Не знаю') {
@@ -426,6 +426,7 @@ class ChallengePage extends Page {
 
     getStatisticRequest(getUserId()).then((statistic) => {
       const newGameResult: IGameStatistic = {
+        newWordsOfDay: this.getTheDayNewWords(),
         rightWords: arrRights.length,
         wrongWords: arrWrongs.length,
         totalCount: totalCount,
@@ -434,7 +435,6 @@ class ChallengePage extends Page {
 
       updateGameStatisticRequest(
         {
-          ...statistic,
           optional: { ...statistic.optional, [new Date().toISOString()]: newGameResult },
         },
         getUserId()

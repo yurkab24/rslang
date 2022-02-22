@@ -10,9 +10,7 @@ export const updateGameStatisticRequest = (gameStatistic: IGameStatisticResponse
       'Content-Type': 'application/json',
     },
     method: HttpMethod.put,
-    body: JSON.stringify({
-      optional: gameStatistic,
-    }),
+    body: JSON.stringify(gameStatistic),
   }).then((result) => result.json());
 
 export const getStatisticRequest = (userId: string): Promise<IGameStatisticResponse> =>

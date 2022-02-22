@@ -3,6 +3,7 @@ export interface IGameStatistic {
   wrongWords: number;
   totalCount: number;
   longestSeries: number;
+  newWordsOfDay: number;
 }
 
 export interface IGameStatisticResponse {

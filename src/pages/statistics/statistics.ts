@@ -4,6 +4,7 @@ import { Tags } from '../../constants/pages';
 import { getStatisticRequest } from '../../request/statistic';
 import { getUserId } from '../../core/utils';
 import { IGameStatisticResponse } from '../../models';
+import { statisticColumn } from '../../constants';
 
 class StatisticsPage extends Page {
   static TextObject = {
@@ -14,7 +15,13 @@ class StatisticsPage extends Page {
 
   private wrapperStatistic = document.createElement(Tags.Div);
 
+  private wrapperStatisticSprint = document.createElement(Tags.Div);
+
   private statisticTableRow = document.createElement(Tags.Div);
+
+  private nameGame = document.createElement(Tags.H2);
+
+  private nameGameSprint = document.createElement(Tags.H2);
 
   constructor(id: string, spinner: Spinner) {
     super(id);
@@ -23,11 +30,23 @@ class StatisticsPage extends Page {
 
   render() {
     const title = this.createHeaderTitle(StatisticsPage.TextObject.MainTitle);
-    const nameGame = document.createElement(Tags.H2);
-    const wrapper = document.createElement(Tags.Div);
+
+    const langFromStorage = localStorage.getItem('language');
+    if (langFromStorage) {
+      title.textContent = 'Statistic';
+      this.nameGame.textContent = '"AUDIOCHALLENGE"';
+      this.nameGameSprint.textContent = '"SPRINT"';
+    } else {
+      title.textContent = StatisticsPage.TextObject.MainTitle;
+      this.nameGame.textContent = '"АУДИОВЫЗОВ"';
+      this.nameGameSprint.textContent = '"СПРИНТ"';
+    }
+
+    const wrapperChallenge = document.createElement(Tags.Div);
+    const wrapperSprint = document.createElement(Tags.Div);
     const statisticTableBlock = document.createElement(Tags.Div);
 
-    const rowTittle = ['Дата', 'Изучено слов', 'Правильно (%)', 'Самая длинная серия'];
+    const rowTittle = ['Дата', 'Новые слова за день', 'Изучено слов', 'Правильно (%)', 'Серия правильных ответов'];
 
     for (let i = 0; i < rowTittle.length; i++) {
       statisticTableBlock.classList.add('td-table-row-block');
@@ -35,17 +54,18 @@ class StatisticsPage extends Page {
       this.statisticTableRow.append(statisticTableBlock.cloneNode(true));
     }
 
-    nameGame.textContent = '"АУДИОВЫЗОВ"';
-
     this.container.classList.add('wrapper-statistic-page');
-    wrapper.classList.add('wrapper-container');
+    wrapperChallenge.classList.add('wrapper-container');
+    wrapperSprint.classList.add('wrapper-container');
     this.wrapperStatistic.classList.add('wrapper-block-statistic');
+    this.wrapperStatisticSprint.classList.add('wrapper-block-statistic');
     this.statisticTableRow.classList.add('td-table-row');
 
-    this.container.append(title, nameGame);
+    this.container.append(title, this.nameGame, wrapperChallenge, this.nameGameSprint, wrapperSprint);
     this.wrapperStatistic.append(this.statisticTableRow);
-    this.container.append(wrapper);
-    wrapper.append(this.wrapperStatistic);
+    this.wrapperStatisticSprint.append(this.statisticTableRow);
+    wrapperChallenge.append(this.wrapperStatistic);
+    wrapperSprint.append(this.wrapperStatisticSprint);
 
     return this.container;
   }
@@ -59,29 +79,25 @@ class StatisticsPage extends Page {
 
   private updatePageofStatistic(statistic: IGameStatisticResponse): void {
     const staticArr = Object.entries(statistic.optional);
-    console.log(staticArr);
 
-    staticArr.forEach(([data, { rightWords, wrongWords, longestSeries }]) => {
+    staticArr.forEach(([date, { rightWords, wrongWords, longestSeries, newWordsOfDay }]) => {
       const rightPercent = ((rightWords + wrongWords) / 100) * rightWords;
 
       const statisticRows = document.createElement(Tags.Div);
-      const div1 = document.createElement(Tags.Div);
-      const div2 = document.createElement(Tags.Div);
-      const div3 = document.createElement(Tags.Div);
-      const div4 = document.createElement(Tags.Div);
+      for (let i = 0; i < statisticColumn; i++) {
+        const columnBlock = document.createElement(Tags.Div);
+        columnBlock.classList.add('td-table-row-block');
+        statisticRows.append(columnBlock.cloneNode(true));
+      }
 
       statisticRows.classList.add('td-table-row');
-      div1.classList.add('td-table-row-block');
-      div2.classList.add('td-table-row-block');
-      div3.classList.add('td-table-row-block');
-      div4.classList.add('td-table-row-block');
 
-      div1.textContent = data;
-      div2.textContent = String(rightWords + wrongWords);
-      div3.textContent = String(rightPercent);
-      div4.textContent = String(longestSeries);
+      statisticRows.childNodes[0].textContent = new Date(date).toLocaleDateString();
+      statisticRows.childNodes[1].textContent = String(newWordsOfDay);
+      statisticRows.childNodes[2].textContent = String(rightWords + wrongWords);
+      statisticRows.childNodes[3].textContent = String(Math.round(rightPercent));
+      statisticRows.childNodes[4].textContent = String(longestSeries);
 
-      statisticRows.append(div1, div2, div3, div4);
       this.wrapperStatistic.append(statisticRows.cloneNode(true));
     });
   }
