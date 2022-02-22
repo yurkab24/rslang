@@ -340,9 +340,11 @@ main .page-title {
     overflow: auto;
   }
 
-  .challenge__words-right,
-  .challenge__words-wrong {
-    height: 50%;
+  .challenge__words-wrong,
+  .challenge__words-right
+   {
+    height: auto;
+    overflow: initial;
   }
 
 }
@@ -383,9 +385,11 @@ main .page-title {
     overflow: auto;
   }
 
-  .challenge__words-right,
-  .challenge__words-wrong {
-    height: 50%;
+  .challenge__words-wrong,
+  .challenge__words-right
+   {
+    height: auto;
+    overflow: initial;
   }
 
 }
@@ -428,9 +432,11 @@ main .page-title {
     overflow: auto;
   }
 
-  .challenge__words-right,
-  .challenge__words-wrong {
-    height: 50%;
+  .challenge__words-wrong,
+  .challenge__words-right
+   {
+    height: auto;
+    overflow: initial;
   }
 
 }
