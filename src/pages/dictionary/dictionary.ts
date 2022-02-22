@@ -21,6 +21,7 @@ import { WordsContainer, Refresh } from '../../services';
 import Spinner from '../../core/component/spiner';
 import WordCard from '../../core/component/word';
 import { getUserId, isAuth } from '../../core/utils';
+import ChallengePage from '../games/challenge';
 
 const refreshPage = new Refresh();
 const wordContainer = new WordsContainer();
@@ -147,7 +148,6 @@ class DictionaryPage extends Page {
     if (localStorage.getItem('NightTheme')) {
       this.container.style.filter = 'brightness(0.6) contrast(150%) saturate(2) sepia(10%)';
     }
-
     return this.container;
   }
 
@@ -206,6 +206,11 @@ class DictionaryPage extends Page {
       .then(() => this.updatePageofDictionary())
       .finally(() => this.spinner.hide());
   };
+
+  // private audioGameHandler = (): void => {
+  //   this.spinner.show();
+  //   getAgregatedWordsRequest(getUserId(), paginationPage.pageOfNumber, wordContainer.wordGroupDictionary, paginationPage.limitOfWords).then((result) => this.audioChallenge.createGamePage(result));
+  // };
 }
 
 export default DictionaryPage;

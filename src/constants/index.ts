@@ -5,3 +5,4 @@ export * from './route';
 export * from './pages';
 export * from './authorization';
 export * from './http';
+export * from './statistic';

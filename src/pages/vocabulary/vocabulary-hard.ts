@@ -13,7 +13,7 @@ import { getAgregatedWordsRequest, updateUserWordRequest } from '../../request';
 import { getUserId } from '../../core/utils';
 import { Pagination } from '../../services';
 import { IWord } from '../../models';
-import { TAB_OPTIONS } from './constants';
+import { TAB_OPTIONS, TAB_OPTIONS_ENGLISH } from './constants';
 import Tabs from '../../core/component/tabs';
 
 const pagination = new Pagination(limitOfWord, limitOfPage);
@@ -50,14 +50,20 @@ export class VocabularyHardPage extends Page {
   }
 
   render() {
-    this.createHeaderTitle(VocabularyHardPage.TextObject.MainTitle);
+    const title = this.createHeaderTitle(VocabularyHardPage.TextObject.MainTitle);
+    const langFromStorage = localStorage.getItem('language');
+    if (langFromStorage) {
+      title.textContent = 'Difficult';
+    } else {
+      title.textContent = VocabularyHardPage.TextObject.MainTitle;
+    }
     const wrapperBlock = document.createElement(Tags.Div);
-    const tabs = new Tabs(TAB_OPTIONS);
+    const tabs = new Tabs(langFromStorage ? TAB_OPTIONS_ENGLISH : TAB_OPTIONS);
 
     wrapperBlock.classList.remove('wrapper-block-words');
     this.container.classList.add('wrapper', 'vocabulary');
 
-    this.container.append(this.createHeaderTitle(VocabularyHardPage.TextObject.MainTitle));
+    this.container.append(title);
     this.container.append(tabs.render());
     this.container.append(wrapperBlock);
     wrapperBlock.append(this.blockOfWordsHard);

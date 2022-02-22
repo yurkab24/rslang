@@ -108,32 +108,32 @@ class TeamPage extends Page {
     if (langFromStorage) {
       (this.container.querySelector('.team-block') as HTMLElement).textContent = 'OUR TEAM';
       let k = 0;
-      (this.container.querySelectorAll('.team-mate')).forEach((mate) => {
+      this.container.querySelectorAll('.team-mate').forEach((mate) => {
         mate.innerHTML = '';
 
-      const teamImgDiv = this.createDiv('photo', '');
-      mate.append(teamImgDiv);
-      const photo = document.createElement('img');
-      photo.src = this.teamEn[k].photo;
-      photo.alt = `${this.teamEn[k].name}`;
-      photo.className = 'photo-img';
+        const teamImgDiv = this.createDiv('photo', '');
+        mate.append(teamImgDiv);
+        const photo = document.createElement('img');
+        photo.src = this.teamEn[k].photo;
+        photo.alt = `${this.teamEn[k].name}`;
+        photo.className = 'photo-img';
 
-      teamImgDiv.insertAdjacentElement('afterbegin', photo);
-      const gh = this.createDiv('', '');
-      const ghLink = document.createElement(Tags.A) as HTMLAnchorElement;
-      ghLink.href = `${this.teamEn[k].github}`;
-      ghLink.insertAdjacentHTML('afterbegin', logoCat);
-      gh.insertAdjacentElement('afterbegin', ghLink);
-      const mateName = this.createDiv('', `${this.teamEn[k].name.toUpperCase()}`);
-      const role = this.createDiv('', `${this.teamEn[k].role}`);
-      const did = this.createDiv('done', `${this.teamEn[k].contribution}`);
-      mate.append(gh, mateName, role, did);
-      k++;
+        teamImgDiv.insertAdjacentElement('afterbegin', photo);
+        const gh = this.createDiv('', '');
+        const ghLink = document.createElement(Tags.A) as HTMLAnchorElement;
+        ghLink.href = `${this.teamEn[k].github}`;
+        ghLink.insertAdjacentHTML('afterbegin', logoCat);
+        gh.insertAdjacentElement('afterbegin', ghLink);
+        const mateName = this.createDiv('', `${this.teamEn[k].name.toUpperCase()}`);
+        const role = this.createDiv('', `${this.teamEn[k].role}`);
+        const did = this.createDiv('done', `${this.teamEn[k].contribution}`);
+        mate.append(gh, mateName, role, did);
+        k++;
       });
-     } else {
+    } else {
       (this.container.querySelector('.team-block') as HTMLElement).textContent = 'НАША КОМАНДА';
       let i = 0;
-      (this.container.querySelectorAll('.team-mate')).forEach((mate) => {
+      this.container.querySelectorAll('.team-mate').forEach((mate) => {
         mate.innerHTML = '';
         const teamImgDiv = this.createDiv('photo', '');
         mate.append(teamImgDiv);
@@ -154,7 +154,7 @@ class TeamPage extends Page {
         mate.append(gh, mateName, role, did);
         i++;
       });
-     }
+    }
   }
 
   render(): HTMLElement {
@@ -162,8 +162,6 @@ class TeamPage extends Page {
     this.changeLang();
     return this.container;
   }
-
-
 }
 
 export default TeamPage;
