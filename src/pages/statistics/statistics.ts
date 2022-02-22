@@ -19,6 +19,8 @@ class StatisticsPage extends Page {
 
   private statisticTableRow = document.createElement(Tags.Div);
 
+  private statisticTableRowSprint = document.createElement(Tags.Div);
+
   private nameGame = document.createElement(Tags.H2);
 
   private nameGameSprint = document.createElement(Tags.H2);
@@ -45,13 +47,17 @@ class StatisticsPage extends Page {
     const wrapperChallenge = document.createElement(Tags.Div);
     const wrapperSprint = document.createElement(Tags.Div);
     const statisticTableBlock = document.createElement(Tags.Div);
+    const statisticTableBlockSprint = document.createElement(Tags.Div);
 
     const rowTittle = ['Дата', 'Новые слова за день', 'Изучено слов', 'Правильно (%)', 'Серия правильных ответов'];
 
     for (let i = 0; i < rowTittle.length; i++) {
       statisticTableBlock.classList.add('td-table-row-block');
+      statisticTableBlockSprint.classList.add('td-table-row-block');
       statisticTableBlock.textContent = rowTittle[i];
+      statisticTableBlockSprint.textContent = rowTittle[i];
       this.statisticTableRow.append(statisticTableBlock.cloneNode(true));
+      this.statisticTableRowSprint.append(statisticTableBlockSprint.cloneNode(true));
     }
 
     this.container.classList.add('wrapper-statistic-page');
@@ -60,10 +66,11 @@ class StatisticsPage extends Page {
     this.wrapperStatistic.classList.add('wrapper-block-statistic');
     this.wrapperStatisticSprint.classList.add('wrapper-block-statistic');
     this.statisticTableRow.classList.add('td-table-row');
+    this.statisticTableRowSprint.classList.add('td-table-row');
 
     this.container.append(title, this.nameGame, wrapperChallenge, this.nameGameSprint, wrapperSprint);
     this.wrapperStatistic.append(this.statisticTableRow);
-    this.wrapperStatisticSprint.append(this.statisticTableRow);
+    this.wrapperStatisticSprint.append(this.statisticTableRowSprint);
     wrapperChallenge.append(this.wrapperStatistic);
     wrapperSprint.append(this.wrapperStatisticSprint);
 
