@@ -10,13 +10,13 @@ const START_POINTS = 10;
 const START_TIMER = 60;
 
 interface ISprint {
-  right: IWord[],
-  wrong: IWord[],
+  right: IWord[];
+  wrong: IWord[];
 }
 
 interface ISprintWord {
-  en: string,
-  ru: string,
+  en: string;
+  ru: string;
 }
 
 const shuffle = (arr: string[]) => {
@@ -253,7 +253,7 @@ class SprintPage extends Page {
     return this.container;
   }
 
-  public init(): void { }
+  public init(): void {}
 }
 
 export default SprintPage;
