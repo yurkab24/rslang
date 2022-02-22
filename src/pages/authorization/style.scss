@@ -76,3 +76,20 @@
   background: #312c2c;
   color: #ffffff;
 }
+
+.theme-dark .login__subtitle {
+  color: #ffffff;
+}
+
+.theme-dark .login__input {
+  border-bottom: 1px solid #ffffff;
+}
+
+.theme-dark .login__input::placeholder {
+  color: #ffffff;
+}
+
+.theme-dark .login__toggle-button {
+  color: #ffffff;
+  border-bottom: 1px solid #ffffff;
+}
