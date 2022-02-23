@@ -116,6 +116,7 @@ class Authorization extends Page {
   registration(): void {
     this.loginForm.buttonRegistration.onclick = async (e) => {
       e.preventDefault();
+      this.isError = false;
 
       const name = this.loginForm.inputName.value;
       const email = this.loginForm.inputEmail.value;
@@ -152,7 +153,7 @@ class Authorization extends Page {
       }
 
       if (!this.isError) {
-        this.isError = !this.isError;
+        /* this.isError = !this.isError; */
         this.loginForm.errorBlock.innerHTML = '';
         this.clearForm();
         this.entryForm();
