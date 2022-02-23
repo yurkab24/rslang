@@ -21,11 +21,10 @@ import { WordsContainer, Refresh } from '../../services';
 import Spinner from '../../core/component/spiner';
 import WordCard from '../../core/component/word';
 import { getUserId, isAuth } from '../../core/utils';
-import ChallengePage from '../games/challenge';
 
 const refreshPage = new Refresh();
-const wordContainer = new WordsContainer();
-const paginationPage = new Pagination(limitOfWord, limitOfPage);
+export const wordContainer = new WordsContainer();
+export const paginationPage = new Pagination(limitOfWord, limitOfPage);
 
 refreshPage.addSaveData({
   func: () => paginationPage.pageOfNumber,

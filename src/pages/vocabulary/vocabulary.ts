@@ -69,6 +69,11 @@ export class VocabularyPage extends Page {
     this.container.append(tabs.render());
     this.container.append(wrapperBlock);
     wrapperBlock.append(this.blockOfWordsEasy);
+
+    if (localStorage.getItem('NightTheme')) {
+      this.container.style.filter = 'brightness(0.6) contrast(150%) saturate(2) sepia(10%)';
+    }
+
     return this.container;
   }
 

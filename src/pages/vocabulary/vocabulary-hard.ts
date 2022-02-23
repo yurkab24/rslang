@@ -68,6 +68,10 @@ export class VocabularyHardPage extends Page {
     this.container.append(wrapperBlock);
     wrapperBlock.append(this.blockOfWordsHard);
 
+    if (localStorage.getItem('NightTheme')) {
+      this.container.style.filter = 'brightness(0.6) contrast(150%) saturate(2) sepia(10%)';
+    }
+
     return this.container;
   }
 
