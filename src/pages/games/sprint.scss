@@ -32,8 +32,8 @@
 
   &__timer {
     position: absolute;
-    top: 10px;
-    left: -50px;
+    top: 25px;
+    left: -15px;
     width: 65px;
     height: 65px;
     display: flex;
@@ -75,6 +75,31 @@
       box-shadow: 5px 5px 10px var(--bg-btn-shadow);
     }
   }
+
+  &__statistics-words {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  &__words-right {
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+  }
+  &__words-wrong {
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+  }
+  &__result-word {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__word-ru,
+  &__word-en {
+    font-size: 20px;
+    line-height: 20px;
+  }
 }
 
 .words__wrapper {
@@ -86,4 +111,21 @@
 .button__wrapper {
   display: flex;
   gap: 15px;
+}
+
+.challenge__statistics--width {
+  width: 100%;
+}
+
+.challenge__wrapper--height {
+  height: auto;
+  min-height: 70vh;
+}
+
+.challenge__statistics__back--width {
+  width: auto;
+}
+
+.challenge__statistics__body--width {
+  width: auto;
 }
