@@ -92,24 +92,17 @@ class StatisticsPage extends Page {
 
   private updatePageofStatistic(statistic: IGameStatisticResponse): void {
     const staticArr = Object.entries(statistic.optional);
-
     staticArr.forEach(([date, { rightWords, wrongWords, longestSeries, newWordsOfDay }]) => {
       const rightPercent = ((rightWords + wrongWords) / 100) * rightWords;
 
       const statisticRows = document.createElement(Tags.Div);
-      //const statisticRowsSprint = document.createElement(Tags.Div);
       for (let i = 0; i < statisticColumn; i++) {
         const columnBlock = document.createElement(Tags.Div);
-        //const columnBlockSprint = document.createElement(Tags.Div);
         columnBlock.classList.add('td-table-row-block');
-        //columnBlockSprint.classList.add('td-table-row-block');
         statisticRows.append(columnBlock.cloneNode(true));
-        //statisticRowsSprint.append(columnBlock.cloneNode(true));
       }
 
       statisticRows.classList.add('td-table-row');
-      //statisticRowsSprint.classList.add('td-table-row');
-
       statisticRows.childNodes[0].textContent = new Date(date).toLocaleDateString();
       statisticRows.childNodes[1].textContent = String(newWordsOfDay);
       statisticRows.childNodes[2].textContent = String(rightWords + wrongWords);
@@ -118,6 +111,11 @@ class StatisticsPage extends Page {
 
       this.wrapperStatistic.append(statisticRows.cloneNode(true));
     });
+    //const statisticRowsSprint = document.createElement(Tags.Div);
+    //const columnBlockSprint = document.createElement(Tags.Div);
+    //columnBlockSprint.classList.add('td-table-row-block');
+    //statisticRowsSprint.append(columnBlock.cloneNode(true));
+    //statisticRowsSprint.classList.add('td-table-row');
   }
 }
 
