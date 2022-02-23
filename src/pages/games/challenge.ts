@@ -4,7 +4,7 @@ import { PATH_OF_LEARNWORDS, DictionaryGroup } from '../../constants';
 import { IWord, IGameStatistic } from '../../models';
 import Spinner from '../../core/component/spiner';
 import { circle } from './circle';
-import { updateGameStatisticRequest, getStatisticRequest } from '../../request/statistic';
+import { updateGameStatisticRequest, getStatisticRequest } from '../../request';
 import { getUserId } from '../../core/utils';
 
 class ChallengePage extends Page {
@@ -59,9 +59,7 @@ class ChallengePage extends Page {
   getWordsRequest = async (page: number, group: DictionaryGroup): Promise<IWord[]> =>
     fetch(`${PATH_OF_LEARNWORDS.words}?page=${page}&group=${group}`)
       .then((result) => result.json())
-      .then((data) => {
-        return data;
-      });
+      .then((data) => data);
 
   getTheDate(): number {
     const currentDateAll = new Date();
@@ -424,22 +422,31 @@ class ChallengePage extends Page {
     );
     statisticsWrapper?.append(wrongWords, rightWords);
 
-    getStatisticRequest(getUserId()).then((statistic) => {
-      const newGameResult: IGameStatistic = {
-        newWordsOfDay: this.getTheDayNewWords(),
-        rightWords: arrRights.length,
-        wrongWords: arrWrongs.length,
-        totalCount: totalCount,
-        longestSeries: this.getTheLongestSeries(),
-      };
+    const newGameResult: IGameStatistic = {
+      newWordsOfDay: this.getTheDayNewWords(),
+      rightWords: arrRights.length,
+      wrongWords: arrWrongs.length,
+      totalCount: totalCount,
+      longestSeries: this.getTheLongestSeries(),
+    };
 
-      updateGameStatisticRequest(
-        {
-          optional: { ...statistic.optional, [new Date().toISOString()]: newGameResult },
-        },
-        getUserId()
-      );
-    });
+    getStatisticRequest(getUserId())
+      .then((statistic) => {
+        updateGameStatisticRequest(
+          {
+            optional: { ...statistic.optional, [new Date().toISOString()]: newGameResult },
+          },
+          getUserId()
+        );
+      })
+      .catch(() => {
+        updateGameStatisticRequest(
+          {
+            optional: { [new Date().toISOString()]: newGameResult },
+          },
+          getUserId()
+        );
+      });
   }
 
   showResultWords(arr: { word: string; wordTranslate: string; wordSound: string }[], parent: HTMLElement): void {
