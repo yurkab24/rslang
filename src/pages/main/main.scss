@@ -134,6 +134,15 @@ h3 {
   color: var(--text-day);
   opacity: 1;
   flex: 0 0 auto;
+  padding: 0 20px;
+}
+
+.footer-div {
+  width: 75%;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .footer__text {
@@ -141,7 +150,6 @@ h3 {
   color: var(--text-day);
   font-size: 2rem;
   letter-spacing: 1px;
-  padding: 0 40px;
 }
 
 .footer__rs {
@@ -154,7 +162,6 @@ h3 {
 }
 
 .year {
-  margin-right: 30px;
   font-size: 2rem;
 }
 

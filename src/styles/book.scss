@@ -308,19 +308,29 @@ i {
     flex-direction: column;
     width: 50px;
     height: auto;
-    margin-right: 15px;
     z-index: 1;
+  }
+
+  .button-section-wrapper {
+    margin-right: 15px;
   }
 
   .button-section-wrapper > button,
   .link-section-wrapper > a {
     margin: 5px 0;
+    width: 35px;
+    height: 35px;
   }
 
   .link-section-wrapper {
-    width: 60px;
+    width: 50px;
     margin-left: 15px;
     height: 200px;
+  }
+
+  .link-section-wrapper > a {
+    width: 40px;
+    height: 40px;
   }
 
   .word-block div, 
@@ -331,4 +341,31 @@ i {
     font-size: 16px;
   }
 
+}
+
+@media screen and (min-width: 320px) and (max-width: 450px) {
+  .wrapper-block {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+
+  .word-block {
+    width: 300px;
+    height: 500px;
+  }
+
+  .word-block div, 
+  .word-block div p, 
+  .word-block div p i, 
+  .word-block div p b, 
+  .word-block div span {
+    font-size: 14px;
+  }
+
+  .button-section-wrapper {
+    margin-right: 5px;
+  }
+
+  .link-section-wrapper {
+    margin-left: 5px;
+  }
 }
