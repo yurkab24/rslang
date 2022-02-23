@@ -26,7 +26,7 @@ class MainPage extends Page {
 
     const langBtn = document.createElement(Tags.Button);
     langBtn.className = 'lang';
-    langBtn.textContent = 'EN'
+    langBtn.textContent = 'EN';
 
     const signBtn = document.createElement(Tags.Button);
     signBtn.className = 'sign';
@@ -139,26 +139,27 @@ class MainPage extends Page {
     const langFromStorage = localStorage.getItem('language');
     if (langFromStorage) {
       this.changeLangToEN();
-     } else {
+    } else {
       this.changeLangToRU();
-     }
-
-
+    }
   }
 
   changeLangToEN() {
     const langBtn = document.querySelector('.lang') as HTMLButtonElement;
     langBtn.textContent = 'RU';
     let i = 0;
-    (this.container.querySelectorAll('.advantage').forEach((el) => {
+    this.container.querySelectorAll('.advantage').forEach((el) => {
       el.textContent = Advantages[i + 4];
       i++;
-    }));
+    });
     (this.container.querySelector('.advantages-title') as HTMLElement).textContent = 'APP ADVANTAGES';
     (this.container.querySelector('.video-block') as HTMLElement).textContent = 'APP PRESENTATION';
     (this.container.querySelector('.team-block') as HTMLElement).textContent = '';
-    (this.container.querySelector('.team-block') as HTMLElement).insertAdjacentHTML('afterbegin', '<a href="#team">OUR TEAM</a>');
-    (this.container.querySelector('.main-block') as HTMLElement).textContent = `ENGLISH - it's easy... \nwith RS Lang!`;
+    (this.container.querySelector('.team-block') as HTMLElement).insertAdjacentHTML(
+      'afterbegin',
+      '<a href="#team">OUR TEAM</a>'
+    );
+    (this.container.querySelector('.main-block') as HTMLElement).textContent = "ENGLISH - it's easy... \nwith RS Lang!";
     let m = 0;
     document.querySelectorAll('.nav__button').forEach((btn) => {
       btn.textContent = ButtonsEn[m].text;
@@ -170,22 +171,24 @@ class MainPage extends Page {
     const langBtn = document.querySelector('.lang') as HTMLButtonElement;
     langBtn.textContent = 'EN';
     let i = 0;
-    (this.container.querySelectorAll('.advantage').forEach((el) => {
+    this.container.querySelectorAll('.advantage').forEach((el) => {
       el.textContent = Advantages[i];
       i++;
-    }));
+    });
     (this.container.querySelector('.advantages-title') as HTMLElement).textContent = 'О ПРИЛОЖЕНИИ';
     (this.container.querySelector('.video-block') as HTMLElement).textContent = 'КАК РАБОТАЕТ ПРИЛОЖЕНИЕ';
     (this.container.querySelector('.team-block') as HTMLElement).textContent = '';
-    (this.container.querySelector('.team-block') as HTMLElement).insertAdjacentHTML('afterbegin', '<a href="#team">НАША КОМАНДА</a>');
+    (this.container.querySelector('.team-block') as HTMLElement).insertAdjacentHTML(
+      'afterbegin',
+      '<a href="#team">НАША КОМАНДА</a>'
+    );
     (this.container.querySelector('.main-block') as HTMLElement).textContent = 'Учи английский легко\nс RS Lang!';
     let m = 0;
-      document.querySelectorAll('.nav__button').forEach((btn) => {
-        btn.textContent = Buttons[m].text;
-        m++;
-      });
+    document.querySelectorAll('.nav__button').forEach((btn) => {
+      btn.textContent = Buttons[m].text;
+      m++;
+    });
   }
-
 }
 
 export default MainPage;
