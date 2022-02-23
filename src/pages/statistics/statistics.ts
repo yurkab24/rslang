@@ -4,7 +4,7 @@ import { Tags } from '../../constants/pages';
 import { getStatisticRequest } from '../../request/statistic';
 import { getUserId } from '../../core/utils';
 import { IGameStatisticResponse } from '../../models';
-import { statisticColumn } from '../../constants';
+import { statisticColumn, arrayColumnStatistic } from '../../constants';
 
 class StatisticsPage extends Page {
   static TextObject = {
@@ -49,13 +49,16 @@ class StatisticsPage extends Page {
     const statisticTableBlock = document.createElement(Tags.Div);
     const statisticTableBlockSprint = document.createElement(Tags.Div);
 
-    const rowTittle = ['Дата', 'Новые слова за день', 'Изучено слов', 'Правильно (%)', 'Серия правильных ответов'];
-
-    for (let i = 0; i < rowTittle.length; i++) {
+    for (let i = 0; i < arrayColumnStatistic.length; i++) {
       statisticTableBlock.classList.add('td-table-row-block');
       statisticTableBlockSprint.classList.add('td-table-row-block');
-      statisticTableBlock.textContent = rowTittle[i];
-      statisticTableBlockSprint.textContent = rowTittle[i];
+      if (langFromStorage) {
+        statisticTableBlock.textContent = arrayColumnStatistic[i].en;
+        statisticTableBlockSprint.textContent = arrayColumnStatistic[i].en;
+      } else {
+        statisticTableBlock.textContent = arrayColumnStatistic[i].ru;
+        statisticTableBlockSprint.textContent = arrayColumnStatistic[i].ru;
+      }
       this.statisticTableRow.append(statisticTableBlock.cloneNode(true));
       this.statisticTableRowSprint.append(statisticTableBlockSprint.cloneNode(true));
     }
