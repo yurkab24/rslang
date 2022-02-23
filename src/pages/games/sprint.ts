@@ -39,7 +39,7 @@ class SprintPage extends Page {
 
   currentLEvel = 0;
 
-  wrapper = this.createElem(Tags.Div, 'block challenge__wrapper');
+  wrapper = this.createElem(Tags.Div, 'block challenge__wrapper challenge__wrapper--height');
 
   sprintWrapper = this.createElem(Tags.Div, 'sprint');
 
@@ -103,6 +103,11 @@ class SprintPage extends Page {
     });
 
     const createLvlGame = (data: ISprintWord[]) => {
+      if (this.currentLEvel == 20) {
+        this.createChallengeStatistics();
+        return;
+      }
+
       this.sprintWrapper.innerHTML = '';
       const buttonWrapper = this.createElem(Tags.Div, 'button__wrapper');
       const wordsWrapper = this.createElem(Tags.Div, 'words__wrapper');
@@ -118,7 +123,7 @@ class SprintPage extends Page {
       btnWrong.addEventListener('click', () => {
         let wordId = '';
 
-        if (this.currentLEvel < 19) {
+        if (this.currentLEvel <= 19) {
           words.forEach((wordData) => {
             if (wordData.word == data[this.currentLEvel].en) {
               wordId = wordData.id;
@@ -144,15 +149,18 @@ class SprintPage extends Page {
 
           createLvlGame(data);
         } else {
+
           this.endGame = true;
           this.sprintWrapper.innerHTML = '';
+          this.createChallengeStatistics();
+          this.currentLEvel = 0;
         }
       });
 
       btnRight.addEventListener('click', () => {
         let wordId = '';
 
-        if (this.currentLEvel < 19) {
+        if (this.currentLEvel <= 19) {
           words.forEach((wordData) => {
             if (wordData.word == data[this.currentLEvel].en) {
               wordId = wordData.id;
@@ -180,6 +188,8 @@ class SprintPage extends Page {
         } else {
           this.endGame = true;
           this.sprintWrapper.innerHTML = '';
+          this.createChallengeStatistics();
+          this.currentLEvel = 0;
         }
       });
     };
@@ -239,8 +249,66 @@ class SprintPage extends Page {
       if (this.startTimer <= 0) {
         clearInterval(idTimer);
         this.timerWrapper.classList.remove('sprint__timer--stop');
+
+        this.endGame = true;
+        this.sprintWrapper.innerHTML = '';
       }
     }, 1000);
+  }
+
+  createChallengeStatistics() {
+    this.sprintWrapper.innerHTML = '';
+    const statisticWrapper = this.createElem(Tags.Div, 'challenge__statistics challenge__statistics--width', '');
+    this.sprintWrapper.append(statisticWrapper);
+    const statisticTitle = this.createElem(Tags.Div, 'challenge__statistics__title', `Результат: ${this.points} \nДлина серии: ${this.maxSeries}`);
+    const statisticBody = this.createElem(Tags.Div, 'block challenge__statistics__body challenge__statistics__body--width', '');
+    const statisticManage = this.createElem(Tags.Div, 'challenge__statistics__manage', '');
+
+    statisticWrapper.append(statisticTitle, statisticBody, statisticManage);
+    const statisticInfo = this.createElem(Tags.Div, 'sprint__statistics-words', '');
+    statisticBody.append(statisticInfo);
+
+    const backBtn = this.createElem(Tags.Div, 'challenge__statistics__back challenge__statistics__back--width', '');
+    statisticManage.append(backBtn);
+    (this.sprintWrapper.querySelector('.challenge__statistics__back') as HTMLElement).insertAdjacentHTML(
+      'afterbegin',
+      '<a href="#games-page">Назад к играм</a>'
+    );
+
+    const containerRight = this.createElem(Tags.Div, 'sprint__words-right');
+    const containerWrong = this.createElem(Tags.Div, 'sprint__words-wrong');
+    statisticInfo.append(containerWrong, containerRight);
+
+    const countWrong = this.createElem(Tags.Div, 'sprint__word-en');
+    const countRight = this.createElem(Tags.Div, 'sprint__word-en');
+
+    countRight.innerHTML = `Знаю - ${this.answers.right.length}!`;
+    countWrong.innerHTML = `Ошибок - ${this.answers.wrong.length}`;
+
+    containerRight.append(countRight);
+    containerWrong.append(countWrong);
+
+    this.answers.right.forEach((word) => {
+      const itemWord = this.createElem(Tags.Div, 'sprint__result-word');
+      const en = this.createElem(Tags.Div, 'sprint__word-en');
+      const ru = this.createElem(Tags.Div, 'sprint__word-ru');
+      en.innerHTML = `${word.word}`;
+      ru.innerHTML = `${word.wordTranslate}`;
+      itemWord.append(en, '-', ru);
+      containerRight.append(itemWord);
+    })
+
+    this.answers.wrong.forEach((word) => {
+      const itemWord = this.createElem(Tags.Div, 'sprint__result-word');
+      const en = this.createElem(Tags.Div, 'sprint__word-en');
+      const ru = this.createElem(Tags.Div, 'sprint__word-ru');
+      en.innerHTML = `${word.word}`;
+      ru.innerHTML = `${word.wordTranslate}`;
+      itemWord.append(en, '-', ru);
+      containerWrong.append(itemWord);
+    })
+
+
   }
 
   render() {

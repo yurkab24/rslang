@@ -78,6 +78,7 @@ class Authorization extends Page {
   login(): void {
     this.loginForm.buttonLogin.onclick = async (e) => {
       e.preventDefault();
+      this.isError = false;
 
       const email = this.loginForm.inputEmail.value;
       const password = this.loginForm.inputPassword.value;
@@ -98,17 +99,16 @@ class Authorization extends Page {
         localStorage.setItem(LOCAL_STORAGE_DATA.TOKEN, content.token);
         localStorage.setItem(LOCAL_STORAGE_DATA.REFRESH_TOKEN, content.refreshToken);
         localStorage.setItem(LOCAL_STORAGE_DATA.ID, content.userId);
+
+        if (!this.isError) {
+          this.loginForm.errorBlock.innerHTML = '';
+          window.location.href = `#${PageIds.Main}`;
+          this.clearForm();
+        }
       } catch (err: any) {
         this.isError = true;
         this.loginForm.errorBlock.innerHTML = err.message;
         this.hideError();
-      }
-
-      if (!this.isError) {
-        this.isError = !this.isError;
-        this.loginForm.errorBlock.innerHTML = '';
-        window.location.href = `#${PageIds.Main}`;
-        this.clearForm();
       }
     };
   }
@@ -116,6 +116,7 @@ class Authorization extends Page {
   registration(): void {
     this.loginForm.buttonRegistration.onclick = async (e) => {
       e.preventDefault();
+      this.isError = false;
 
       const name = this.loginForm.inputName.value;
       const email = this.loginForm.inputEmail.value;
@@ -152,7 +153,7 @@ class Authorization extends Page {
       }
 
       if (!this.isError) {
-        this.isError = !this.isError;
+        /* this.isError = !this.isError; */
         this.loginForm.errorBlock.innerHTML = '';
         this.clearForm();
         this.entryForm();
@@ -193,7 +194,7 @@ class Authorization extends Page {
     this.subTitle.innerHTML = FORM_TEXT.REGISTRATION;
   }
 
-  public init(): void {}
+  public init(): void { }
 }
 
 export default Authorization;
