@@ -66,7 +66,7 @@ main {
 h1, h2 {
   font-family: var(--font-main-en);
   text-align: right;
-  padding: 1%;
+  padding: 15px 25px 15px 15px;
 }
 
 h1 {
@@ -97,12 +97,12 @@ h3 {
   padding: 1.5rem 2.5rem;
   border: var(--bg-btn-shadow) 1px solid;
   border-radius: 10px;
+  transition: 1s;
 }
 
 .nav__button:hover {
   transform: scale(1.1, 1.1);
   box-shadow: 5px 5px 10px var(--bg-btn-shadow);
-  transition: 0.34s ease-in-out;
 }
 
 .nav__button:first-child {
@@ -114,11 +114,11 @@ h3 {
   border: none;
   outline: none;
   box-shadow:none;
+  transition: 1s;
 }
 
 .nav__button:first-child:hover {
   transform: scale(1.1, 1.1);
-  transition: 0.34s ease-in-out;
 }
 
 .footer {
@@ -191,20 +191,27 @@ h3 {
 }
 
 .lang {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   background-color: var(--bg-play-btn);
-  border-radius: 10px;
+  border-radius: 50%;
   border: 2px solid var(--bg-btn-shadow);
   font-size: 2rem;
   margin: auto 30px;
 }
 
+.theme,
+.sign,
+.lang {
+  transition: 1s;
+  cursor: pointer;
+}
+
 .theme:hover,
 .sign:hover,
 .lang:hover {
-  transform: scale(1.5, 1.5);
-  transition: 0.34s ease-in-out;
+  transform: scale(1.2, 1.2);
+  
 }
 
 .lang:hover {
@@ -484,6 +491,10 @@ h3 {
     margin: auto;
   }
 
+  .header {
+    align-items: center;
+  }
+
   .nav a,
   .nav__button {
     padding: 2rem 3rem;
@@ -491,8 +502,16 @@ h3 {
   }
 
   .theme,
-  .sign {
-    margin: auto 5px;
+  .sign,
+  .lang {
+    margin: 0 5px;
+    width: 25px;
+    height: 25px;
+  }
+
+  .lang {
+    width: 20px;
+    height: 20px;
   }
 
   .team {
