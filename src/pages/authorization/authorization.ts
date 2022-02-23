@@ -194,7 +194,7 @@ class Authorization extends Page {
     this.subTitle.innerHTML = FORM_TEXT.REGISTRATION;
   }
 
-  public init(): void { }
+  public init(): void {}
 }
 
 export default Authorization;

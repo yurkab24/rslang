@@ -93,7 +93,7 @@ class StatisticsPage extends Page {
   private updatePageofStatistic(statistic: IGameStatisticResponse): void {
     const staticArr = Object.entries(statistic.optional);
     staticArr.forEach(([date, { rightWords, wrongWords, longestSeries, newWordsOfDay }]) => {
-      const rightPercent = ((rightWords + wrongWords) / 100) * rightWords;
+      const rightPercent = (100 * rightWords) / (rightWords + wrongWords);
 
       const statisticRows = document.createElement(Tags.Div);
       for (let i = 0; i < statisticColumn; i++) {

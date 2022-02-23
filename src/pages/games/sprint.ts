@@ -1,7 +1,7 @@
 import './sprint.scss';
 import Page from '../../core/templates/page';
 import Spinner from '../../core/component/spiner';
-import { dictionaryGroupOptions, host, Tags } from '../../constants';
+import { dictionaryGroupOptions, Tags } from '../../constants';
 import { getDictonaryRequest } from '../../request';
 import { IWord } from '../../models';
 
@@ -149,7 +149,6 @@ class SprintPage extends Page {
 
           createLvlGame(data);
         } else {
-
           this.endGame = true;
           this.sprintWrapper.innerHTML = '';
           this.createChallengeStatistics();
@@ -260,8 +259,16 @@ class SprintPage extends Page {
     this.sprintWrapper.innerHTML = '';
     const statisticWrapper = this.createElem(Tags.Div, 'challenge__statistics challenge__statistics--width', '');
     this.sprintWrapper.append(statisticWrapper);
-    const statisticTitle = this.createElem(Tags.Div, 'challenge__statistics__title', `Результат: ${this.points} \nДлина серии: ${this.maxSeries}`);
-    const statisticBody = this.createElem(Tags.Div, 'block challenge__statistics__body challenge__statistics__body--width', '');
+    const statisticTitle = this.createElem(
+      Tags.Div,
+      'challenge__statistics__title',
+      `Результат: ${this.points} \nДлина серии: ${this.maxSeries}`
+    );
+    const statisticBody = this.createElem(
+      Tags.Div,
+      'block challenge__statistics__body challenge__statistics__body--width',
+      ''
+    );
     const statisticManage = this.createElem(Tags.Div, 'challenge__statistics__manage', '');
 
     statisticWrapper.append(statisticTitle, statisticBody, statisticManage);
@@ -296,7 +303,7 @@ class SprintPage extends Page {
       ru.innerHTML = `${word.wordTranslate}`;
       itemWord.append(en, '-', ru);
       containerRight.append(itemWord);
-    })
+    });
 
     this.answers.wrong.forEach((word) => {
       const itemWord = this.createElem(Tags.Div, 'sprint__result-word');
@@ -306,9 +313,7 @@ class SprintPage extends Page {
       ru.innerHTML = `${word.wordTranslate}`;
       itemWord.append(en, '-', ru);
       containerWrong.append(itemWord);
-    })
-
-
+    });
   }
 
   render() {
