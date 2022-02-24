@@ -142,7 +142,7 @@ class StatisticsPage extends Page {
     for (const key in statistic) {
       const date = key.split('T')[0];
       if (statisticSprintGame[date]) {
-        //statisticSprintGame[date].newWordsOfDay += statistic[key].newWordsOfDay;
+        statisticSprintGame[date].newWordsOfDay += statistic[key].newWordsOfDay;
         statisticSprintGame[date].rightWords += statistic[key].rightWords;
         statisticSprintGame[date].wrongWords += statistic[key].wrongWords;
         if (statisticSprintGame[date].longestSeries < statistic[key].longestSeries) {
@@ -166,7 +166,7 @@ class StatisticsPage extends Page {
 
       statisticRowsSprint.classList.add('td-table-row');
       statisticRowsSprint.childNodes[0].textContent = new Date(date).toLocaleDateString();
-      statisticRowsSprint.childNodes[1].textContent = '';
+      statisticRowsSprint.childNodes[1].textContent = String(newWordsOfDay);
       statisticRowsSprint.childNodes[2].textContent = String(rightWords + wrongWords);
       statisticRowsSprint.childNodes[3].textContent = String(Math.round(rightPercent));
       statisticRowsSprint.childNodes[4].textContent = String(longestSeries);
