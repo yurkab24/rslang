@@ -110,7 +110,8 @@ class DictionaryPage extends Page {
 
     buttonDictonary.href = `#${PageIds.Vocabulary}`;
     buttonSprint.href = `#${PageIds.GameSprint}`;
-    buttonAudioGame.href = `#${PageIds.GameChallenge}`;
+
+    buttonAudioGame.addEventListener('click', this.buttonAudiogamehandler);
 
     buttonDictonary.title = 'Словарь';
     buttonSprint.title = 'Спринт';
@@ -206,10 +207,11 @@ class DictionaryPage extends Page {
       .finally(() => this.spinner.hide());
   };
 
-  // private audioGameHandler = (): void => {
-  //   this.spinner.show();
-  //   getAgregatedWordsRequest(getUserId(), paginationPage.pageOfNumber, wordContainer.wordGroupDictionary, paginationPage.limitOfWords).then((result) => this.audioChallenge.createGamePage(result));
-  // };
+  private buttonAudiogamehandler = (): void => {
+    localStorage.setItem('pageNumberForGame', String(paginationPage.pageOfNumber));
+    localStorage.setItem('wordGroupForGame', String(wordContainer.wordGroupDictionary));
+    window.location.href = `#${PageIds.GameChallenge}`;
+  };
 }
 
 export default DictionaryPage;

@@ -3,7 +3,7 @@ import Spinner from '../../core/component/spiner';
 import { Tags } from '../../constants/pages';
 import { getStatisticRequest } from '../../request/statistic';
 import { getUserId } from '../../core/utils';
-import { IGameStatisticResponse } from '../../models';
+import { IGameStatisticResponse, IGameStatistic } from '../../models';
 import { statisticColumn, arrayColumnStatistic } from '../../constants';
 
 class StatisticsPage extends Page {
@@ -91,7 +91,22 @@ class StatisticsPage extends Page {
   }
 
   private updatePageofStatistic(statistic: IGameStatisticResponse): void {
-    const staticArr = Object.entries(statistic.optional);
+    const statisticAudioGame: { [key: string]: IGameStatistic } = {};
+    for (const key in statistic.optional) {
+      const date = key.split('T')[0];
+      if (statisticAudioGame[date]) {
+        statisticAudioGame[date].newWordsOfDay += statistic.optional[key].newWordsOfDay;
+        statisticAudioGame[date].rightWords += statistic.optional[key].rightWords;
+        statisticAudioGame[date].wrongWords += statistic.optional[key].wrongWords;
+        if (statisticAudioGame[date].longestSeries < statistic.optional[key].longestSeries) {
+          statisticAudioGame[date].longestSeries = statistic.optional[key].longestSeries;
+        }
+      } else {
+        statisticAudioGame[date] = statistic.optional[key];
+      }
+    }
+
+    const staticArr = Object.entries(statisticAudioGame);
     staticArr.forEach(([date, { rightWords, wrongWords, longestSeries, newWordsOfDay }]) => {
       const rightPercent = (100 * rightWords) / (rightWords + wrongWords);
 
@@ -111,6 +126,7 @@ class StatisticsPage extends Page {
 
       this.wrapperStatistic.append(statisticRows.cloneNode(true));
     });
+
     //const statisticRowsSprint = document.createElement(Tags.Div);
     //const columnBlockSprint = document.createElement(Tags.Div);
     //columnBlockSprint.classList.add('td-table-row-block');

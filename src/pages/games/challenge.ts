@@ -4,7 +4,7 @@ import { PATH_OF_LEARNWORDS, DictionaryGroup } from '../../constants';
 import { IWord, IGameStatistic } from '../../models';
 import Spinner from '../../core/component/spiner';
 import { circle } from './circle';
-import { updateGameStatisticRequest, getStatisticRequest } from '../../request';
+import { updateGameStatisticRequest, getStatisticRequest, getWordsRequest } from '../../request';
 import { getUserId } from '../../core/utils';
 
 class ChallengePage extends Page {
@@ -55,11 +55,6 @@ class ChallengePage extends Page {
     div.innerText = text;
     return div;
   }
-
-  getWordsRequest = async (page: number, group: DictionaryGroup): Promise<IWord[]> =>
-    fetch(`${PATH_OF_LEARNWORDS.words}?page=${page}&group=${group}`)
-      .then((result) => result.json())
-      .then((data) => data);
 
   getTheDate(): number {
     const currentDateAll = new Date();
@@ -337,7 +332,7 @@ class ChallengePage extends Page {
       this.wrapper.querySelector(`.level-${i + 1}`)?.addEventListener('click', async () => {
         this.wrapper.innerHTML = '';
         const pageN = Math.ceil(Math.random() * this.pagesNumber);
-        const words: IWord[] = await this.getWordsRequest(pageN, i);
+        const words: IWord[] = await getWordsRequest(pageN, i);
         this.createGamePage(words);
       });
     }
@@ -477,7 +472,15 @@ class ChallengePage extends Page {
     this.title.className = 'page-title';
     this.container.append(this.title);
     this.container.append(this.wrapper);
-    this.createLevelChoice();
+    const pageNumber = localStorage.getItem('pageNumberForGame');
+    const groupGame = localStorage.getItem('wordGroupForGame');
+    if (pageNumber || groupGame) {
+      getWordsRequest(Number(pageNumber), Number(groupGame)).then((words) => this.createGamePage(words));
+      localStorage.removeItem('pageNumberForGame');
+      localStorage.removeItem('wordGroupForGame');
+    } else {
+      this.createLevelChoice();
+    }
     document.querySelector('.footer')?.classList.add('hidden');
     return this.container;
   }

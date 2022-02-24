@@ -520,7 +520,7 @@ h3 {
 
 }
 
-@media screen and (min-width: 301px) and (max-width: 420px) {
+@media screen and (min-width: 301px) and (max-width: 440px) {
   .nav {
     width: 70%;
   }
@@ -533,5 +533,9 @@ h3 {
   .nav a, .nav__button {
     padding: 1rem 2rem;
     margin: 7px 5px;
+  }
+
+  .year {
+    width: 10%;
   }
 }
