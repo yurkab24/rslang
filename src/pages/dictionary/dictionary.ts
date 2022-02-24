@@ -1,5 +1,5 @@
 import Page from '../../core/templates/page';
-import { IGameStatistic, IWord } from '../../models';
+import { IWord } from '../../models';
 import {
   limitOfWord,
   limitOfPage,
@@ -10,7 +10,6 @@ import {
   WordDifficulty,
   PATH_OF_LEARNWORDS,
   DictionaryGroup,
-  host,
 } from '../../constants';
 import {
   getDictonaryRequest,
@@ -18,17 +17,12 @@ import {
   getAgregatedWordsRequest,
   updateUserWordRequest,
   deleteUserWordRequest,
-  updateGameStatisticRequest,
-  getStatisticRequest,
 } from '../../request';
 import { Pagination } from '../../services/pagination';
 import { WordsContainer, Refresh } from '../../services';
 import Spinner from '../../core/component/spiner';
 import WordCard from '../../core/component/word';
 import { getUserId, isAuth } from '../../core/utils';
-import ChallengePage from '../games/challenge';
-import App from '../app/app';
-import { circle } from '../games/circle';
 
 const refreshPage = new Refresh();
 export const wordContainer = new WordsContainer();
@@ -111,7 +105,7 @@ class DictionaryPage extends Page {
     const linkSectionWrapper = document.createElement(Tags.Div);
     const buttonDictonary = document.createElement(Tags.A);
     const buttonSprint = document.createElement(Tags.A);
-    const buttonAudioGame = document.createElement(Tags.Button);
+    const buttonAudioGame = document.createElement(Tags.A);
 
     blockButtonsWrapper.classList.add('block-buttons-wrapper');
     blockButtonsPagination.classList.add('block-buttons-pagination');
@@ -123,11 +117,8 @@ class DictionaryPage extends Page {
 
     buttonDictonary.href = `#${PageIds.Vocabulary}`;
     buttonSprint.href = `#${PageIds.GameSprint}`;
-    buttonAudioGame.addEventListener('click', async () => {
-      const words: IWord[] = await this.getWordsRequest(paginationPage.pageOfNumber, wordContainer.wordGroupDictionary);
-      localStorage.setItem('wordsFromPage', JSON.stringify(words));
-      window.location.href = `#${PageIds.GameChallenge}`;
-    });
+
+    buttonAudioGame.addEventListener('click', this.buttonAudiogamehandler);
 
     buttonDictonary.title = 'Словарь';
     buttonSprint.title = 'Спринт';
@@ -223,10 +214,11 @@ class DictionaryPage extends Page {
       .finally(() => this.spinner.hide());
   };
 
-  // private audioGameHandler = (): void => {
-  //   this.spinner.show();
-  //   getAgregatedWordsRequest(getUserId(), paginationPage.pageOfNumber, wordContainer.wordGroupDictionary, paginationPage.limitOfWords).then((result) => this.audioChallenge.createGamePage(result));
-  // };
+  private buttonAudiogamehandler = (): void => {
+    localStorage.setItem('pageNumberForGame', String(paginationPage.pageOfNumber));
+    localStorage.setItem('wordGroupForGame', String(wordContainer.wordGroupDictionary));
+    window.location.href = `#${PageIds.GameChallenge}`;
+  };
 }
 
 export default DictionaryPage;
