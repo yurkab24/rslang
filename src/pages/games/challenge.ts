@@ -477,7 +477,14 @@ class ChallengePage extends Page {
     this.title.className = 'page-title';
     this.container.append(this.title);
     this.container.append(this.wrapper);
-    this.createLevelChoice();
+    if (!localStorage.getItem('wordsFromPage')) {
+      this.createLevelChoice();
+    } else {
+      const wordsFromPage = localStorage.getItem('wordsFromPage');
+      const words = JSON.parse(wordsFromPage as string);
+      this.createGamePage(words);
+      localStorage.removeItem('wordsFromPage');
+    }
     document.querySelector('.footer')?.classList.add('hidden');
     return this.container;
   }
