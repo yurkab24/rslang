@@ -85,10 +85,19 @@ class ChallengePage extends Page {
     const continueBtn = this.createElem(Tags.Div, 'challenge__statistics__continue', 'Продолжить');
     const backBtn = this.createElem(Tags.Div, 'challenge__statistics__back', '');
     statisticManage.append(continueBtn, backBtn);
-    (this.wrapper.querySelector('.challenge__statistics__back') as HTMLElement).insertAdjacentHTML(
+    if (localStorage.getItem('wordsFromPage')) {
+      (this.wrapper.querySelector('.challenge__statistics__back') as HTMLElement).insertAdjacentHTML(
+        'afterbegin',
+        '<a href="#dictionary-page">К учебнику</a>'
+      );
+      localStorage.getItem('wordsFromPage');
+    } else {
+      (this.wrapper.querySelector('.challenge__statistics__back') as HTMLElement).insertAdjacentHTML(
       'afterbegin',
       '<a href="#games-page">Назад к играм</a>'
     );
+    }
+
     (this.wrapper.querySelector('.challenge__statistics__continue') as HTMLElement).addEventListener(
       'click',
       async () => {
@@ -483,7 +492,6 @@ class ChallengePage extends Page {
       const wordsFromPage = localStorage.getItem('wordsFromPage');
       const words = JSON.parse(wordsFromPage as string);
       this.createGamePage(words);
-      localStorage.removeItem('wordsFromPage');
     }
     document.querySelector('.footer')?.classList.add('hidden');
     return this.container;
