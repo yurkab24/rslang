@@ -8,6 +8,8 @@ import {
   Tags,
   arrayOfBackground,
   WordDifficulty,
+  PATH_OF_LEARNWORDS,
+  DictionaryGroup,
 } from '../../constants';
 import {
   getDictonaryRequest,
@@ -59,6 +61,11 @@ class DictionaryPage extends Page {
     this.spinner = spinner;
   }
 
+  getWordsRequest = async (page: number, group: DictionaryGroup): Promise<IWord[]> =>
+    fetch(`${PATH_OF_LEARNWORDS.words}?page=${page}&group=${group}`)
+      .then((result) => result.json())
+      .then((data) => data);
+
   public renderBlockWord(words: IWord[]) {
     this.wrapperBlock.innerHTML = '';
     this.wrapperBlock.classList.add('wrapper-block');
@@ -98,7 +105,7 @@ class DictionaryPage extends Page {
     const linkSectionWrapper = document.createElement(Tags.Div);
     const buttonDictonary = document.createElement(Tags.A);
     const buttonSprint = document.createElement(Tags.A);
-    const buttonAudioGame = document.createElement(Tags.A);
+    const buttonAudioGame = document.createElement(Tags.Button);
 
     blockButtonsWrapper.classList.add('block-buttons-wrapper');
     blockButtonsPagination.classList.add('block-buttons-pagination');

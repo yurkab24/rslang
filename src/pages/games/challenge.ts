@@ -1,6 +1,5 @@
 import { dictionaryGroupOptions, host, Tags } from '../../constants';
 import Page from '../../core/templates/page';
-import { PATH_OF_LEARNWORDS, DictionaryGroup } from '../../constants';
 import { IWord, IGameStatistic } from '../../models';
 import Spinner from '../../core/component/spiner';
 import { circle } from './circle';
@@ -80,10 +79,19 @@ class ChallengePage extends Page {
     const continueBtn = this.createElem(Tags.Div, 'challenge__statistics__continue', 'Продолжить');
     const backBtn = this.createElem(Tags.Div, 'challenge__statistics__back', '');
     statisticManage.append(continueBtn, backBtn);
-    (this.wrapper.querySelector('.challenge__statistics__back') as HTMLElement).insertAdjacentHTML(
-      'afterbegin',
-      '<a href="#games-page">Назад к играм</a>'
-    );
+    if (localStorage.getItem('wordsFromPage')) {
+      (this.wrapper.querySelector('.challenge__statistics__back') as HTMLElement).insertAdjacentHTML(
+        'afterbegin',
+        '<a href="#dictionary-page">К учебнику</a>'
+      );
+      localStorage.getItem('wordsFromPage');
+    } else {
+      (this.wrapper.querySelector('.challenge__statistics__back') as HTMLElement).insertAdjacentHTML(
+        'afterbegin',
+        '<a href="#games-page">Назад к играм</a>'
+      );
+    }
+
     (this.wrapper.querySelector('.challenge__statistics__continue') as HTMLElement).addEventListener(
       'click',
       async () => {
