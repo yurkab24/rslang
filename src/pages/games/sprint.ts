@@ -3,7 +3,7 @@ import Page from '../../core/templates/page';
 import Spinner from '../../core/component/spiner';
 import { dictionaryGroupOptions, Tags } from '../../constants';
 import { getDictonaryRequest } from '../../request';
-import { IWord } from '../../models';
+import { IWord, IGameStatistic } from '../../models';
 
 const MAX_PAGE = 30;
 const START_POINTS = 10;
@@ -314,6 +314,22 @@ class SprintPage extends Page {
       itemWord.append(en, '-', ru);
       containerWrong.append(itemWord);
     });
+
+    const gameStatistic: IGameStatistic = {
+      longestSeries: this.maxSeries,
+      rightWords: this.answers.right.length,
+      wrongWords: this.answers.wrong.length,
+    } as IGameStatistic;
+
+    const prevStatistic = JSON.parse(localStorage.getItem('sprinGameStatistic') || '');
+    localStorage.setItem(
+      'sprinGameStatistic',
+      JSON.stringify(
+        prevStatistic
+          ? { ...prevStatistic, [new Date().toISOString()]: gameStatistic }
+          : { [new Date().toISOString()]: gameStatistic }
+      )
+    );
   }
 
   render() {

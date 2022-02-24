@@ -483,7 +483,10 @@ class ChallengePage extends Page {
     const pageNumber = localStorage.getItem('pageNumberForGame');
     const groupGame = localStorage.getItem('wordGroupForGame');
     if (pageNumber || groupGame) {
-      getWordsRequest(Number(pageNumber), Number(groupGame)).then((words) => this.createGamePage(words));
+      this.spinner.show();
+      getWordsRequest(Number(pageNumber), Number(groupGame))
+        .then((words) => this.createGamePage(words))
+        .finally(() => this.spinner.hide());
       localStorage.removeItem('pageNumberForGame');
       localStorage.removeItem('wordGroupForGame');
     } else {

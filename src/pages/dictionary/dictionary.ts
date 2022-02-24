@@ -105,7 +105,7 @@ class DictionaryPage extends Page {
     const linkSectionWrapper = document.createElement(Tags.Div);
     const buttonDictonary = document.createElement(Tags.A);
     const buttonSprint = document.createElement(Tags.A);
-    const buttonAudioGame = document.createElement(Tags.Button);
+    const buttonAudioGame = document.createElement(Tags.A);
 
     blockButtonsWrapper.classList.add('block-buttons-wrapper');
     blockButtonsPagination.classList.add('block-buttons-pagination');

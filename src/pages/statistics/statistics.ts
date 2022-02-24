@@ -87,6 +87,7 @@ class StatisticsPage extends Page {
     this.spinner.show();
     getStatisticRequest(getUserId())
       .then((result) => this.updatePageofStatistic(result))
+      .then(() => this.updateSprintStatistic())
       .finally(() => this.spinner.hide());
   }
 
@@ -126,12 +127,48 @@ class StatisticsPage extends Page {
 
       this.wrapperStatistic.append(statisticRows.cloneNode(true));
     });
+  }
 
-    //const statisticRowsSprint = document.createElement(Tags.Div);
-    //const columnBlockSprint = document.createElement(Tags.Div);
-    //columnBlockSprint.classList.add('td-table-row-block');
-    //statisticRowsSprint.append(columnBlock.cloneNode(true));
-    //statisticRowsSprint.classList.add('td-table-row');
+  private updateSprintStatistic(): void {
+    const statistic = JSON.parse(localStorage.getItem('sprinGameStatistic') || '');
+    if (!statistic) {
+      return;
+    }
+    const statisticSprintGame: { [key: string]: IGameStatistic } = {};
+    for (const key in statistic) {
+      const date = key.split('T')[0];
+      if (statisticSprintGame[date]) {
+        statisticSprintGame[date].newWordsOfDay += statistic[key].newWordsOfDay;
+        statisticSprintGame[date].rightWords += statistic[key].rightWords;
+        statisticSprintGame[date].wrongWords += statistic[key].wrongWords;
+        if (statisticSprintGame[date].longestSeries < statistic[key].longestSeries) {
+          statisticSprintGame[date].longestSeries = statistic[key].longestSeries;
+        }
+      } else {
+        statisticSprintGame[date] = statistic.optional[key];
+      }
+    }
+
+    const staticArr = Object.entries(statisticSprintGame);
+    staticArr.forEach(([date, { rightWords, wrongWords, longestSeries, newWordsOfDay }]) => {
+      const rightPercent = (100 * rightWords) / (rightWords + wrongWords);
+
+      const statisticRowsSprint = document.createElement(Tags.Div);
+      for (let i = 0; i < statisticColumn; i++) {
+        const columnBlockSprint = document.createElement(Tags.Div);
+        columnBlockSprint.classList.add('td-table-row-block');
+        statisticRowsSprint.append(columnBlockSprint.cloneNode(true));
+      }
+
+      statisticRowsSprint.classList.add('td-table-row');
+      statisticRowsSprint.childNodes[0].textContent = new Date(date).toLocaleDateString();
+      statisticRowsSprint.childNodes[1].textContent = String(newWordsOfDay);
+      statisticRowsSprint.childNodes[2].textContent = String(rightWords + wrongWords);
+      statisticRowsSprint.childNodes[3].textContent = String(Math.round(rightPercent));
+      statisticRowsSprint.childNodes[4].textContent = String(longestSeries);
+
+      this.wrapperStatisticSprint.append(statisticRowsSprint.cloneNode(true));
+    });
   }
 }
 
