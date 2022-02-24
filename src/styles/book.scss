@@ -275,7 +275,16 @@ i {
   background-size: 100% 100%;
 }
 
-.link-section-wrapper a:nth-child(3) {
+.link-section-wrapper > button {
+  width: 50px;
+  height: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  border: 3px solid var(--bg-light);
+}
+
+.link-section-wrapper button {
   background: url(/src/assets/png/sound.png) no-repeat center center;
   background-size: 100% 100%;
 }
@@ -293,10 +302,10 @@ i {
 }
 
 @media screen and (min-width: 961px) and (max-width: 1920px) {
-  .word-block div, 
-  .word-block div p, 
-  .word-block div p i, 
-  .word-block div p b, 
+  .word-block div,
+  .word-block div p,
+  .word-block div p i,
+  .word-block div p b,
   .word-block div span {
     font-size: 18px;
   }
@@ -333,10 +342,10 @@ i {
     height: 40px;
   }
 
-  .word-block div, 
-  .word-block div p, 
-  .word-block div p i, 
-  .word-block div p b, 
+  .word-block div,
+  .word-block div p,
+  .word-block div p i,
+  .word-block div p b,
   .word-block div span {
     font-size: 16px;
   }
@@ -353,10 +362,10 @@ i {
     height: 500px;
   }
 
-  .word-block div, 
-  .word-block div p, 
-  .word-block div p i, 
-  .word-block div p b, 
+  .word-block div,
+  .word-block div p,
+  .word-block div p i,
+  .word-block div p b,
   .word-block div span {
     font-size: 14px;
   }

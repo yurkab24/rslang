@@ -1,5 +1,5 @@
 import Page from '../../core/templates/page';
-import { IWord } from '../../models';
+import { IGameStatistic, IWord } from '../../models';
 import {
   limitOfWord,
   limitOfPage,
@@ -8,6 +8,9 @@ import {
   Tags,
   arrayOfBackground,
   WordDifficulty,
+  PATH_OF_LEARNWORDS,
+  DictionaryGroup,
+  host,
 } from '../../constants';
 import {
   getDictonaryRequest,
@@ -15,12 +18,17 @@ import {
   getAgregatedWordsRequest,
   updateUserWordRequest,
   deleteUserWordRequest,
+  updateGameStatisticRequest,
+  getStatisticRequest,
 } from '../../request';
 import { Pagination } from '../../services/pagination';
 import { WordsContainer, Refresh } from '../../services';
 import Spinner from '../../core/component/spiner';
 import WordCard from '../../core/component/word';
 import { getUserId, isAuth } from '../../core/utils';
+import ChallengePage from '../games/challenge';
+import App from '../app/app';
+import { circle } from '../games/circle';
 
 const refreshPage = new Refresh();
 export const wordContainer = new WordsContainer();
@@ -58,6 +66,11 @@ class DictionaryPage extends Page {
     super(id);
     this.spinner = spinner;
   }
+
+  getWordsRequest = async (page: number, group: DictionaryGroup): Promise<IWord[]> =>
+    fetch(`${PATH_OF_LEARNWORDS.words}?page=${page}&group=${group}`)
+      .then((result) => result.json())
+      .then((data) => data);
 
   public renderBlockWord(words: IWord[]) {
     this.wrapperBlock.innerHTML = '';
@@ -98,7 +111,7 @@ class DictionaryPage extends Page {
     const linkSectionWrapper = document.createElement(Tags.Div);
     const buttonDictonary = document.createElement(Tags.A);
     const buttonSprint = document.createElement(Tags.A);
-    const buttonAudioGame = document.createElement(Tags.A);
+    const buttonAudioGame = document.createElement(Tags.Button);
 
     blockButtonsWrapper.classList.add('block-buttons-wrapper');
     blockButtonsPagination.classList.add('block-buttons-pagination');
@@ -110,7 +123,11 @@ class DictionaryPage extends Page {
 
     buttonDictonary.href = `#${PageIds.Vocabulary}`;
     buttonSprint.href = `#${PageIds.GameSprint}`;
-    buttonAudioGame.href = `#${PageIds.GameChallenge}`;
+    buttonAudioGame.addEventListener('click', async () => {
+      const words: IWord[] = await this.getWordsRequest(paginationPage.pageOfNumber, wordContainer.wordGroupDictionary);
+      localStorage.setItem('wordsFromPage', JSON.stringify(words));
+      window.location.href = `#${PageIds.GameChallenge}`;
+    });
 
     buttonDictonary.title = 'Словарь';
     buttonSprint.title = 'Спринт';
