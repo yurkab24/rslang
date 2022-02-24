@@ -130,7 +130,11 @@ class StatisticsPage extends Page {
   }
 
   private updateSprintStatistic(): void {
-    const statistic = JSON.parse(localStorage.getItem('sprinGameStatistic') || '');
+    let statistic;
+    if (localStorage.getItem('sprinGameStatistic') !== null) {
+      statistic = JSON.parse(localStorage.getItem('sprinGameStatistic') || '');
+    }
+
     if (!statistic) {
       return;
     }
@@ -138,14 +142,14 @@ class StatisticsPage extends Page {
     for (const key in statistic) {
       const date = key.split('T')[0];
       if (statisticSprintGame[date]) {
-        statisticSprintGame[date].newWordsOfDay += statistic[key].newWordsOfDay;
+        //statisticSprintGame[date].newWordsOfDay += statistic[key].newWordsOfDay;
         statisticSprintGame[date].rightWords += statistic[key].rightWords;
         statisticSprintGame[date].wrongWords += statistic[key].wrongWords;
         if (statisticSprintGame[date].longestSeries < statistic[key].longestSeries) {
           statisticSprintGame[date].longestSeries = statistic[key].longestSeries;
         }
       } else {
-        statisticSprintGame[date] = statistic.optional[key];
+        statisticSprintGame[date] = statistic[key];
       }
     }
 
@@ -162,7 +166,7 @@ class StatisticsPage extends Page {
 
       statisticRowsSprint.classList.add('td-table-row');
       statisticRowsSprint.childNodes[0].textContent = new Date(date).toLocaleDateString();
-      statisticRowsSprint.childNodes[1].textContent = String(newWordsOfDay);
+      statisticRowsSprint.childNodes[1].textContent = '';
       statisticRowsSprint.childNodes[2].textContent = String(rightWords + wrongWords);
       statisticRowsSprint.childNodes[3].textContent = String(Math.round(rightPercent));
       statisticRowsSprint.childNodes[4].textContent = String(longestSeries);

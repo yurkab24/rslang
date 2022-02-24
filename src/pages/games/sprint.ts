@@ -64,6 +64,8 @@ class SprintPage extends Page {
 
   endGame = false;
 
+  currentDate = 1;
+
   constructor(id: string, spinner: Spinner) {
     super(id);
     this.spinner = spinner;
@@ -75,6 +77,12 @@ class SprintPage extends Page {
     div.innerText = text;
     return div;
   }
+
+  // getTheDate(): number {
+  //   const currentDateAll = new Date();
+  //   this.currentDate = currentDateAll.getDate();
+  //   return this.currentDate;
+  // }
 
   async createGamePage(group: number) {
     this.timerWrapper.innerHTML = `${this.startTimer}`;
@@ -255,6 +263,21 @@ class SprintPage extends Page {
     }, 1000);
   }
 
+  // getTheDayNewWords(): number {
+  //   let wordsADay = 0;
+  //   const rightAnswersFromStorage = localStorage.getItem('rightAnswers');
+  //   if (rightAnswersFromStorage) {
+  //     this.answers.right = JSON.parse(rightAnswersFromStorage);
+  //     this.answers.right.forEach((el) => {
+  //       if (el.date === this.currentDate) {
+  //         wordsADay++;
+  //       }
+  //     });
+  //     localStorage.setItem('challenge-newWordsADay', `${wordsADay}`);
+  //   }
+  //   return wordsADay;
+  // }
+
   createChallengeStatistics() {
     this.sprintWrapper.innerHTML = '';
     const statisticWrapper = this.createElem(Tags.Div, 'challenge__statistics challenge__statistics--width', '');
@@ -319,9 +342,13 @@ class SprintPage extends Page {
       longestSeries: this.maxSeries,
       rightWords: this.answers.right.length,
       wrongWords: this.answers.wrong.length,
+      newWordsOfDay: this.answers.right.length,
     } as IGameStatistic;
 
-    const prevStatistic = JSON.parse(localStorage.getItem('sprinGameStatistic') || '');
+    let prevStatistic;
+    if (localStorage.getItem('sprinGameStatistic') !== null) {
+      prevStatistic = JSON.parse(localStorage.getItem('sprinGameStatistic') || '');
+    }
     localStorage.setItem(
       'sprinGameStatistic',
       JSON.stringify(
