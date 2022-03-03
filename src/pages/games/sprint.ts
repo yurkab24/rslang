@@ -1,9 +1,10 @@
 import './sprint.scss';
 import Page from '../../core/templates/page';
 import Spinner from '../../core/component/spiner';
-import { dictionaryGroupOptions, Tags } from '../../constants';
-import { getDictonaryRequest } from '../../request';
+import { dictionaryGroupOptions, Tags, Game } from '../../constants';
+import { getStatisticRequest, updateGameStatisticRequest, getWordsRequest } from '../../request';
 import { IWord, IGameStatistic } from '../../models';
+import { getUserId } from '../../core/utils';
 
 const MAX_PAGE = 30;
 const START_POINTS = 10;
@@ -78,18 +79,10 @@ class SprintPage extends Page {
     return div;
   }
 
-  // getTheDate(): number {
-  //   const currentDateAll = new Date();
-  //   this.currentDate = currentDateAll.getDate();
-  //   return this.currentDate;
-  // }
-
-  async createGamePage(group: number) {
+  async createGamePage(words: IWord[]) {
     this.timerWrapper.innerHTML = `${this.startTimer}`;
     this.timer();
     this.wrapper.append(this.sprintWrapper);
-    const page = Math.ceil(Math.random() * MAX_PAGE);
-    const words = await getDictonaryRequest(page, group);
 
     const arrayWordsEN: string[] = [];
     const arrayWordsRU: string[] = [];
@@ -223,7 +216,8 @@ class SprintPage extends Page {
       this.wrapper.querySelector(`.level-${i + 1}`)?.addEventListener('click', () => {
         this.wrapper.innerHTML = '';
 
-        this.createGamePage(i);
+        const pageN = Math.ceil(Math.random() * MAX_PAGE);
+        getWordsRequest(pageN, i).then((words) => this.createGamePage(words));
       });
     }
   }
@@ -262,21 +256,6 @@ class SprintPage extends Page {
       }
     }, 1000);
   }
-
-  // getTheDayNewWords(): number {
-  //   let wordsADay = 0;
-  //   const rightAnswersFromStorage = localStorage.getItem('rightAnswers');
-  //   if (rightAnswersFromStorage) {
-  //     this.answers.right = JSON.parse(rightAnswersFromStorage);
-  //     this.answers.right.forEach((el) => {
-  //       if (el.date === this.currentDate) {
-  //         wordsADay++;
-  //       }
-  //     });
-  //     localStorage.setItem('challenge-newWordsADay', `${wordsADay}`);
-  //   }
-  //   return wordsADay;
-  // }
 
   createChallengeStatistics() {
     this.sprintWrapper.innerHTML = '';
@@ -343,20 +322,27 @@ class SprintPage extends Page {
       rightWords: this.answers.right.length,
       wrongWords: this.answers.wrong.length,
       newWordsOfDay: this.answers.right.length,
+      totalCount: this.points,
+      game: Game.sprint,
     } as IGameStatistic;
 
-    let prevStatistic;
-    if (localStorage.getItem('sprinGameStatistic') !== null) {
-      prevStatistic = JSON.parse(localStorage.getItem('sprinGameStatistic') || '');
-    }
-    localStorage.setItem(
-      'sprinGameStatistic',
-      JSON.stringify(
-        prevStatistic
-          ? { ...prevStatistic, [new Date().toISOString()]: gameStatistic }
-          : { [new Date().toISOString()]: gameStatistic }
-      )
-    );
+    getStatisticRequest(getUserId())
+      .then((statistic) => {
+        updateGameStatisticRequest(
+          {
+            optional: { ...statistic.optional, [new Date().toISOString()]: gameStatistic },
+          },
+          getUserId()
+        );
+      })
+      .catch(() => {
+        updateGameStatisticRequest(
+          {
+            optional: { [new Date().toISOString()]: gameStatistic },
+          },
+          getUserId()
+        );
+      });
   }
 
   render() {
@@ -364,7 +350,18 @@ class SprintPage extends Page {
     title.className = 'page-title';
     this.container.append(title);
     this.container.append(this.wrapper);
-    this.createLevelChoice();
+    const pageNumber = localStorage.getItem('pageNumberSprintGame');
+    const groupGame = localStorage.getItem('wordGroupSprintGame');
+    if (pageNumber || groupGame) {
+      this.spinner.show();
+      getWordsRequest(Number(pageNumber), Number(groupGame))
+        .then((words) => this.createGamePage(words))
+        .finally(() => this.spinner.hide());
+      localStorage.removeItem('pageNumberSprintGame');
+      localStorage.removeItem('wordGroupSprintGame');
+    } else {
+      this.createLevelChoice();
+    }
 
     return this.container;
   }
