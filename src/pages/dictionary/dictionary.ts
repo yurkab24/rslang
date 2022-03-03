@@ -67,6 +67,9 @@ class DictionaryPage extends Page {
       .then((data) => data);
 
   public renderBlockWord(words: IWord[]) {
+    const isPageLearnedWords = words.every((item) => {
+      return item.userWord?.difficulty === WordDifficulty.easy || item.userWord?.difficulty === WordDifficulty.hard;
+    });
     this.wrapperBlock.innerHTML = '';
     this.wrapperBlock.classList.add('wrapper-block');
     words.forEach((item) => {
@@ -81,6 +84,7 @@ class DictionaryPage extends Page {
       );
       this.wrapperBlock.append(wordComponent.render());
     });
+    this.container.style.filter = isPageLearnedWords ? 'grayscale(1)' : '';
 
     this.container.style.backgroundImage = arrayOfBackground[wordContainer.wordGroupDictionary].wall;
     this.wordWrapper.innerHTML = '';
@@ -116,7 +120,7 @@ class DictionaryPage extends Page {
     linkSectionWrapper.classList.add('link-section-wrapper');
 
     buttonDictonary.href = `#${PageIds.Vocabulary}`;
-    buttonSprint.href = `#${PageIds.GameSprint}`;
+    buttonSprint.addEventListener('click', this.buttonSprintgamehandler);
 
     buttonAudioGame.addEventListener('click', this.buttonAudiogamehandler);
 
@@ -218,6 +222,12 @@ class DictionaryPage extends Page {
     localStorage.setItem('pageNumberForGame', String(paginationPage.pageOfNumber));
     localStorage.setItem('wordGroupForGame', String(wordContainer.wordGroupDictionary));
     window.location.href = `#${PageIds.GameChallenge}`;
+  };
+
+  private buttonSprintgamehandler = (): void => {
+    localStorage.setItem('pageNumberSprintGame', String(paginationPage.pageOfNumber));
+    localStorage.setItem('wordGroupSprintGame', String(wordContainer.wordGroupDictionary));
+    window.location.href = `#${PageIds.GameSprint}`;
   };
 }
 

@@ -4,7 +4,7 @@ import { Tags } from '../../constants/pages';
 import { getStatisticRequest } from '../../request/statistic';
 import { getUserId } from '../../core/utils';
 import { IGameStatisticResponse, IGameStatistic } from '../../models';
-import { statisticColumn, arrayColumnStatistic } from '../../constants';
+import { statisticColumn, arrayColumnStatistic, Game } from '../../constants';
 
 class StatisticsPage extends Page {
   static TextObject = {
@@ -86,8 +86,10 @@ class StatisticsPage extends Page {
   public init(): void {
     this.spinner.show();
     getStatisticRequest(getUserId())
-      .then((result) => this.updatePageofStatistic(result))
-      .then(() => this.updateSprintStatistic())
+      .then((result) => {
+        this.updatePageofStatistic(result);
+        this.updateSprintStatistic(result);
+      })
       .finally(() => this.spinner.hide());
   }
 
@@ -102,7 +104,7 @@ class StatisticsPage extends Page {
         if (statisticAudioGame[date].longestSeries < statistic.optional[key].longestSeries) {
           statisticAudioGame[date].longestSeries = statistic.optional[key].longestSeries;
         }
-      } else {
+      } else if (statistic.optional[key]?.game === Game.challenge) {
         statisticAudioGame[date] = statistic.optional[key];
       }
     }
@@ -129,27 +131,19 @@ class StatisticsPage extends Page {
     });
   }
 
-  private updateSprintStatistic(): void {
-    let statistic;
-    if (localStorage.getItem('sprinGameStatistic') !== null) {
-      statistic = JSON.parse(localStorage.getItem('sprinGameStatistic') || '');
-    }
-
-    if (!statistic) {
-      return;
-    }
+  private updateSprintStatistic(statistic: IGameStatisticResponse): void {
     const statisticSprintGame: { [key: string]: IGameStatistic } = {};
-    for (const key in statistic) {
+    for (const key in statistic.optional) {
       const date = key.split('T')[0];
       if (statisticSprintGame[date]) {
-        statisticSprintGame[date].newWordsOfDay += statistic[key].newWordsOfDay;
-        statisticSprintGame[date].rightWords += statistic[key].rightWords;
-        statisticSprintGame[date].wrongWords += statistic[key].wrongWords;
-        if (statisticSprintGame[date].longestSeries < statistic[key].longestSeries) {
-          statisticSprintGame[date].longestSeries = statistic[key].longestSeries;
+        statisticSprintGame[date].newWordsOfDay += statistic.optional[key].newWordsOfDay;
+        statisticSprintGame[date].rightWords += statistic.optional[key].rightWords;
+        statisticSprintGame[date].wrongWords += statistic.optional[key].wrongWords;
+        if (statisticSprintGame[date].longestSeries < statistic.optional[key].longestSeries) {
+          statisticSprintGame[date].longestSeries = statistic.optional[key].longestSeries;
         }
-      } else {
-        statisticSprintGame[date] = statistic[key];
+      } else if (statistic.optional[key]?.game === Game.sprint) {
+        statisticSprintGame[date] = statistic.optional[key];
       }
     }
 

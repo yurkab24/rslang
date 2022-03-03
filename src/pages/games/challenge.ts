@@ -1,4 +1,4 @@
-import { dictionaryGroupOptions, host, Tags } from '../../constants';
+import { dictionaryGroupOptions, host, Tags, Game } from '../../constants';
 import Page from '../../core/templates/page';
 import { IWord, IGameStatistic } from '../../models';
 import Spinner from '../../core/component/spiner';
@@ -431,6 +431,7 @@ class ChallengePage extends Page {
       wrongWords: arrWrongs.length,
       totalCount: totalCount,
       longestSeries: this.getTheLongestSeries(),
+      game: Game.challenge,
     };
 
     getStatisticRequest(getUserId())

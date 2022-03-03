@@ -1,5 +1,10 @@
 export const statisticColumn = 5;
 
+export enum Game {
+  challenge,
+  sprint,
+}
+
 export const arrayColumnStatistic = [
   {
     ru: 'Дата',
