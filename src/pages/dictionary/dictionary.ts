@@ -157,7 +157,9 @@ class DictionaryPage extends Page {
     buttonOfPaginationNext.addEventListener('click', this.buttonPaginationNextHandler);
 
     if (localStorage.getItem('NightTheme')) {
-      this.container.style.filter = 'brightness(0.6) contrast(150%) saturate(2) sepia(10%)';
+      const coverBlock = document.createElement('div');
+      coverBlock.className = 'cover';
+      this.container.append(coverBlock);
     }
     return this.container;
   }
