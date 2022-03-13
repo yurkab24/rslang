@@ -43,6 +43,8 @@ class ChallengePage extends Page {
 
   currentDate = 1;
 
+  doNotKnowText = localStorage.getItem('language') ? 'I don\'t know' : 'Не знаю';
+
   constructor(id: string, spinner: Spinner) {
     super(id);
     this.spinner = spinner;
@@ -65,7 +67,7 @@ class ChallengePage extends Page {
     this.wrapper.innerHTML = '';
     const statisticWrapper = this.createElem(Tags.Div, 'challenge__statistics', '');
     this.wrapper.append(statisticWrapper);
-    const statisticTitle = this.createElem(Tags.Div, 'challenge__statistics__title', 'Результат \nДлина серии');
+    const statisticTitle = this.createElem(Tags.Div, 'challenge__statistics__title', localStorage.getItem('language') ? 'Result \nThe longest series' : 'Результат \nДлина серии');
     const statisticBody = this.createElem(Tags.Div, 'block challenge__statistics__body', '');
     const statisticManage = this.createElem(Tags.Div, 'challenge__statistics__manage', '');
 
@@ -109,7 +111,8 @@ class ChallengePage extends Page {
     const picture = this.createElem(Tags.Div, 'challenge__picture', '');
     const word = this.createElem(Tags.Div, 'challenge__word', '');
     const variants = this.createElem(Tags.Div, 'challenge__variants', '');
-    const btnNext = this.createElem(Tags.Button, 'challenge__btn', 'Не знаю');
+
+    const btnNext = this.createElem(Tags.Button, 'challenge__btn', this.doNotKnowText);
     question.append(picture, word);
     this.wrapper.append(question, variants, btnNext);
 
@@ -150,7 +153,7 @@ class ChallengePage extends Page {
   listenBtnNext(words: IWord[]): void {
     const btnNext = this.wrapper.querySelector('.challenge__btn') as HTMLButtonElement;
     btnNext.addEventListener('click', () => {
-      if (btnNext.textContent === 'Не знаю') {
+      if (btnNext.textContent === this.doNotKnowText) {
         this.answersString = this.answersString + ' ';
         this.composeTheListOfWrongAnswers(words, this.arrWordsWrong);
       }
@@ -224,14 +227,14 @@ class ChallengePage extends Page {
           }
           this.getTheLongestSeries();
           this.changeToArrow();
-        } else if (event.key === 'Enter' && btnNext.textContent === 'Не знаю') {
+        } else if (event.key === 'Enter' && btnNext.textContent === this.doNotKnowText) {
           this.answersString = this.answersString + ' ';
           this.composeTheListOfWrongAnswers(words, this.arrWordsWrong);
           this.continueTheGame(words);
         } else if (event.code === 'Space') {
           (document.getElementById('audio') as HTMLAudioElement).play();
         }
-        if (event.key === 'Enter' && btnNext.textContent !== 'Не знаю') {
+        if (event.key === 'Enter' && btnNext.textContent !== this.doNotKnowText) {
           this.continueTheGame(words);
         }
       };
@@ -385,21 +388,21 @@ class ChallengePage extends Page {
     const totalCount = pointsForRighrAnswer * arrRights.length || 0;
 
     if (wrongAnswersFromStorage) {
-      wrongWords = this.createElem(Tags.Div, 'challenge__words-wrong', `Ошибок - ${arrWrongs.length}`);
+      wrongWords = this.createElem(Tags.Div, 'challenge__words-wrong', localStorage.getItem('language') ? `Mistakes - ${arrWrongs.length}` : `Ошибок - ${arrWrongs.length}`);
       this.showResultWords(arrWrongs, wrongWords);
     } else {
-      wrongWords = this.createElem(Tags.Div, 'challenge__words-wrong', 'Ошибок нет!');
+      wrongWords = this.createElem(Tags.Div, 'challenge__words-wrong', localStorage.getItem('language') ? 'Without mistakes' : 'Ошибок нет!');
     }
     if (rightAnswersFromStorage) {
-      rightWords = this.createElem(Tags.Div, 'challenge__words-right', `Знаю - ${arrRights.length}!`);
+      rightWords = this.createElem(Tags.Div, 'challenge__words-right', localStorage.getItem('language') ? `Right - ${arrRights.length}!` : `Знаю - ${arrRights.length}!`);
       this.showResultWords(arrRights, rightWords);
 
       localStorage.setItem('challenge-totalcount', `${totalCount}`);
       (
         this.wrapper.querySelector('.challenge__statistics__title') as HTMLDivElement
-      ).textContent = `Результат - ${totalCount}  \nДлина серии - ${this.theLongestSeries} \nНовых за день - ${wordsADay}`;
+      ).textContent = localStorage.getItem('language') ? `Result - ${totalCount}  \nThe longest series - ${this.theLongestSeries} \nThe day new words - ${wordsADay}` : `Результат - ${totalCount}  \nДлина серии - ${this.theLongestSeries} \nНовых за день - ${wordsADay}`;
     } else {
-      rightWords = this.createElem(Tags.Div, 'challenge__words-right', 'Знаю - 0');
+      rightWords = this.createElem(Tags.Div, 'challenge__words-right', localStorage.getItem('language') ? 'Right - 0' : 'Знаю - 0');
     }
 
     if (arrRights && arrWrongs) {
