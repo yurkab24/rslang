@@ -32,50 +32,60 @@ class StatisticsPage extends Page {
 
   render() {
     const title = this.createHeaderTitle(StatisticsPage.TextObject.MainTitle);
-
+    title.className ='stat-title block';
     const langFromStorage = localStorage.getItem('language');
-    if (langFromStorage) {
-      title.textContent = 'Statistic';
-      this.nameGame.textContent = '"AUDIOCHALLENGE"';
-      this.nameGameSprint.textContent = '"SPRINT"';
+    const userFromStorage = localStorage.getItem('user_id');
+    if (langFromStorage && !userFromStorage) {
+      title.textContent = 'Statistics';
+      const statMessage = this.createDiv('block stat__message', 'The Statistics is available for registered users');
+      this.container.append(title, statMessage);
+    } else if (!langFromStorage && !userFromStorage) {
+      const statMessage = this.createDiv('block stat__message', 'Статистика доступна для зарегистрированных пользователей');
+      this.container.append(title, statMessage);
     } else {
-      title.textContent = StatisticsPage.TextObject.MainTitle;
-      this.nameGame.textContent = '"АУДИОВЫЗОВ"';
-      this.nameGameSprint.textContent = '"СПРИНТ"';
-    }
-
-    const wrapperChallenge = document.createElement(Tags.Div);
-    const wrapperSprint = document.createElement(Tags.Div);
-    const statisticTableBlock = document.createElement(Tags.Div);
-    const statisticTableBlockSprint = document.createElement(Tags.Div);
-
-    for (let i = 0; i < arrayColumnStatistic.length; i++) {
-      statisticTableBlock.classList.add('td-table-row-block');
-      statisticTableBlockSprint.classList.add('td-table-row-block');
       if (langFromStorage) {
-        statisticTableBlock.textContent = arrayColumnStatistic[i].en;
-        statisticTableBlockSprint.textContent = arrayColumnStatistic[i].en;
+        title.textContent = 'Statistics';
+        this.nameGame.textContent = '"AUDIOCHALLENGE"';
+        this.nameGameSprint.textContent = '"SPRINT"';
       } else {
-        statisticTableBlock.textContent = arrayColumnStatistic[i].ru;
-        statisticTableBlockSprint.textContent = arrayColumnStatistic[i].ru;
+        title.textContent = StatisticsPage.TextObject.MainTitle;
+        this.nameGame.textContent = '"АУДИОВЫЗОВ"';
+        this.nameGameSprint.textContent = '"СПРИНТ"';
       }
-      this.statisticTableRow.append(statisticTableBlock.cloneNode(true));
-      this.statisticTableRowSprint.append(statisticTableBlockSprint.cloneNode(true));
+
+      const wrapperChallenge = document.createElement(Tags.Div);
+      const wrapperSprint = document.createElement(Tags.Div);
+      const statisticTableBlock = document.createElement(Tags.Div);
+      const statisticTableBlockSprint = document.createElement(Tags.Div);
+
+      for (let i = 0; i < arrayColumnStatistic.length; i++) {
+        statisticTableBlock.classList.add('td-table-row-block');
+        statisticTableBlockSprint.classList.add('td-table-row-block');
+        if (langFromStorage) {
+          statisticTableBlock.textContent = arrayColumnStatistic[i].en;
+          statisticTableBlockSprint.textContent = arrayColumnStatistic[i].en;
+        } else {
+          statisticTableBlock.textContent = arrayColumnStatistic[i].ru;
+          statisticTableBlockSprint.textContent = arrayColumnStatistic[i].ru;
+        }
+        this.statisticTableRow.append(statisticTableBlock.cloneNode(true));
+        this.statisticTableRowSprint.append(statisticTableBlockSprint.cloneNode(true));
+      }
+
+      this.container.classList.add('wrapper-statistic-page');
+      wrapperChallenge.classList.add('wrapper-container');
+      wrapperSprint.classList.add('wrapper-container');
+      this.wrapperStatistic.classList.add('wrapper-block-statistic');
+      this.wrapperStatisticSprint.classList.add('wrapper-block-statistic');
+      this.statisticTableRow.classList.add('td-table-row');
+      this.statisticTableRowSprint.classList.add('td-table-row');
+
+      this.container.append(title, this.nameGame, wrapperChallenge, this.nameGameSprint, wrapperSprint);
+      this.wrapperStatistic.append(this.statisticTableRow);
+      this.wrapperStatisticSprint.append(this.statisticTableRowSprint);
+      wrapperChallenge.append(this.wrapperStatistic);
+      wrapperSprint.append(this.wrapperStatisticSprint);
     }
-
-    this.container.classList.add('wrapper-statistic-page');
-    wrapperChallenge.classList.add('wrapper-container');
-    wrapperSprint.classList.add('wrapper-container');
-    this.wrapperStatistic.classList.add('wrapper-block-statistic');
-    this.wrapperStatisticSprint.classList.add('wrapper-block-statistic');
-    this.statisticTableRow.classList.add('td-table-row');
-    this.statisticTableRowSprint.classList.add('td-table-row');
-
-    this.container.append(title, this.nameGame, wrapperChallenge, this.nameGameSprint, wrapperSprint);
-    this.wrapperStatistic.append(this.statisticTableRow);
-    this.wrapperStatisticSprint.append(this.statisticTableRowSprint);
-    wrapperChallenge.append(this.wrapperStatistic);
-    wrapperSprint.append(this.wrapperStatisticSprint);
 
     if (localStorage.getItem('NightTheme')) {
       this.container.style.filter = 'brightness(0.6) contrast(150%) saturate(2) sepia(10%)';

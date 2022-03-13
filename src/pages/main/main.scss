@@ -296,7 +296,7 @@ h3 {
 }
 
 .video-block {
-  display: block;
+  display: none;
   justify-content: center;
   width: 90%;
   height: 800px;
@@ -549,6 +549,10 @@ h3 {
 
   .year {
     width: 10%;
+  }
+
+  .video-block {
+    height: 300px;
   }
 
   .footer {
