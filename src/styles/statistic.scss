@@ -49,7 +49,6 @@
   padding: 5px;
   font-family: var(--font-pretty-ru);
   letter-spacing: 2px;
-  
 }
 .td-table-row:first-of-type {
   background: #a0ffdc57;
@@ -72,6 +71,17 @@
 
 .td-table-row-block:last-child {
   border-right: none;
+}
+
+.stat__message {
+  width: 90%;
+  font-size: 4rem;
+}
+
+.stat-title {
+  margin-right: 10px;
+  width: max-content;
+  padding: 10px 40px;
 }
 
 @media screen and (min-width: 320px) and (max-width: 1200px) {

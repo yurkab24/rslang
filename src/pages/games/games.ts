@@ -37,7 +37,7 @@ class GamesPage extends Page {
       {
         kind: 'sprint',
         title: 'SPRINT',
-        target: 'Learns to quickly translate into Russian',
+        target: 'Learns to translate quickly into Russian',
         photo: './assets/png/sprint1.png',
         btn: 'Play',
         hint: 'Speed ​​training.\nFor a minute, you need to guess whether the correct translation is offered to the English word or not.',

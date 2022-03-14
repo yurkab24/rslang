@@ -33,7 +33,7 @@ const getSvgRight = () => {
 
 class SprintPage extends Page {
   static TextObject = {
-    MainTitle: 'СПРИНТ',
+    MainTitle: localStorage.getItem('language') ? 'SPRINT' : 'СПРИНТ',
   };
 
   private spinner: Spinner;
@@ -115,8 +115,8 @@ class SprintPage extends Page {
       const wordEN = this.createElem(Tags.Div, 'sprint__word', data[this.currentLEvel].en);
       const wordRU = this.createElem(Tags.Div, 'sprint__word sprint__word--ru', data[this.currentLEvel].ru);
 
-      const btnWrong = this.createElem(Tags.Button, 'sprint__button sprint__button sprint__button--wrong', 'Неверно');
-      const btnRight = this.createElem(Tags.Button, 'sprint__button sprint__button--right', 'Верно');
+      const btnWrong = this.createElem(Tags.Button, 'sprint__button sprint__button sprint__button--wrong', localStorage.getItem('language') ? 'Wrong' : 'Неверно');
+      const btnRight = this.createElem(Tags.Button, 'sprint__button sprint__button--right', localStorage.getItem('language') ? 'Right' : 'Верно');
       wordsWrapper.append(wordEN, wordRU);
       buttonWrapper.append(btnWrong, btnRight);
       this.sprintWrapper.append(this.answerWrapper, wordsWrapper, buttonWrapper, this.pointsWrapper, this.timerWrapper);
@@ -220,6 +220,25 @@ class SprintPage extends Page {
         getWordsRequest(pageN, i).then((words) => this.createGamePage(words));
       });
     }
+
+    const langFromStorage = localStorage.getItem('language');
+    if (langFromStorage) {
+      SprintPage.TextObject.MainTitle = 'SPRINT';
+      titleLevel.textContent = 'Choose the level';
+      (this.wrapper.querySelector('.challenge__back') as HTMLElement).innerHTML = '';
+      (this.wrapper.querySelector('.challenge__back') as HTMLElement).insertAdjacentHTML(
+        'afterbegin',
+        '<a href="#games-page">Back</a>'
+      );
+    } else {
+      SprintPage.TextObject.MainTitle = 'СПРИНТ';
+      titleLevel.textContent = 'Выберите уровень сложности';
+      (this.wrapper.querySelector('.challenge__back') as HTMLElement).innerHTML = '';
+      (this.wrapper.querySelector('.challenge__back') as HTMLElement).insertAdjacentHTML(
+        'afterbegin',
+        '<a href="#games-page">Назад к играм</a>'
+      );
+    }
   }
 
   getMaxSeries() {
@@ -252,7 +271,7 @@ class SprintPage extends Page {
         this.timerWrapper.classList.remove('sprint__timer--stop');
 
         this.endGame = true;
-        this.sprintWrapper.innerHTML = '';
+        this.sprintWrapper.innerHTML = localStorage.getItem('language') ? 'Time\'s up!' : 'Время истекло!';
       }
     }, 1000);
   }
@@ -264,7 +283,7 @@ class SprintPage extends Page {
     const statisticTitle = this.createElem(
       Tags.Div,
       'challenge__statistics__title',
-      `Результат: ${this.points} \nДлина серии: ${this.maxSeries}`
+      localStorage.getItem('language') ? `Result: ${this.points} \nThe longest series: ${this.maxSeries}` : `Результат: ${this.points} \nДлина серии: ${this.maxSeries}`
     );
     const statisticBody = this.createElem(
       Tags.Div,
@@ -281,7 +300,7 @@ class SprintPage extends Page {
     statisticManage.append(backBtn);
     (this.sprintWrapper.querySelector('.challenge__statistics__back') as HTMLElement).insertAdjacentHTML(
       'afterbegin',
-      '<a href="#games-page">Назад к играм</a>'
+      localStorage.getItem('language') ? '<a href="#games-page">Back</a>' : '<a href="#games-page">Назад к играм</a>'
     );
 
     const containerRight = this.createElem(Tags.Div, 'sprint__words-right');
@@ -291,8 +310,8 @@ class SprintPage extends Page {
     const countWrong = this.createElem(Tags.Div, 'sprint__word-en');
     const countRight = this.createElem(Tags.Div, 'sprint__word-en');
 
-    countRight.innerHTML = `Знаю - ${this.answers.right.length}!`;
-    countWrong.innerHTML = `Ошибок - ${this.answers.wrong.length}`;
+    countRight.innerHTML = localStorage.getItem('language') ? `Right - ${this.answers.right.length}!` : `Знаю - ${this.answers.right.length}!`;
+    countWrong.innerHTML = localStorage.getItem('language') ? `Mistakes - ${this.answers.wrong.length}` : `Ошибок - ${this.answers.wrong.length}`;
 
     containerRight.append(countRight);
     containerWrong.append(countWrong);
