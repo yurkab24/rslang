@@ -78,21 +78,14 @@ class ChallengePage extends Page {
     const statisticInfo = this.createElem(Tags.Div, 'challenge__statistics__words', '');
     statisticBody.append(statisticCircle, statisticInfo);
 
-    const continueBtn = this.createElem(Tags.Div, 'challenge__statistics__continue', 'Продолжить');
+    const continueBtn = this.createElem(Tags.Div, 'challenge__statistics__continue', localStorage.getItem('language') ? 'Continue' : 'Продолжить');
     const backBtn = this.createElem(Tags.Div, 'challenge__statistics__back', '');
     statisticManage.append(continueBtn, backBtn);
-    if (localStorage.getItem('wordsFromPage')) {
-      (this.wrapper.querySelector('.challenge__statistics__back') as HTMLElement).insertAdjacentHTML(
-        'afterbegin',
-        '<a href="#dictionary-page">К учебнику</a>'
-      );
-      localStorage.getItem('wordsFromPage');
-    } else {
-      (this.wrapper.querySelector('.challenge__statistics__back') as HTMLElement).insertAdjacentHTML(
-        'afterbegin',
-        '<a href="#games-page">Назад к играм</a>'
-      );
-    }
+
+    (this.wrapper.querySelector('.challenge__statistics__back') as HTMLElement).insertAdjacentHTML(
+      'afterbegin',
+      localStorage.getItem('language') ? '<a href="#dictionary-page">To textbook</a>' : '<a href="#dictionary-page">К учебнику</a>'
+    );
 
     (this.wrapper.querySelector('.challenge__statistics__continue') as HTMLElement).addEventListener(
       'click',

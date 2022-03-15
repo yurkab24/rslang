@@ -65,7 +65,7 @@ i {
 .word-image {
   width: 300px;
   padding-top: 45%;
-  background-size: 100% 100%;
+  background-size: 100% auto;
   background-position: center center;
   background-repeat: no-repeat;
 }
@@ -316,29 +316,40 @@ i {
 }
 
 @media screen and (min-width: 320px) and (max-width: 960px) {
+  .block-buttons-wrapper {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    flex-direction: column-reverse;
+    z-index: 2;
+  }
+
   .button-section-wrapper,
   .link-section-wrapper {
-    flex-direction: column;
-    width: 50px;
+    width: 100%;
     height: auto;
     z-index: 1;
   }
 
   .button-section-wrapper {
+    position: relative;
+    top: 30px;
     margin-right: 15px;
   }
 
   .button-section-wrapper > button,
   .link-section-wrapper > a {
     margin: 5px 0;
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
   }
 
   .link-section-wrapper {
-    width: 50px;
+    position: absolute;
+    top: -10px;
+    width: 30%;
     margin-left: 15px;
-    height: 200px;
+    height: auto;
   }
 
   .link-section-wrapper > a {
@@ -346,24 +357,46 @@ i {
     height: 40px;
   }
 
+  .block-buttons-pagination {
+    position: relative;
+    top: 15px;
+    height: auto;
+    margin-top: 5px;
+    padding-bottom: 0;
+  }
+
   .word-block div,
   .word-block div p,
   .word-block div p i,
   .word-block div p b,
   .word-block div span {
-    font-size: 16px;
+    font-size: 18px;
+  }
+
+  .wrapper-learn-words {
+    position: relative;
+    bottom: 1px;
   }
 
 }
 
 @media screen and (min-width: 320px) and (max-width: 450px) {
+
+  .dictionary-title {
+    padding-bottom: 0;
+  }
+
   .wrapper-block {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
 
   .word-block {
     width: 300px;
-    height: 500px;
+    height: max-content;
+  }
+
+  .word-image {
+    width: 290px;
   }
 
   .word-block div,
@@ -375,10 +408,32 @@ i {
   }
 
   .button-section-wrapper {
+    position: relative;
+    top: 25px;
     margin-right: 5px;
   }
 
+  .block-buttons-pagination {
+    position: relative;
+    top: 15px;
+    height: auto;
+    margin-top: 5px;
+    padding-bottom: 0;
+  }
+
   .link-section-wrapper {
+    width: 50%;
     margin-left: 5px;
+    height: auto;
+  }
+
+  .text-example p {
+    margin-top: 2px;
+    margin-bottom: 3px;
+    letter-spacing: 0;
+  }
+
+  .text-under-line {
+    padding-top: 0;
   }
 }
