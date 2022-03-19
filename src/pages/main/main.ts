@@ -159,7 +159,7 @@ class MainPage extends Page {
       'afterbegin',
       '<a href="#team">OUR TEAM</a>'
     );
-    (this.container.querySelector('.main-block') as HTMLElement).textContent = "ENGLISH - it's easy... \nwith RS Lang!";
+    (this.container.querySelector('.main-block') as HTMLElement).textContent = 'ENGLISH - it\'s easy... \nwith RS Lang!';
     let m = 0;
     document.querySelectorAll('.nav__button').forEach((btn) => {
       btn.textContent = ButtonsEn[m].text;

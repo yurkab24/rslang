@@ -12,7 +12,7 @@
   --bg-btn: rgba(227, 252, 88, 0.8);
   --bg-btn-shadow: rgba(107, 119, 40, 0.8);
   --font-pretty: 'Indie Flower', cursive;
-  --font-main-en: 'Kaushan Script', cursive;
+  --font-main-en: 'Arial Narrow', sans-serif, Helvetica, sans-serif, 'Kaushan Script', cursive;
   --font-transparent: 'Rampart One', cursive;
   --font-pretty-ru: 'Lobster', cursive;
   --width3: 100%;
@@ -25,6 +25,7 @@
   border: none;
   box-sizing: border-box;
   font-size: 10px;
+  font-family: var(--font-main-en);
   line-height: 1;
 }
 
@@ -250,7 +251,8 @@ h3 {
   height: max-content;
   margin: 3rem;
   font-family: var(--font-main-en);
-  font-size: 10rem;
+  font-style: italic;
+  font-size: 8rem;
   line-height: 1.8;
   border: none;
 }
@@ -293,6 +295,12 @@ h3 {
   font-size: 3.5rem;
   line-height: 3.5rem;
   outline: none;
+}
+
+.advantage:hover {
+  transition: 0.34s ease-in-out;
+  transform: scale(1.05, 1.05);
+  box-shadow: 5px 5px 10px var(--bg-btn-shadow);
 }
 
 .video-block {
@@ -354,6 +362,8 @@ h3 {
 .photo-img {
   width: var(--width3);
   height: 75%;
+  padding: 10%;
+  padding-bottom: 10px;
 }
 
 .done {
@@ -476,6 +486,7 @@ h3 {
     display: block;
     justify-content: center;
   }
+
   .advantage {
     width: 100%;
   }
@@ -484,10 +495,18 @@ h3 {
     display: block;
     width: 100%;
     height: max-content;
+    font-size: 0.4rem;
   }
 
   .team-mate div {
     margin: auto;
+    font-size: 16px;
+    line-height: 1.125;
+  }
+
+  .done {
+    padding: 0 15% 5%;
+    line-height: 3.5rem;
   }
 
   .header {
@@ -520,6 +539,12 @@ h3 {
 }
 
 @media screen and (min-width: 300px) and (max-width: 440px) {
+
+  .done {
+    padding: 0;
+    padding-left: 10%;
+  }
+
   .nav {
     width: 70%;
   }

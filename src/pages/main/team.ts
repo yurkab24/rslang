@@ -67,7 +67,7 @@ class TeamPage extends Page {
         name: 'Tatsiana Areshchanka',
         role: 'Developer',
         contribution:
-          '- Main page creation and design; \n- "Our team", "Mini-games" pages, footer; \n- Routing; \n- Application user settings; \n- Audiochallenge game.',
+          '- Main page creation and design; \n- "Our team", "Mini-games" pages, footer; \n- Routing; \n- Application user settings; \n- "Audiochallenge" game.',
       },
     ];
   }
@@ -92,6 +92,7 @@ class TeamPage extends Page {
       const gh = this.createDiv('', '');
       const ghLink = document.createElement(Tags.A) as HTMLAnchorElement;
       ghLink.href = `${this.team[i].github}`;
+      ghLink.target = '_blank';
       ghLink.insertAdjacentHTML('afterbegin', logoCat);
       gh.insertAdjacentElement('afterbegin', ghLink);
       const mateName = this.createDiv('', `${this.team[i].name.toUpperCase()}`);
@@ -121,6 +122,7 @@ class TeamPage extends Page {
         const gh = this.createDiv('', '');
         const ghLink = document.createElement(Tags.A) as HTMLAnchorElement;
         ghLink.href = `${this.teamEn[k].github}`;
+        ghLink.target = '_blank';
         ghLink.insertAdjacentHTML('afterbegin', logoCat);
         gh.insertAdjacentElement('afterbegin', ghLink);
         const mateName = this.createDiv('', `${this.teamEn[k].name.toUpperCase()}`);
@@ -145,6 +147,7 @@ class TeamPage extends Page {
         const gh = this.createDiv('', '');
         const ghLink = document.createElement(Tags.A) as HTMLAnchorElement;
         ghLink.href = `${this.team[i].github}`;
+        ghLink.target = '_blank';
         ghLink.insertAdjacentHTML('afterbegin', logoCat);
         gh.insertAdjacentElement('afterbegin', ghLink);
         const mateName = this.createDiv('', `${this.team[i].name.toUpperCase()}`);
