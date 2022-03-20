@@ -3,11 +3,11 @@ import { Buttons, ButtonsEn } from '../../core/component/header';
 import Page from '../../core/templates/page';
 
 enum Advantages {
-  'В разделе "Словарь" приложения вы найдете 3600 наиболее часто употребляемых слов английского языка с примерами',
+  'В разделе "Учебник" приложения вы найдете 3600 наиболее часто употребляемых слов английского языка с примерами',
   'Авторизуйтесь и наполняйте Ваш личный словарь! Вам будет доступен прогресс изучения слов, список изученных слов и статистика',
   'Играйте в разделе "Игры"! Всего 15 минут в день! Используйте перерывы или время в пути с пользой с нашим приложением',
   'Ваш прогресс по мини-играм и по словам за каждый день изучения будет отображен в разделе "Статистика" приложения',
-  'In the "Dictionary" section of the application you find 3600 most frequently used words in English with examples',
+  'In the "Textbook" section of the application you find 3600 most frequently used words in English with examples',
   'Log in and fill up your personal dictionary! You have an access to the progress of learning words, a list of learned words and statistics',
   'Play the games in the "Games" section! Just 15 minutes a day! Use breaks or travel time to your advantage with our app',
   'Your progress in mini-games and words for each day of study is displayed in the "Statistics" section of the application',
