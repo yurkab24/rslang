@@ -13,6 +13,9 @@ enum Advantages {
   'Your progress in mini-games and words for each day of study is displayed in the "Statistics" section of the application',
 }
 
+const iframePres =
+`<iframe class="video-pres" src="https://docs.google.com/presentation/d/e/2PACX-1vTfHGYs0hVuiNe_n4MTyHgavKE-2hlsQ9mPCQBaN_sSRCrvUXTzPxT3-uc0rblR_TP_uJkAmBvgQr7s/embed?start=true&loop=true&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>`;
+
 class MainPage extends Page {
   static TextObject = {
     MainTitle: 'Main Page',
@@ -77,8 +80,10 @@ class MainPage extends Page {
   }
 
   renderVideo(): void {
-    const videoDiv = this.createDiv('block video-block', 'КАК РАБОТАЕТ ПРИЛОЖЕНИЕ');
+    const videoDiv = this.createDiv('block video-block', 'КАК РАБОТАЕТ ПРИЛОЖЕНИЕ\n');
     this.container.append(videoDiv);
+    videoDiv.insertAdjacentHTML('beforeend', `<br>`);
+    videoDiv.insertAdjacentHTML('beforeend', iframePres);
   }
 
   renderTeam(): void {
@@ -154,6 +159,10 @@ class MainPage extends Page {
     });
     (this.container.querySelector('.advantages-title') as HTMLElement).textContent = 'APP ADVANTAGES';
     (this.container.querySelector('.video-block') as HTMLElement).textContent = 'APP PRESENTATION';
+    (this.container.querySelector('.video-block') as HTMLElement).insertAdjacentHTML(
+      'beforeend',
+      iframePres
+    );
     (this.container.querySelector('.team-block') as HTMLElement).textContent = '';
     (this.container.querySelector('.team-block') as HTMLElement).insertAdjacentHTML(
       'afterbegin',
@@ -177,6 +186,10 @@ class MainPage extends Page {
     });
     (this.container.querySelector('.advantages-title') as HTMLElement).textContent = 'О ПРИЛОЖЕНИИ';
     (this.container.querySelector('.video-block') as HTMLElement).textContent = 'КАК РАБОТАЕТ ПРИЛОЖЕНИЕ';
+    (this.container.querySelector('.video-block') as HTMLElement).insertAdjacentHTML(
+      'beforeend',
+      iframePres
+    );
     (this.container.querySelector('.team-block') as HTMLElement).textContent = '';
     (this.container.querySelector('.team-block') as HTMLElement).insertAdjacentHTML(
       'afterbegin',

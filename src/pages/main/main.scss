@@ -304,11 +304,18 @@ h3 {
 }
 
 .video-block {
-  display: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   width: 90%;
   height: 800px;
   font-size: 4rem;
+}
+
+.video-pres {
+  width: 966px;
+  height: 580px;
 }
 
 .team-block {
@@ -411,6 +418,15 @@ h3 {
     height: 220px;
   }
 
+  .video-block {
+    height: 580px;
+  }
+
+  .video-pres {
+    width: 781px;
+    height: 537px;
+  }
+
   .team-mate {
     display: flex;
     width: 100%;
@@ -436,6 +452,15 @@ h3 {
   .quote-block {
     width: 90%;
     height: 160px;
+  }
+
+  .video-block {
+    height: 420px;
+  }
+
+  .video-pres {
+    width: 540px;
+    height: 341px;
   }
 
   .team-mate {
@@ -489,6 +514,15 @@ h3 {
 
   .advantage {
     width: 100%;
+  }
+
+  .video-block {
+    height: 320px;
+  }
+
+  .video-pres {
+    width: 392px;
+    height: 256px;
   }
 
   .team-mate {
@@ -577,7 +611,12 @@ h3 {
   }
 
   .video-block {
-    height: 300px;
+    height: 290px;
+  }
+
+  .video-pres {
+    width: 266px;
+    height: 217px;
   }
 
   .footer {
