@@ -1,0 +1,36 @@
+.button-up {
+  background: var(--bg-btn);
+  border: 3px solid var(--bg-dark);
+  height: 50px;
+  width: 50px;
+  bottom: 10%;
+  right: 4%;
+  cursor: pointer;
+  position: fixed;
+  z-index: 2;
+  transition: 1s;
+  opacity: .8;
+  border-radius: 50%;
+}
+
+.button-up:hover{
+  border-color: var(--bg-btn);
+  background: var(--bg-dark);
+  box-shadow: 0 0.5em 0.5em -0.4em var(--bg-dark);
+}
+
+.button-up > span {
+  background: url(/src/assets/png/prev.png) no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  transform: rotate(90deg);
+}
+
+.flex{
+  display: flex;
+}
+
+.hide.hide{
+  display: none;
+}

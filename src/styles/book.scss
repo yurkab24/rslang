@@ -1,0 +1,439 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+i {
+  color: #0d2ee7;
+}
+
+.wrapper {
+  background: url('/src/assets/jpg/books1.jpg') no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  color: #030303;
+  position: relative;
+}
+
+.wrapper-block {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-gap: 10px;
+  grid-auto-flow: dense;
+  align-items: center;
+  height: 100%;
+  overflow: auto;
+  padding: 10px;
+  font-family: 'Roboto', sans-serif;
+  position: relative;
+  z-index: 2;
+}
+
+.word-block {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-self: center;
+  border-radius: 5px;
+  height: 510px;
+  color: #030303;
+  background: #dce7e6b8;
+  padding: 2%;
+  cursor: pointer;
+  overflow: auto;
+  position: relative;
+}
+
+.word-block div,
+.word-block div p,
+.word-block div p i,
+.word-block div p b,
+.word-block div span {
+  font-size: 1.5rem;
+}
+
+.word-block-darck-theme {
+  background: #e2dffee0;
+}
+
+.word-image {
+  width: 300px;
+  padding-top: 45%;
+  background-size: 100% auto;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.word-info {
+  width: 95%;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.word-info > span {
+  font-size: 2.5rem;
+}
+
+.word-info span:nth-child(1) {
+  text-decoration: underline;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.word-audio {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  border-radius: 50%;
+  background: url('/src/assets/png/audio-signal.png') no-repeat center center;
+  background-size: cover;
+  border: 1px solid #464072;
+  position: absolute;
+  right: 0;
+}
+
+.text-example {
+  text-align: justify;
+}
+
+.text-example > p {
+  margin: 15px 0;
+  font-size: 2rem;
+  line-height: 15px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.text-under-line {
+  position: relative;
+  padding: 10px 0;
+}
+
+.text-under-line::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 70%;
+  height: 3px;
+  background-color: #3e0771;
+  transition: 1s;
+  cursor: pointer;
+  margin: 0;
+}
+
+.word-block:hover .text-under-line::after {
+  width: 100%;
+}
+
+.block-buttons-wrapper {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  align-items: center;
+  z-index: 2;
+}
+
+.block-buttons-pagination {
+  height: 100%;
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.block-buttons-pagination > span {
+  font-size: 20px;
+  font-family: var( --font-pretty-ru);
+  letter-spacing: 5px;
+}
+
+.block-buttons-pagination > button,
+.button-section-wrapper > button {
+  width: 45px;
+  height: 45px;
+  margin: 0 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.button-section-wrapper > button {
+  font-size: 22px;
+  font-weight: bold;
+  border: 3px solid white;
+  color: white;
+}
+
+.button-section-wrapper > button:nth-child(1) {
+  background: #daed9fbf;
+}
+
+.button-section-wrapper > button:nth-child(2) {
+  background: teal;
+}
+
+.button-section-wrapper > button:nth-child(3) {
+  background: #a05f8fbf;
+}
+
+.button-section-wrapper > button:nth-child(4) {
+  background: #ad0b0bc4;
+}
+
+.button-section-wrapper > button:nth-child(5) {
+  background: #7fc311de;
+}
+
+.button-section-wrapper > button:nth-child(6) {
+  background: #a3a073d9;
+}
+
+.block-buttons-pagination > button:first-child,
+.block-buttons-pagination > button:last-child {
+  background: url('/src/assets/png/prev.png') no-repeat center center;
+  background-size: cover;
+  cursor: pointer;
+}
+
+.block-buttons-pagination > button:last-child {
+  transform: rotateY(180deg);
+}
+
+.button-section-wrapper,
+.link-section-wrapper {
+  width: 400px;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.wrapper-learn-words {
+  width: 100%;
+  height: 35px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: absolute;
+  bottom: 5px;
+}
+
+.wrapper-learn-words > button {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.button-word-easy {
+  background: url(/src/assets/jpg/easy.jpg) no-repeat center center;
+  background-size: cover;
+}
+
+.button-word-difficult {
+  background: url(/src/assets/jpg/difficult.jpg) no-repeat center center;
+  background-size: cover;
+}
+
+.button-word-deleted {
+  background: url(/src/assets/png/delete.png) no-repeat center center;
+  background-size: cover;
+}
+
+.link-section-wrapper {
+  width: 200px;
+  left: 0;
+  height: 50px;
+}
+
+.link-section-wrapper > a {
+  width: 50px;
+  height: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  border: 3px solid var(--bg-light);
+}
+
+.link-section-wrapper a:nth-child(1) {
+  background: url(/src/assets/png/dictionary.png) no-repeat center center;
+  background-size: cover;
+}
+
+.link-section-wrapper a:nth-child(2) {
+  background: url(/src/assets/png/sprint1.png) no-repeat center center;
+  background-size: 100% 100%;
+}
+
+.link-section-wrapper a:nth-child(3) {
+  background: url(/src/assets/png/sound.png) no-repeat center center;
+  background-size: 100% 100%;
+}
+
+.filter_hard {
+  filter: drop-shadow(2px 4px 6px red);
+}
+
+.filter_easy {
+  filter: drop-shadow(2px 4px 6px blue);
+}
+
+.filter_deleted {
+  filter: drop-shadow(2px 4px 6px black);
+}
+
+.cover {
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+@media screen and (min-width: 961px) and (max-width: 1920px) {
+  .word-block div,
+  .word-block div p,
+  .word-block div p i,
+  .word-block div p b,
+  .word-block div span {
+    font-size: 18px;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 960px) {
+  .block-buttons-wrapper {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    flex-direction: column-reverse;
+    z-index: 2;
+  }
+
+  .button-section-wrapper,
+  .link-section-wrapper {
+    width: 100%;
+    height: auto;
+    z-index: 1;
+  }
+
+  .button-section-wrapper {
+    position: relative;
+    top: 30px;
+    margin-right: 15px;
+  }
+
+  .button-section-wrapper > button,
+  .link-section-wrapper > a {
+    margin: 5px 0;
+    width: 45px;
+    height: 45px;
+  }
+
+  .link-section-wrapper {
+    position: absolute;
+    top: -10px;
+    width: 30%;
+    margin-left: 15px;
+    height: auto;
+  }
+
+  .link-section-wrapper > a {
+    width: 40px;
+    height: 40px;
+  }
+
+  .block-buttons-pagination {
+    position: relative;
+    top: 15px;
+    height: auto;
+    margin-top: 5px;
+    padding-bottom: 0;
+  }
+
+  .word-block div,
+  .word-block div p,
+  .word-block div p i,
+  .word-block div p b,
+  .word-block div span {
+    font-size: 18px;
+  }
+
+  .wrapper-learn-words {
+    position: relative;
+    bottom: 1px;
+  }
+
+}
+
+@media screen and (min-width: 320px) and (max-width: 450px) {
+
+  .dictionary-title {
+    padding-bottom: 0;
+  }
+
+  .wrapper-block {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+
+  .word-block {
+    width: 300px;
+    height: max-content;
+  }
+
+  .word-image {
+    width: 290px;
+  }
+
+  .word-block div,
+  .word-block div p,
+  .word-block div p i,
+  .word-block div p b,
+  .word-block div span {
+    font-size: 14px;
+  }
+
+  .button-section-wrapper {
+    position: relative;
+    top: 25px;
+    margin-right: 5px;
+  }
+
+  .block-buttons-pagination {
+    position: relative;
+    top: 15px;
+    height: auto;
+    margin-top: 5px;
+    padding-bottom: 0;
+  }
+
+  .link-section-wrapper {
+    width: 50%;
+    margin-left: 5px;
+    height: auto;
+  }
+
+  .text-example p {
+    margin-top: 2px;
+    margin-bottom: 3px;
+    letter-spacing: 0;
+  }
+
+  .text-under-line {
+    padding-top: 0;
+  }
+}
